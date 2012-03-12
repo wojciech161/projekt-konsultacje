@@ -1,0 +1,28 @@
+Zrobione rzeczy dajemy do rozdziału na dół.
+
+FUNKCJE: 
+
+Obsługa logowania - WOJCIECH 
+
+Strona internetowa(design, grafika) - ROMAN + MICHAŁ
+
+Baza danych (kontrola poprawności w bazie) - ANDRZEJ 
+
+Obsługa bazy w naszym programie tu zawierają się takie rzeczy jak: 
+            - łączenie z bazą - WOJCIECH 
+            - Dodawanie/Edycja/usuwanie konsultacji - WOJCIECH I Szczerba 
+            - Ustawienia dotyczące praw użytkowników(studenci i pracownicy, admin mają inne) - ŁUKASZ 
+            - Ustawienia dot. kont użytkowników(te linki do stron, tytuły naukowe...) - ŁUKASZ 
+
+Generowanie tabeli - Szczerba 
+Eksport/import .csv - Szczerba 
+
+Powiązania z GUI Romana -  ROMAN/MICHAL (wszystkie poniższe) 
+            - Konta użytkowników (Edycja konta, potrzebne z bazy rzeczy) 
+            - Dodawanie/edycja/usuwanie konsultacji 
+            - opcje (kopia zapasowa, .csv, różne edycje) - 
+            - Jakiś ładny panel logowania 
+            - itd. jak wam przyjdzie coś do głowy:)
+            
+ZROBIONE:
+Skrypt MySQL - Wojciech
