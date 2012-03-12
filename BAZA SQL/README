@@ -1,0 +1,7 @@
+Żeby działały klucze obce musicie włączyć InnoDB!
+W linuchu edytujemy plik konfiguracyjny MySQL (/etc/mysql/my.cnf u mnie) i odkomentowujemy innodb
+W Windzie sprawdzcie sami!
+
+Andrzeju, jesli uwazasz za potrzebne, dodaj indexy. Ja stwierdzilem ze nie beda potrzebne, ale moge sie mylic:)
+
+Powodzenia, Marcin Wojciech
