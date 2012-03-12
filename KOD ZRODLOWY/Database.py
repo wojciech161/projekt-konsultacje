@@ -44,7 +44,7 @@ def printLocalizations(dbHandle):
 	except:
 		print "Error with reading data"
 
-#Przykład. Uzupelnijcie dane
+#Przyklad. Uzupelnijcie dane
 host = "localhost"
 user = "UZYTKOWNIK"
 password = "HASLO"
