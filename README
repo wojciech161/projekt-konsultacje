@@ -9,3 +9,19 @@ Andrzej Walkowiak
 Marcin Wojciechowski
 
 System obsługi konsultacji dla studentów oraz wykładowców
+
+Wiki:
+1. Skrypt Database.py do obslugi bazy danych:
+	Żeby skrypt zadziałał(nie ma biblioteki w standardowym pythonie)
+	A. wchodzimy na stronę:
+	http://sourceforge.net/projects/mysql-python/
+	B. ściągamy archiwum
+	C. W linii komend(linux) wpisujemy odpowiednio:
+
+	$ gunzip MySQL-python-1.2.3.tar.gz
+	$ tar -xvf MySQL-python-1.2.3.tar
+	$ cd MySQL-python-1.2.3
+	$ python setup.py build
+	$ python setup.py install
+
+	P.S. Możliwe, że będziecie musieli ściągnąć też setuptools
