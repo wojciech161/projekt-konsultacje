@@ -115,6 +115,20 @@ def changeInfoBoard(dbhandle, infoBoardID, message):
 		return -1
 	
 	return 0
+	
+#Funkcja pobierajaca InfoBoard po podaniu ID
+def getInfoBoard(dbhandle, infoboardID):
+	cursor = dbhandle.cursor()
+	
+	sqlquery = """select * from InfoBoards where infoboard_ID = %d"""%(infoboardID)
+	
+	try:
+		cursor.execute(sqlquery)
+		results = cursor.fetchall()
+		return results
+	except:
+		print "Error with getting infoboard"
+		return -1
 
 #Funkcja dodaje konsultacje
 #Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
@@ -152,6 +166,68 @@ def deleteAllConsultations(dbhandle):
 	
 	return 0
 
+#Funkcja usuwa konsultacje danego prowadzacego
+#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
+def deleteTutorConsultations(dbhandle, tutorID):
+	cursor = dbhandle.cursor()
+	
+	sqlquery = """delete from Consultations where tutor_ID = %d""" %tutorID
+	
+	try:
+		cursor.execute(sqlquery)
+		dbhandle.commit()
+	except:
+		print "Error with deleting consultation"
+		dbhandle.rollback()
+		return -1
+	
+	return 0
+	
+#Funkcja usuwa konsultacje o podamym ID
+#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
+def deleteConsultation(dbhandle, consultationID):
+	cursor = dbhandle.cursor()
+	
+	sqlquery = """delete from Consultations where consultations_ID = %d""" %consultationID
+	
+	try:
+		cursor.execute(sqlquery)
+		dbhandle.commit()
+	except:
+		print "Error with deleting consultation"
+		dbhandle.rollback()
+		return -1
+	
+	return 0
+	
+#Funkcja edytuje konsultacje o podanym ID
+#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
+def editConsultation(dbhandle, consultationID, startHour, endHour, consultationDay, weekType, studentsLimit):
+	cursor = dbhandle.cursor()
+	
+	sqlquery1 = """update Consultations set startHour = '%s' where consultations_ID = %d""" %(startHour, consultationID)
+	sqlquery2 = """update Consultations set endHour = '%s' where consultations_ID = %d""" %(endHour, consultationID)
+	sqlquery3 = """update Consultations set consultation_day = '%s' where consultations_ID = %d""" %(consultationDay, consultationID)
+	sqlquery4 = """update Consultations set weekType = '%s' where consultations_ID = %d""" %(weekType, consultationID)
+	sqlquery5 = """update Consultations set studentsLimit = '%d' where consultations_ID = %d""" %(studentsLimit, consultationID)
+	
+	try:
+		cursor.execute(sqlquery1)
+		cursor.execute(sqlquery2)
+		cursor.execute(sqlquery3)
+		cursor.execute(sqlquery4)
+		cursor.execute(sqlquery5)
+		dbhandle.commit()
+	except:
+		print "Error with editing consultation"
+		dbhandle.rollback()
+		return -1
+	
+	return 0
+	
+	
+	
+
 #Przyklad. Uzupelnijcie dane
 #Wszystko co ponizej bedzie do usuniecia w ostatecznym rozrachunku.
 host = "localhost"
@@ -161,7 +237,7 @@ databaseName = "ProjektZespolowy"
 	
 dbcon = connectToDatabase(host, user, password, databaseName)
 
-res = getLocalization(dbcon, 2)
+res = editConsultation(dbcon, 5, "9:00", "10:00", "Wednesday", "A", 7)
 
 print res
 

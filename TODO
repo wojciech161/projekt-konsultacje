@@ -8,8 +8,7 @@ Strona internetowa(design, grafika) - ROMAN + MICHAŁ
 
 Baza danych (kontrola poprawności w bazie) - ANDRZEJ 
 
-Obsługa bazy w naszym programie tu zawierają się takie rzeczy
-            - Dodawanie/Edycja/usuwanie konsultacji - WOJCIECH I Szczerba 
+Obsługa bazy w naszym programie tu zawierają się takie rzeczy 
             - Ustawienia dotyczące praw użytkowników(studenci i pracownicy, admin mają inne) - ŁUKASZ 
             - Ustawienia dot. kont użytkowników(te linki do stron, tytuły naukowe...) - ŁUKASZ 
 
@@ -25,4 +24,6 @@ Powiązania z GUI Romana -  ROMAN/MICHAL (wszystkie poniższe)
             
 ZROBIONE:
 Skrypt MySQL - Wojciech
-łączenie z bazą - WOJCIECH 
+łączenie z bazą - WOJCIECH
+Dodawanie/Edycja/usuwanie konsultacji - WOJCIECH
+Dodatkowo funkcje do wyłuskiwania danych z tabel do generowania konsultacji - Wojciech
