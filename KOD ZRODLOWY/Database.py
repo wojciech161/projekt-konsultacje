@@ -224,9 +224,43 @@ def editConsultation(dbhandle, consultationID, startHour, endHour, consultationD
 		return -1
 	
 	return 0
+
+#Funkcja zwracajaca ID wszystkich prowadzacych
+def getAllTutorsIDs(dbhandle):
+	cursor = dbhandle.cursor()
 	
+	sqlquery = """select tutor_ID from Tutors"""
 	
+	try:
+		cursor.execute(sqlquery)
+		results = cursor.fetchall()
+		return results
+	except:
+		print "Error with getting Tutor id s"
+		return -1
 	
+#Funkcja zwracajaca wszystkie wartosci potrzebne do wygenerowania tabeli
+#Zwraca dane w kolejnosci:
+#IMIE NAZWISKO WWW STOPIEN TEL GODZINYKONSULTACJI DZIEN TYPTYG. BUDYNEK POKOJ WIADOMOSC
+#dla prowadzacego o podanym ID
+def getAllTableValues(dbhandle, tutorID):
+	cursor = dbhandle.cursor()
+	
+	sqlquery = """select t.name, t.surname, t.www, t.degree, t.phone, c.startHour, 
+	c.endHour, c.consultation_day, c.weekType, l.building, l.room, ib.message
+	from Tutors t 
+	join Consultations c on (c.tutor_ID = t.tutor_ID) 
+	join Localizations l on (t.localization_ID = l.localization_ID) 
+	join InfoBoards ib on (t.infoboard_ID = ib.infoboard_ID) 
+	where t.tutor_ID = %d"""%tutorID
+	
+	try:
+		cursor.execute(sqlquery)
+		results = cursor.fetchall()
+		return results
+	except:
+		print "Error with getting table information"
+		return -1
 
 #Przyklad. Uzupelnijcie dane
 #Wszystko co ponizej bedzie do usuniecia w ostatecznym rozrachunku.
@@ -237,8 +271,9 @@ databaseName = "ProjektZespolowy"
 	
 dbcon = connectToDatabase(host, user, password, databaseName)
 
-res = editConsultation(dbcon, 5, "9:00", "10:00", "Wednesday", "A", 7)
+res = getAllTableValues(dbcon, 1)
 
-print res
+for row in res:
+	print row
 
 closeDBConnection(dbcon)
