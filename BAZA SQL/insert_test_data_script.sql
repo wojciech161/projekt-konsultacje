@@ -18,7 +18,7 @@ VALUES (8, 'Marek', 'Admin');
 INSERT INTO Assistants (assistant_ID, name, surname)
 VALUES (7, 'Daria', 'Asist');
 
-INSERT INTO Infoboards (infoboard_ID, message)
+INSERT INTO InfoBoards (infoboard_ID, message)
 VALUES (1, 'Pilna wiadomosc infoboard nr 1'), (2, 'Pilna wiadomosc infoboard nr 2'),
        (3, 'Pilna wiadomosc infoboard nr 3'), (4, 'Pilna wiadomosc infoboard nr 4');
     

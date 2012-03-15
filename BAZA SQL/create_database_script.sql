@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS Assistants (
                           REFERENCES Users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS Infoboards (
+CREATE TABLE IF NOT EXISTS InfoBoards (
 	infoboard_ID int NOT NULL AUTO_INCREMENT,
 	dateOfAdding timestamp DEFAULT 0,
 	message varchar(300),
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS Tutors (
   CONSTRAINT tutors_localization_ID_FK FOREIGN KEY (localization_ID)
                       REFERENCES Localizations(localization_id) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT tutors_infoboard_ID_FK FOREIGN KEY (infoboard_ID)
-                      REFERENCES Infoboards(infoboard_ID) ON DELETE SET NULL ON UPDATE SET NULL
+                      REFERENCES InfoBoards(infoboard_ID) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS Consultations (

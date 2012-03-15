@@ -132,12 +132,12 @@ def getInfoBoard(dbhandle, infoboardID):
 
 #Funkcja dodaje konsultacje
 #Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
-def addConsultation(dbhandle, tutorID, startHour, endHour, consultationDay, weekType, studentsLimit):
+def addConsultation(dbhandle, tutorID, startHour, endHour, consultationDay, weekType, studentsLimit, localizationID):
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """INSERT INTO Consultations(
-	tutor_ID, startHour, endHour, consultation_day, weekType, studentsLimit) 
-	values ('%d', '%s', '%s', '%s', '%s', '%d');""" % (tutorID, startHour, endHour, consultationDay, weekType, studentsLimit)
+	tutor_ID, startHour, endHour, consultation_day, weekType, studentsLimit, localization_id) 
+	values ('%d', '%s', '%s', '%s', '%s', '%d', '%d');""" % (tutorID, startHour, endHour, consultationDay, weekType, studentsLimit, localizationID)
 	
 	try:
 		cursor.execute(sqlquery)
@@ -202,7 +202,7 @@ def deleteConsultation(dbhandle, consultationID):
 	
 #Funkcja edytuje konsultacje o podanym ID
 #Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
-def editConsultation(dbhandle, consultationID, startHour, endHour, consultationDay, weekType, studentsLimit):
+def editConsultation(dbhandle, consultationID, startHour, endHour, consultationDay, weekType, studentsLimit, localizationID):
 	cursor = dbhandle.cursor()
 	
 	sqlquery1 = """update Consultations set startHour = '%s' where consultations_ID = %d""" %(startHour, consultationID)
@@ -210,6 +210,7 @@ def editConsultation(dbhandle, consultationID, startHour, endHour, consultationD
 	sqlquery3 = """update Consultations set consultation_day = '%s' where consultations_ID = %d""" %(consultationDay, consultationID)
 	sqlquery4 = """update Consultations set weekType = '%s' where consultations_ID = %d""" %(weekType, consultationID)
 	sqlquery5 = """update Consultations set studentsLimit = '%d' where consultations_ID = %d""" %(studentsLimit, consultationID)
+	sqlquery6 = """update Consultations set localization_ID = '%d' where consultations_ID = %d""" %(localizationID, consultationID)
 	
 	try:
 		cursor.execute(sqlquery1)
@@ -217,6 +218,7 @@ def editConsultation(dbhandle, consultationID, startHour, endHour, consultationD
 		cursor.execute(sqlquery3)
 		cursor.execute(sqlquery4)
 		cursor.execute(sqlquery5)
+		cursor.execute(sqlquery6)
 		dbhandle.commit()
 	except:
 		print "Error with editing consultation"
