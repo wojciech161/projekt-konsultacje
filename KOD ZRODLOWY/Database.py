@@ -136,7 +136,7 @@ def addConsultation(dbhandle, tutorID, startHour, endHour, consultationDay, week
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """INSERT INTO Consultations(
-	tutor_ID, startHour, endHour, consultation_day, weekType, studentsLimit, localization_id) 
+	tutor_ID, startHour, endHour, day, weekType, studentsLimit, localization_id) 
 	values ('%d', '%s', '%s', '%s', '%s', '%d', '%d');""" % (tutorID, startHour, endHour, consultationDay, weekType, studentsLimit, localizationID)
 	
 	try:
@@ -188,7 +188,7 @@ def deleteTutorConsultations(dbhandle, tutorID):
 def deleteConsultation(dbhandle, consultationID):
 	cursor = dbhandle.cursor()
 	
-	sqlquery = """delete from Consultations where consultations_ID = %d""" %consultationID
+	sqlquery = """delete from Consultations where consultation_ID = %d""" %consultationID
 	
 	try:
 		cursor.execute(sqlquery)
@@ -205,12 +205,12 @@ def deleteConsultation(dbhandle, consultationID):
 def editConsultation(dbhandle, consultationID, startHour, endHour, consultationDay, weekType, studentsLimit, localizationID):
 	cursor = dbhandle.cursor()
 	
-	sqlquery1 = """update Consultations set startHour = '%s' where consultations_ID = %d""" %(startHour, consultationID)
-	sqlquery2 = """update Consultations set endHour = '%s' where consultations_ID = %d""" %(endHour, consultationID)
-	sqlquery3 = """update Consultations set consultation_day = '%s' where consultations_ID = %d""" %(consultationDay, consultationID)
-	sqlquery4 = """update Consultations set weekType = '%s' where consultations_ID = %d""" %(weekType, consultationID)
-	sqlquery5 = """update Consultations set studentsLimit = '%d' where consultations_ID = %d""" %(studentsLimit, consultationID)
-	sqlquery6 = """update Consultations set localization_ID = '%d' where consultations_ID = %d""" %(localizationID, consultationID)
+	sqlquery1 = """update Consultations set startHour = '%s' where consultation_ID = %d""" %(startHour, consultationID)
+	sqlquery2 = """update Consultations set endHour = '%s' where consultation_ID = %d""" %(endHour, consultationID)
+	sqlquery3 = """update Consultations set day = '%s' where consultation_ID = %d""" %(consultationDay, consultationID)
+	sqlquery4 = """update Consultations set weekType = '%s' where consultation_ID = %d""" %(weekType, consultationID)
+	sqlquery5 = """update Consultations set studentsLimit = '%d' where consultation_ID = %d""" %(studentsLimit, consultationID)
+	sqlquery6 = """update Consultations set localization_ID = '%d' where consultation_ID = %d""" %(localizationID, consultationID)
 	
 	try:
 		cursor.execute(sqlquery1)
@@ -249,7 +249,7 @@ def getAllTableValues(dbhandle, tutorID):
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """select t.name, t.surname, t.www, t.degree, t.phone, c.startHour, 
-	c.endHour, c.consultation_day, c.weekType, l.building, l.room, ib.message
+	c.endHour, c.day, c.weekType, l.building, l.room, ib.message
 	from Tutors t 
 	join Consultations c on (c.tutor_ID = t.tutor_ID) 
 	join Localizations l on (t.localization_ID = l.localization_ID) 
@@ -273,7 +273,9 @@ databaseName = "ProjektZespolowy"
 	
 dbcon = connectToDatabase(host, user, password, databaseName)
 
-res = getAllTableValues(dbcon, 1)
+res = getAllTableValues(dbcon, 2)
+
+#print res
 
 for row in res:
 	print row
