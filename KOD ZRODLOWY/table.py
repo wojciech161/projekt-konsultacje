@@ -6,7 +6,7 @@
 import sys
 import MySQLdb
 
-connection = MySQLdb.connect("localhost", "root", "maciek1", "projekt")
+connection = MySQLdb.connect("localhost", "root", "password", "projekt")
 
 
 HTML = "<table border='1'><tr valign='center'><td>Katedra</td><td>Prowadzący i terminy konsultacji</td></tr>\n"
