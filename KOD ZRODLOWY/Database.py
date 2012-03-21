@@ -1,11 +1,13 @@
-﻿# Obsluga bazy danych plus funkcje pobierajace rozne wartosci z bazy
-# Autor: Marcin Wojciechowski
+﻿# Functions for using database(MySQL)
+# Authors: Marcin Wojciechowski, Lukasz Leczycki
+
+#-*- coding: utf-8 -*-
 
 import MySQLdb
 
-#Funkcja laczy sie z baza danych.
 def connectToDatabase(host, user, password, databaseName):
-    """func"""
+    """Funkcja laczy sie z baza danych."""
+    
     try:
          db = MySQLdb.connect(host, user, password, databaseName)
     except:
@@ -14,14 +16,16 @@ def connectToDatabase(host, user, password, databaseName):
 	    
     return db
 
-#Funkcja zamyka polaczenie z baza danych
 def closeDBConnection(dbHandle):
+	u"""Funkcja zamyka polaczenie z baza danych"""
+	
 	dbHandle.close()
 
 
-#Funkcja dodajaca lokalizacje do bazy danych
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def addLocalization(dbhandle, room, building):
+	"""Funkcja dodajaca lokalizacje do bazy danych
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """INSERT INTO Localizations(room, building) values('%s', '%s')""" %(room, building)
@@ -36,9 +40,9 @@ def addLocalization(dbhandle, room, building):
 	
 	return 0
 
-#Funkcja zmieniajaca lokalizacje wg ID
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def changeLocalization(dbhandle, localizationID, room, building):
+	"""Funkcja zmieniajaca lokalizacje wg ID
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
 	cursor = dbhandle.cursor()
 	
 	sqlquery1 = """UPDATE Localizations set room = '%s' where localization_ID = %d""" %(room, localizationID)
@@ -55,8 +59,9 @@ def changeLocalization(dbhandle, localizationID, room, building):
 	
 	return 0
 	
-#Funkcja zwracajaca dane o lokalizacji po podaniu ID
 def getLocalization(dbhandle, localizationID):
+	"""Funkcja zwracajaca dane o lokalizacji po podaniu ID"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """select * from Localizations where localization_ID = %d""" %localizationID
@@ -70,9 +75,10 @@ def getLocalization(dbhandle, localizationID):
 		return -1
 	
 
-#Funkcja dodajaca pusty InfoBoard
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def addInfoBoard(dbhandle):
+	"""Funkcja dodajaca pusty InfoBoard
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """INSERT INTO InfoBoards() values ()"""
@@ -87,9 +93,10 @@ def addInfoBoard(dbhandle):
 	
 	return 0
 
-#Funkcja dodaje InfoBoard z wiadomoscia.
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def addInfoBoardWithMessage(dbhandle, message):
+	"""Funkcja dodaje InfoBoard z wiadomoscia.
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """INSERT INTO InfoBoards(message) values ('%s')"""%message
@@ -104,9 +111,10 @@ def addInfoBoardWithMessage(dbhandle, message):
 	
 	return 0
 
-#Funkcja zmieniajaca wiadomosc w infoboard o danym id
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def changeInfoBoard(dbhandle, infoBoardID, message):
+	"""Funkcja zmieniajaca wiadomosc w infoboard o danym id
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery1 = """UPDATE InfoBoards set message = '%s' where infoboard_ID = %d""" %(message, infoBoardID)
@@ -123,8 +131,9 @@ def changeInfoBoard(dbhandle, infoBoardID, message):
 	
 	return 0
 	
-#Funkcja pobierajaca InfoBoard po podaniu ID
 def getInfoBoard(dbhandle, infoboardID):
+	"""Funkcja pobierajaca InfoBoard po podaniu ID"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """select * from InfoBoards where infoboard_ID = %d"""%(infoboardID)
@@ -137,9 +146,10 @@ def getInfoBoard(dbhandle, infoboardID):
 		print "Error with getting infoboard"
 		return -1
 
-#Funkcja dodaje konsultacje
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def addConsultation(dbhandle, tutorID, startHour, endHour, consultationDay, weekType, studentsLimit, localizationID):
+	"""Funkcja dodaje konsultacje
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """INSERT INTO Consultations(
@@ -156,9 +166,10 @@ def addConsultation(dbhandle, tutorID, startHour, endHour, consultationDay, week
 	
 	return 0
 
-#Funkcja usuwa wszystkie konsultacje z bazy
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def deleteAllConsultations(dbhandle):
+	"""Funkcja usuwa wszystkie konsultacje z bazy
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """delete from Consultations"""
@@ -173,9 +184,10 @@ def deleteAllConsultations(dbhandle):
 	
 	return 0
 
-#Funkcja usuwa konsultacje danego prowadzacego
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def deleteTutorConsultations(dbhandle, tutorID):
+	"""Funkcja usuwa konsultacje danego prowadzacego
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """delete from Consultations where tutor_ID = %d""" %tutorID
@@ -190,9 +202,10 @@ def deleteTutorConsultations(dbhandle, tutorID):
 	
 	return 0
 	
-#Funkcja usuwa konsultacje o podamym ID
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def deleteConsultation(dbhandle, consultationID):
+	"""Funkcja usuwa konsultacje o podamym ID
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """delete from Consultations where consultation_ID = %d""" %consultationID
@@ -207,9 +220,10 @@ def deleteConsultation(dbhandle, consultationID):
 	
 	return 0
 	
-#Funkcja edytuje konsultacje o podanym ID
-#Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym
 def editConsultation(dbhandle, consultationID, startHour, endHour, consultationDay, weekType, studentsLimit, localizationID):
+	"""Funkcja edytuje konsultacje o podanym ID
+	Zwraca 0 przy poprawnym zakonczeniu, -1 w blednym"""
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery1 = """update Consultations set startHour = '%s' where consultation_ID = %d""" %(startHour, consultationID)
@@ -234,8 +248,9 @@ def editConsultation(dbhandle, consultationID, startHour, endHour, consultationD
 	
 	return 0
 
-#Funkcja zwracajaca ID wszystkich prowadzacych
 def getAllTutorsIDs(dbhandle):
+	u"""Funkcja zwracajaca ID wszystkich prowadzacych """
+	
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """select tutor_ID from Tutors"""
@@ -248,11 +263,13 @@ def getAllTutorsIDs(dbhandle):
 		print "Error with getting Tutor id s"
 		return -1
 	
-#Funkcja zwracajaca wszystkie wartosci potrzebne do wygenerowania tabeli
-#Zwraca dane w kolejnosci:
-#IMIE NAZWISKO WWW STOPIEN TEL GODZINYKONSULTACJI DZIEN TYPTYG. BUDYNEK POKOJ WIADOMOSC
-#dla prowadzacego o podanym ID
+
 def getAllTableValues(dbhandle, tutorID):
+	u""" Funkcja zwracajaca wszystkie wartosci potrzebne do wygenerowania tabeli
+	Zwraca dane w kolejnosci:
+	IMIE NAZWISKO WWW STOPIEN TEL GODZINYKONSULTACJI DZIEN TYPTYG. BUDYNEK POKOJ WIADOMOSC
+	dla prowadzacego o podanym ID"""
+
 	cursor = dbhandle.cursor()
 	
 	sqlquery = """select t.name, t.surname, t.www, t.degree, t.phone, c.startHour, 
@@ -270,13 +287,6 @@ def getAllTableValues(dbhandle, tutorID):
 	except:
 		print "Error with getting table information"
 		return -1
-
-#-*- coding: utf-8 -*-
-
-#Obsluga kont użytkowników Admina oraz Usera
-#Autor: Łukasz Łęczycki
-
-
 
 def addTutor(dbHandle, **data):
     u"""Funkcja dodająca Prowadzącego
@@ -535,14 +545,14 @@ def editTutor(dbHandle, tutor_id, **data):
 #Przyklad. Uzupelnijcie dane
 #Wszystko co ponizej bedzie do usuniecia w ostatecznym rozrachunku.
 
+#dbcon = connectToDatabase("localhost", "pzuser", "pzpass", "ProjektZespolowy")
 
+#res = getAllTableValues(dbcon, 2)
+#print "weszlo"
 
-  #  res = getAllTableValues(dbcon, 2)
-  #  print "weszlo"
+#print res
 
-  #  print res
+#for row in res:
+     #print row
 
-  #  for row in res:
- #       print row
-
-  #  closeDBConnection(dbcon)
+#closeDBConnection(dbcon)
