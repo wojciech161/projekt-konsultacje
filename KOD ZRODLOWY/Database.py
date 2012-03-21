@@ -539,6 +539,38 @@ def editTutor(dbHandle, tutor_id, **data):
             return -1
 
     return 1
+    
+def getUserIDByLogin(dbhandle, login):
+	u""" Funkcja zwraca UID po podaniu loginu
+	Jesli sie nie wykona zwraca -1"""
+
+	cursor = dbhandle.cursor()
+	
+	sqlquery = """select user_ID from Users where login = '%s'"""%login
+	
+	try:
+		cursor.execute(sqlquery)
+		results = cursor.fetchone()
+		return results
+	except:
+		print "Error with getting table information"
+		return -1
+		
+def getUserType(dbhandle, uid):
+	u""" Funkcja zwraca typ uzytkownika po podaniu UID
+	Jesli sie nie wykona zwraca -1"""
+
+	cursor = dbhandle.cursor()
+	
+	sqlquery = """select type from Users where user_ID = '%d'"""%uid
+	
+	try:
+		cursor.execute(sqlquery)
+		results = cursor.fetchone()
+		return results
+	except:
+		print "Error with getting table information"
+		return -1
 
 
 
@@ -547,12 +579,11 @@ def editTutor(dbHandle, tutor_id, **data):
 
 #dbcon = connectToDatabase("localhost", "pzuser", "pzpass", "ProjektZespolowy")
 
-#res = getAllTableValues(dbcon, 2)
-#print "weszlo"
+#res = getUserType(dbcon, "jnowak")
 
 #print res
 
 #for row in res:
-     #print row
+#     print row
 
 #closeDBConnection(dbcon)
