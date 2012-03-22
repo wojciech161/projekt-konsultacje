@@ -31,4 +31,8 @@ Wiki:
 	W linuchu edytujemy plik konfiguracyjny MySQL (/etc/mysql/my.cnf u mnie) i odkomentowujemy innodb
 	W Windzie sprawdzcie sami!
 
-	Andrzeju, jesli uwazasz za potrzebne, dodaj indexy. Ja stwierdzilem ze nie beda potrzebne, ale moge 		sie mylic:)
+3. LDAP
+	Do działania LDAPA ściągnijcie wersję 2.4.9 stąd:
+	http://www.python-ldap.org/
+	Modul jest w pelni zgodny z Django, ale do integracji moze bedzie potrzebne cos takiego:
+	http://packages.python.org/django-auth-ldap/#configuring-basic-authentication
