@@ -1,8 +1,9 @@
 from django.db import models
 
 class Users(models.Model):
-	login = models.CharField(max_length=50)
+	login = models.CharField(max_length = 50)
 	last_login_date = models.DateTimeField()
+	typ = models.CharField(max_length = 15)
 	
 class Students(models.Model):
 	student_ID = models.ForeignKey(Users)
