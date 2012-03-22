@@ -1,9 +1,9 @@
-from consultations.models import Users, Students, Administrators, Assistants, Tutors, Consultations
+from consultations.models import User, Student, Administrator, Assistant, Tutor, Consultation
 from django.contrib import admin
 
-admin.site.register(Users)
-admin.site.register(Students)
-admin.site.register(Administrators)
-admin.site.register(Assistants)
-admin.site.register(Tutors)
-admin.site.register(Consultations)
+admin.site.register(User)
+admin.site.register(Student)
+admin.site.register(Administrator)
+admin.site.register(Assistant)
+admin.site.register(Tutor)
+admin.site.register(Consultation)
