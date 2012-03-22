@@ -3,7 +3,7 @@
 # Date: 20.03.2012
 
 import ldap
-from Database import getUserIDByLogin, getUserType
+from Database import getUserIDByLogin, getUserType, connectToDatabase
 
 def authorization(login, password, dbConnection):
 	u"""Function authorizes a user
@@ -16,14 +16,13 @@ def authorization(login, password, dbConnection):
 	
 	try:
 		result = ld.simple_bind_s(auth, password)
-		pass
 	except:
 		print "Logowanie nie powiodlo sie."
 		return -1
 	else:
 		return getUserIDByLogin(dbConnection, login)
 		
-def checkUser(login, dbcon):
+def checkUser(uid, dbcon):
 	u"""Funkcja sprawdza prawa uzytkownika"""
-	print login
-	return getUserType(dbcon, login)
+	print uid
+	return getUserType(dbcon, uid)
