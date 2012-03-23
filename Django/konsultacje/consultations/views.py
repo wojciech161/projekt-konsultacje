@@ -3,6 +3,9 @@ from django.template import RequestContext, loader
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
+from consultations.models import Tutor
+from django.template import Context, loader
+
 
 def consultation_index(request):
 	return HttpResponse("Lista wszystkich konsultacji")
@@ -11,8 +14,11 @@ def consultation_detail(request, consultation_id):
 	return HttpResponse("Konsultacja %s"%consultation_id)
 
 def tutors_index(request):
-	return HttpResponse("Lista wszystkich wykladowcow")
-
+	tutors_list = Tutor.objects.all().order_by('name')[:5]
+	t = loader.get_template('index.html')
+	c = Context({'tutors_list': tutors_list,})
+	return HttpResponse(t.render(c))
+	
 def tutor_index(request, tutor_id):
 	return HttpResponse("Strona wykladowcy %s"%tutor_id)
 	
