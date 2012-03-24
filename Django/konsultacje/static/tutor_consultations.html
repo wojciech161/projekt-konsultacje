@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Dane Osobowe</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.left #coolmenu a {
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body class="site_background">
+<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
+  </tr>
+</table>
+<p class="site_background">&nbsp;</p>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
+      <p></p>
+      <p align="center" class="title">Menu</p>
+<div id="coolmenu">
+<a href="{% url homepage_prowadzacy_glowna %}">Strona Główna</a>
+<a href="{% url homepage_prowadzacy_osobowe %}">Dane Osobowe</a>
+<a href="{% url homepage_prowadzacy_zapisani_studenci %}">Zapisani Studenci</a>
+<a href="{% url homepage_prowadzacy_zmien_haslo %}">Zmień Hasło</a>
+</div>	
+<p></p>
+<div id="coolmenu">
+<a href="index.html">Wyloguj</a></div>
+<p>&nbsp;</p></td>
+    <td style="background-color:#FFF" valign="top">
+   <select name="termin">
+   <option value="1">wybierz</option>
+   <option value="2">pt/n 11:00-13:00</option>
+   <option value="3">cz/p 13:00-15:00</option>
+   </select>
+<div style="padding-left:8px;">
+	<table class="call_border" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+  	<td align="center" class="table_header">Dzień</td>
+    <td align="center" class="table_header">Godzina</td>
+    <td align="center" class="table_header">Imie </td>
+    <td align="center" class="table_header">Nazwisko</td>
+    <td align="center" class="table_header">Indeks</td>
+    <td align="center" class="table_header">Przedmiot</td>
+  </tr>
+  <tr>
+    <td align="center" class="line_table_1">pt/n</td>
+    <td align="center" class="line_table_1">11:00-11:30</td>
+    <td align="center" class="line_table_1">Tomek</td>
+    <td align="center" class="line_table_1">Adamik</td>
+    <td align="center" class="line_table_1">154684</td>
+    <td align="center" class="line_table_1">Architektura</td>
+  </tr>
+  <tr>
+    <td align="center" class="line_table_2">pt/n</td>
+    <td align="center" class="line_table_2">12:15-12:45</td>
+    <td align="center" class="line_table_2">Andrzej</td>
+    <td align="center" class="line_table_2">Cilińsko</td>
+    <td align="center" class="line_table_2">167867</td>
+    <td align="center" class="line_table_2">Projekt Zespolowy</td>
+  </tr>
+</table>
+	</div>
+    
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

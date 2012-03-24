@@ -1,0 +1,154 @@
+@charset "utf-8";
+/* CSS Document */
+.table_header{				/* styl dla nagłówka tablicy */
+border:1px solid black; /* Styl ramki */
+background-color: #9C301A;  /*Kolor tła komórki*/
+color: #ffffff;  /*Kolor tekstu*/
+font-weight:bold;   /* Pogrubiona czcionka */
+padding-left:3px;
+padding-right:3px;
+}
+
+.line_table_1{ 				/* styl dla nieparzystego wiersza tablicy */
+border:1px solid black; /* Styl ramki */
+background-color: #fff2df;  /*Kolor tła komórki*/
+color: #000000;  /*Kolor tekstu*/
+padding-left:3px;
+padding-right:3px;
+}
+
+.line_table_2{				/* styl dla parzystego wiersza tablicy */
+border:1px solid black; /* Styl ramki */
+background-color: #f6e1c3;  /*Kolor tła komórki*/
+color: #000000;  /*Kolor tekstu*/
+padding-left:3px;
+padding-right:3px;
+}
+
+.call_background_menu {				/* styl komurki pod menu */
+background-color:#f1d1a2; 		/* kolor tła komurki */
+border-right:1px solid black;	/* prawa linia komurki  :  1px wielkości i stylu solid black */
+}
+
+p.title {
+background-color: #9C301A;
+color: #ffffff;
+font-weight:bold;
+margin:5px;
+padding:5px;
+}
+
+#coolmenu{
+border: 1px solid black; /*Стиль рамки */
+border-bottom-width: 0;
+width: 90%; /*Ширина меню */
+background-color: #f6f6f6;  /*Фоновый цвет ячейки*/
+margin:8px; /*Ширина отступов*/
+}
+
+#coolmenu a:hover{
+background-color: #e8a646; /*Фоновый цвет ячейки при наведение курсора*/
+color: #000000;  /*Цвет текста при наведении курсора*/
+}
+
+html>body #coolmenu a{ 
+width: auto;
+}
+
+#coolmenu a{
+font: bold 13px Verdana; /*Шрифт текста*/
+padding: 2px; /*Внутренний отсутп текста ссылки от краев ячейки*/
+padding-left: 2px;/*Внутренний отсутп текста ссылки от левого края ячейки*/
+display: block;
+width: 90%; /*Ширина ячейки*/
+color: #000000;  /*Цвет текста*/
+text-decoration: none; /*Подчеркивание у ссылок - нет*/
+border-bottom: 1px solid gray;
+}
+
+.call_border{
+	border:1px solid black;
+}
+
+.site_background{
+	background-color:#CCC	
+}
+
+.Convergence-Login-FormRow {
+    padding-bottom: 8px;
+	text-align: right;
+	padding-right: 8px;
+}
+
+input.okienko {
+    border: solid 1px;
+    border-top-color:#993300;
+    border-right-color:#993300;
+    border-bottom-color:#993300;
+    border-left-color:#993300;
+    padding: 1px 2px 1px 2px;
+    width:140px; 
+}
+label, input, span {
+    color: #993300;
+    font-family: Arial,helvetica,sans-serif;	
+    font-size: 12px;
+	 text-decoration:none;
+}
+
+.loguj {
+    border-top-color:#993300;
+    border-right-color:#993300;
+    border-bottom-color:#993300;
+    border-left-color:#993300;
+    border-style:solid;
+    border-width:1px;
+    white-space:nowrap;
+    padding:0 5px 1px 5px;
+    margin:0 2px 0 1px;				
+	cursor:pointer;
+width: 100px;
+height: 26px;
+font-weight: bold;
+background-color:#F8D7B8;
+color: #993300;
+}
+
+.loguj+hover {
+    border-top-color:#993300;
+    border-right-color:#993300;
+    border-bottom-color:#993300;
+    border-left-color:#993300;
+    cursor:pointer;
+width: 100px;
+height: 26px;
+font-weight: bold;
+background-color:#F8D7B8;
+color: #993300;
+
+}
+.button1{
+
+background-image:url(file:///C|/WORK/Roma/Politechnika%20Wroclawska/Semestr%20VI/Projekt%20Zespolowy/Strona/images/button2.png)
+
+}
+
+
+
+input.button2
+{
+   font-size:11px;
+   font-family:Verdana,sans-serif;
+   font-weight:bold;
+   color:#777777;
+   width:100px;
+   background-color:#EEEEEE;
+   border-style:solid;
+   border-color:#777777;
+   border-width:1px;
+}
+
+
+
+
+

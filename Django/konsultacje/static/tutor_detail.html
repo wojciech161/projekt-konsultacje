@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Dane Osobowe</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.left #coolmenu a {
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body class="site_background">
+<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
+  </tr>
+</table>
+<p class="site_background">&nbsp;</p>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
+      <p></p>
+      <p align="center" class="title">Menu</p>
+<div id="coolmenu">
+<a href="{% url homepage_prowadzacy_glowna %}">Strona Główna</a>
+<a href="{% url homepage_prowadzacy_osobowe %}">Dane Osobowe</a>
+<a href="{% url homepage_prowadzacy_zapisani_studenci %}">Zapisani Studenci</a>
+<a href="{% url homepage_prowadzacy_zmien_haslo %}">Zmień Hasło</a>
+</div>	
+<p></p>
+<div id="coolmenu">
+<a href="index.html">Wyloguj</a></div>
+<p>&nbsp;</p></td>
+    <td style="background-color:#FFF" valign="top">
+   
+    <p> <a>Tytul: </a> <input name="tytul" type="text" class="okienko" value="dr" /></p>
+    <p> <a>Imie: </a> <input name="imie" type="text" class="okienko" value="Marek" /></p>
+    <p> <a>Nazwisko: </a> <input name="nazwisko" type="text" class="okienko" value="Bawiec" /></p>
+    <p> <a>Pokój: </a> <input name="nazwisko" type="text" class="okienko" value="223" /></p>
+    <p> <a>Telefon: </a> <input name="nazwisko" type="text" class="okienko" value="27-59" /></p>
+    <p> <a>e-mail: </a> <input name="nazwisko" type="text" class="okienko" value="Marek.Bawiec@pwr.wroc.pl" /></p>
+    <p> <a>Strona: </a> <input name="nazwisko" type="text" class="okienko" value="http://zak.ict.pwr.wroc.pl/bawiec/" /></p>
+    <input type="submit" name="zmien" value="Znien Dane" />
+    
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

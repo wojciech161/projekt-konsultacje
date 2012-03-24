@@ -1,0 +1,2 @@
+w settings.py ustawic zmienna TEMPLATE_DIRS na katalog gdzie wrzucimy templaty i tam je wrzucic.
+Ustawilem poczatkowo na /home/html

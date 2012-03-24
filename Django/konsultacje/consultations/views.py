@@ -21,9 +21,12 @@ def tutors_index(request):
 	return HttpResponse(t.render(c))
 	
 def tutor_index(request, tutor_id):
-	tutor_connsultations = Consultation.objects.filter(tutor_ID = tutor_id)
-	tutor = Tutor.objects.get(tutor_ID = tutor_id)
-	return HttpResponse("Strona wykladowcy %s"%string1)
+	if request.user.is_authenticated():
+		tutor_connsultations = Consultation.objects.filter(tutor_ID = tutor_id)
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		return HttpResponse("Strona wykladowcy %s"%tutor_id)
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
 def tutor_detail(request, tutor_id):
 	return HttpResponse("Edycja wykladowcy %s"%tutor_id)
