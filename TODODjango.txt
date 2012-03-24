@@ -1,0 +1,5 @@
+TODO
+email fieldy na emailach
+obs³uga polskich znaków
+zrobienie mo¿liwoœci nie wprowadzania pól które moga byæ puste
+zamiast foreign Key OneToOneModel

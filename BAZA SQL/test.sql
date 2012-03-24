@@ -1,0 +1,2 @@
+Insert into consultations_tutor (tutor_ID_id, name, surname, institute, email)#, degree, phone, www, localization_ID_id, infoboard_ID_id)
+Values (1, 'imie', 'nazwisko', 'inst', 'mail@mail.ma')#, null, null, null, null, null);

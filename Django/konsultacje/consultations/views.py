@@ -1,9 +1,10 @@
+#-*- coding: utf-8 -*--
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
-from consultations.models import Tutor
+from consultations.models import *
 from django.template import Context, loader
 from consultations.models import User, Consultation
 

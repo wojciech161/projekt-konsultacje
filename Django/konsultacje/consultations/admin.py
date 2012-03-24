@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*--
 from consultations.models import User, Student, Administrator, Assistant, Tutor, Consultation, Localization, InfoBoard
 from django.contrib import admin
 
