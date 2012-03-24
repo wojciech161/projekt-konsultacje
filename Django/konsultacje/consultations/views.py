@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from consultations.models import Tutor
 from django.template import Context, loader
+from consultations.models import User
 
 
 def consultation_index(request):
@@ -41,9 +42,19 @@ def authorization(request):
 		user = authenticate(username = username, password = password)
 		if user is not None:
 			if user.is_active:
-				login(request, user)
-				state = "Zostales zalogowany"
-				return HttpResponseRedirect(reverse('consultations.views.tutor_index', args=(15,)))
+				try:
+					user_from_table = User.objects.get(login = username)
+				except:
+					state = "Brak konta w bazie danych"
+				else:
+					try:
+						tutor_from_table = Tutor.objects.get(tutor_ID = user_from_table.id)
+					except:
+						state = "Nie jestes wykladowca"
+					else:
+						login(request, user)
+						state = "Zostales zalogowany"
+						return HttpResponseRedirect(reverse('consultations.views.tutor_index', args=(user_from_table.id,)))
 			else:
 				state = "Twoje konto nie zostalo jeszcze aktywowane"
 		else:

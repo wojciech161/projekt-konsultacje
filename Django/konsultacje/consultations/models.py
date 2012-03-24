@@ -5,10 +5,6 @@ class User(models.Model):
 	login = models.CharField(max_length = 50)
 	last_login_date = models.DateTimeField('Data ostatniego logowania', null=True)
 	typ = models.CharField(max_length = 15)
-	def was_logged_recently(self):
-		return self.last_login_date >= timezone.now() - datetime.timedelta(days=1)
-	was_logged_recently.admin_order_field = 'pub_date'
-	was_logged_recently.boolean = True
 
 	
 class Student(models.Model):

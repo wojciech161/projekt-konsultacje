@@ -148,4 +148,4 @@ LOGGING = {
 }
 
 # LDAP Configuration
-#AUTHENTICATION_BACKENDS = ('consultations.Logon.LDAPBackend', 'django.contrib.auth.backends.ModelBackend',)
+AUTHENTICATION_BACKENDS = ('consultations.Logon.LDAPBackend', 'django.contrib.auth.backends.ModelBackend',)

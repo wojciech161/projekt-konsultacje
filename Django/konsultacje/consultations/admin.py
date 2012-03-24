@@ -9,7 +9,7 @@ class UserAdmin(admin.ModelAdmin):
 	{'fields' : ['last_login_date']
 	}),
 	]
-	list_display = ('login', 'was_logged_recently')
+	list_display = ('login',)
 	list_filter = ['last_login_date']
 	date_hierarchy = 'last_login_date'
 
