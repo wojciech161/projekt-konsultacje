@@ -28,9 +28,21 @@
 <a href="https://s.pwr.wroc.pl">Poczta Elektroniczna</a>
 </div>	
 <p></p>
-{% if tutors_list %}
+{% if tutors_list and localizations_list and consultations_list  %}
     <ul>
-    {% for tutor in tutors_list %}
+	{% for consultation in consultations_list %}
+		{{ consultation.tutor_ID.surname }}
+		{{ consultation.tutor_ID.name }}
+		{{ consultation.tutor_ID.degree }}
+		
+		{{ consultation.localization_ID.building }}
+		{{ consultation.localization_ID.room }}
+		
+		{{ consultation.day }}
+		{{ consultation.start_hour.hour }}
+		{{ consultation.start_hour.minute }}
+		{{ consultation.end_hour.hour }}
+		{{ consultation.end_hour.minute }}
         <li><a href="/tutor/{{ tutor.id }}/">{{ tutor.name }}</a></li>
     {% endfor %}
     </ul>

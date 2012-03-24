@@ -9,7 +9,12 @@ from consultations.models import User, Consultation
 
 
 def consultation_index(request):
-	return HttpResponse("Lista wszystkich konsultacji")
+	consultations_list = Consultation.objects.all()
+	tutors_list = Tutor.objects.all()
+	localizations_list = Localization.objects.all()
+	t = loader.get_template('index.html')
+	c = Context({'localizations_list' : localizations_list, 'consultations_list': consultations_list, 'tutors_list' : tutors_list, })
+	return HttpResponse(t.render(c))
 	
 def consultation_detail(request, consultation_id):
 	return HttpResponse("Konsultacja %s"%consultation_id)
