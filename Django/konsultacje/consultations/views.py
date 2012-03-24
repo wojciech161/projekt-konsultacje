@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from consultations.models import Tutor
 from django.template import Context, loader
-from consultations.models import User
+from consultations.models import User, Consultation
 
 
 def consultation_index(request):
@@ -21,7 +21,9 @@ def tutors_index(request):
 	return HttpResponse(t.render(c))
 	
 def tutor_index(request, tutor_id):
-	return HttpResponse("Strona wykladowcy %s"%tutor_id)
+	tutor_connsultations = Consultation.objects.filter(tutor_ID = tutor_id)
+	tutor = Tutor.objects.get(tutor_ID = tutor_id)
+	return HttpResponse("Strona wykladowcy %s"%string1)
 	
 def tutor_detail(request, tutor_id):
 	return HttpResponse("Edycja wykladowcy %s"%tutor_id)
