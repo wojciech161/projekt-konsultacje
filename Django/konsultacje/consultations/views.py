@@ -41,7 +41,27 @@ def tutor_consultations(request, tutor_id):
 	return HttpResponse("Tu tutor %s bedzie mogl zobaczyc liste swoich konsultacji i ile osob jest zapisanych do niego(pozniej)"%tutor_id)
 	
 def edit_consultation(request, tutor_id, consultation_id):
-	return HttpResponse("Edycja konsultacji %s"%consultation_id)
+	consultation = Consultation.objects.get(id = consultation_id)
+	if (tutor_id == consultation.tutor_id.id):
+		if (request.POST.has_key('start_hour')):
+			start_hour = request.POST.get('start_hour')
+			consultation.start_hour = start_hour
+		if (request.POST.has_key('end_hour')):
+			end_hour = request.POST.get('end_hour')
+			consultation.end_hour = end_hour
+		if (request.POST.has_key('day')):
+			day = request.POST.get('day')
+			consultation.day = day
+		#week_type = reques.POST.get('week_type')
+		#students_limit = reques.POST.get('students_limit')
+		#loc_room = request.POST.get('room')
+		#loc_building = request.POST.get('building')
+		#localization = Localization.objects.get(room = loc_room, building = loc_building)
+		consultation.save()
+		render_to_response("edit_consultation.html", {'start_hour' : start_hour, 'end_hour' : end_hour, 'day' : day}, context_instance = RequestContext(request))
+	else:
+		return HttpResponse("Ta konsultacja nie przynale¿y do tego tutora")
+	#return HttpResponse("Edycja konsultacji %s"%consultation_id)
 
 def authorization(request):	
 	state = "Prosze sie zalogowac"
