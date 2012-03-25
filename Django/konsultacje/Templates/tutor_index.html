@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <title>Strona Główna</title>
-<link href="Template/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .left #coolmenu a {
 	font-size: 12px;
@@ -15,7 +15,7 @@
 <body class="site_background">
 <table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td  height="90" ><img src="/gff/images/tytul.PNG" width="1000" height="105" /></td>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
   </tr>
 </table>
 <p class="site_background">&nbsp;</p>
@@ -27,244 +27,57 @@
 <div id="coolmenu">
 <form name="menu" action="" method="POST" />
 <input type="hidden" name="username" value="{{ username }}" />
-<a href="{% url consultations.views.tutor_index %}">Strona Główna</a>
-<a href="">Dane Osobowe</a>
-<a href="">Zapisani Studenci</a>
-<a href="">Zmień Hasło</a>
+<a href="/tutor/{{ tutor_id }}/">Strona Główna</a>
+<a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
+<a href="/tutor/{{ tutor_id }}/consultations_detail/">Konsultacji</a>
 </form>
 </div>	
 <p></p>
 <div id="coolmenu">
-<a href="index.html">Wyloguj</a></div>
+<a href="/">Wyloguj</a></div>
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
-    <p align="center">
-{% if form.dodaj == "Dodaj termin" %}
-	<form name="add_consultations" method="POST" action="{% url consultations.views.tutor_index %}">
-		<input type="hidden" name="username" value="{{ username }}" />
-		<select name="day">  
-			<option value='p'>Poniedziałek</option>
-        	<option value='n'>Wtorek</option>
-			<option value='p'>Sroda</option>
-        	<option value='n'>Czwartek</option>
-			<option value='p'>Piątek</option>
-        	<option value='n'>Subota</option>
-			<option value='p'>Niedziela</option>
-        </select>
-		
-		<select name="tydzien">  
-			<option value='p'>TP</option>
-        	<option value='n'>TN</option>
-        </select>
-		
-		<select name="start_consult_hour">  
-			<option value='p'>07</option>
-        	<option value='n'>08</option>
-            <option value='p'>09</option>
-        	<option value='n'>10</option>
-            <option value='p'>11</option>
-        	<option value='n'>12</option>
-            <option value='n'>13</option>
-            <option value='p'>14</option>
-        	<option value='n'>15</option>
-            <option value='n'>16</option>
-            <option value='p'>17</option>
-			<option value='n'>18</option>
-        </select> - 
-        <select name="start_consult_minut">   
-			<option value='p'>00</option>
-        	<option value='n'>05</option>
-            <option value='p'>10</option>
-        	<option value='n'>15</option>
-            <option value='p'>20</option>
-        	<option value='n'>25</option>
-            <option value='n'>30</option>
-            <option value='p'>35</option>
-        	<option value='n'>40</option>
-            <option value='n'>45</option>
-            <option value='p'>50</option>
-        	<option value='n'>55</option>
-        </select>
-		<select name="end_consult_hour">  
-			<option value='p'>07</option>
-        	<option value='n'>08</option>
-            <option value='p'>09</option>
-        	<option value='n'>10</option>
-            <option value='p'>11</option>
-        	<option value='n'>12</option>
-            <option value='n'>13</option>
-            <option value='p'>14</option>
-        	<option value='n'>15</option>
-            <option value='n'>16</option>
-            <option value='p'>17</option>
-			<option value='n'>18</option>
-        </select> - 
-        <select name="end_consult_hour">   
-			<option value='p'>00</option>
-        	<option value='n'>05</option>
-            <option value='p'>10</option>
-        	<option value='n'>15</option>
-            <option value='p'>20</option>
-        	<option value='n'>25</option>
-            <option value='n'>30</option>
-            <option value='p'>35</option>
-        	<option value='n'>40</option>
-            <option value='n'>45</option>
-            <option value='p'>50</option>
-        	<option value='n'>55</option>
-        </select>
-		<input type="submit" name="add_konsultations" value="Dodaj" />
-		
-	</form>
+	<p align="center">Zapisani studenci<p>
+	<select name="termin">
+   <option value="1">wybierz</option>
+   <option value="2">pt/n 11:00-13:00</option>
+   <option value="3">cz/p 13:00-15:00</option>
+   </select>
+	<div style="padding-left:8px;">
+	<table class="call_border" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+  	<td align="center" class="table_header">Dzień</td>
+    <td align="center" class="table_header">Godzina</td>
+    <td align="center" class="table_header">Imie </td>
+    <td align="center" class="table_header">Nazwisko</td>
+    <td align="center" class="table_header">Indeks</td>
+    <td align="center" class="table_header">Przedmiot</td>
+  </tr>
+  <tr>
+    <td align="center" class="line_table_1">pt/n</td>
+    <td align="center" class="line_table_1">11:00-11:30</td>
+    <td align="center" class="line_table_1">Tomek</td>
+    <td align="center" class="line_table_1">Adamik</td>
+    <td align="center" class="line_table_1">154684</td>
+    <td align="center" class="line_table_1">Architektura</td>
+  </tr>
+  <tr>
+    <td align="center" class="line_table_2">pt/n</td>
+    <td align="center" class="line_table_2">12:15-12:45</td>
+    <td align="center" class="line_table_2">Andrzej</td>
+    <td align="center" class="line_table_2">Cilińsko</td>
+    <td align="center" class="line_table_2">167867</td>
+    <td align="center" class="line_table_2">Projekt Zespolowy</td>
+  </tr>
+</table>
+	</div>
 	
-{% endif %}
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-{% if form.zmien == "Zmien wybrane" %}
-    <table align="center" border="0"  cellpadding="0" cellspacing="0" class="call_border">
-      <tr class="table_header">
-     	<td class="table_header" align="center"><input type="submit" name="ALL" value="all" /></td>
-        <td class="table_header" width="69" height="27" align="center">Tydzien</td>
-        <td class="table_header" width="157" height="27" align="center">Godzina</td>
-        <td class="table_header" width="299" align="center">Ważne do</td>
-        <td class="table_header" width="70" align="center">Uwagi</td>
-      </tr>
-      <tr class="line_table_1">
-     	<td class="line_table_1" align="center"><input type="checkbox" value="1" /></td>
-        <td class="line_table_1" align="center"><select name="tydzien">  <option value='p'>TP</option>
-        											<option value='n'>TN</option>
-                           </select></td>
-        <td class="line_table_1" align="center"><select name="godziny">  <option value='p'>07</option>
-        											<option value='n'>08</option>
-                                                    <option value='p'>09</option>
-        											<option value='n'>10</option>
-                                                    <option value='p'>11</option>
-        											<option value='n'>12</option>
-                                                    <option value='n'>13</option>
-                                                    <option value='p'>14</option>
-        											<option value='n'>15</option>
-                                                    <option value='n'>16</option>
-                                                    <option value='p'>17</option>
-        											<option value='n'>18</option>
-                           </select> - 
-                           <select name="minuty">   <option value='p'>00</option>
-        											<option value='n'>05</option>
-                                                    <option value='p'>10</option>
-        											<option value='n'>15</option>
-                                                    <option value='p'>20</option>
-        											<option value='n'>25</option>
-                                                    <option value='n'>30</option>
-                                                    <option value='p'>35</option>
-        											<option value='n'>40</option>
-                                                    <option value='n'>45</option>
-                                                    <option value='p'>50</option>
-        											<option value='n'>55</option>
-                           </select></td>
-        <td class="line_table_1" align="center"><select name="dzien">    <option value='p'>01</option>
-        											<option value='n'>02</option>
-                                                    <option value='p'>03</option>
-        											<option value='n'>04</option>
-                                                    <option value='p'>05</option>
-        											<option value='n'>06</option>
-                                                    <option value='n'>07</option>
-                                                    <option value='p'>08</option>
-        											<option value='n'>09</option>
-                                                    <option value='n'>10</option>
-                                                    <option value='p'>11</option>
-                                                    <option value='n'>12</option>
-        											<option value='n'>13</option>
-                                                    <option value='n'>14</option>
-                                                    <option value='n'>15</option>
-                                                    <option value='n'>16</option>
-                                                    <option value='n'>17</option>
-                                                    <option value='n'>18</option>
-                                                    <option value='n'>19</option>
-                                                    <option value='n'>20</option>
-                                                    <option value='n'>21</option>
-                                                    <option value='n'>22</option>
-                                                    <option value='n'>23</option>
-                                                    <option value='n'>24</option>
-                                                    <option value='n'>25</option>
-                                                    <option value='n'>26</option>
-                                                    <option value='n'>27</option>
-                                                    <option value='n'>28</option>
-                                                    <option value='n'>29</option>
-                                                    <option value='n'>30</option>
-                                                    <option value='n'>31</option>
-                           </select> . 
-                           <select name="miesiac">  <option value='p'>01</option>
-        											<option value='n'>02</option>
-                                                    <option value='p'>03</option>
-        											<option value='n'>04</option>
-                                                    <option value='p'>05</option>
-        											<option value='n'>06</option>
-                                                    <option value='n'>07</option>
-                                                    <option value='p'>08</option>
-        											<option value='n'>09</option>
-                                                    <option value='n'>10</option>
-                                                    <option value='p'>11</option>
-                                                    <option value='n'>12</option>
-                           </select> . 
-                           <select name="Rok">   	<option value='p'>2012</option>
-        											<option value='n'>2013</option>
-                                                   
-                           </select></td>
-        <td class="line_table_1" align="center">&nbsp;</td>
-      </tr>
-      <tr class="line_table_2">
-      	<td class="line_table_2" align="center"><input type="checkbox" value="2" /></td>
-        <td class="line_table_2" align="center">TN</td>
-        <td class="line_table_2" align="center">09:15</td>
-        <td class="line_table_2" align="center">29.05.2012</td>
-        <td class="line_table_2" align="center">&nbsp;</td>
-      </tr>
-    </table>
-	{% endif %}
-    </p>
-    <p></p>
-    <form method="POST" name="form1" action="{% url consultations.views.tutor_index %}">
-	<input type="hidden" name="username" value="{{ username }}" />
-	{% if form.dodaj != "Dodaj termin" and form.zmien != "Zmien wybrane" and form.wykasuj != "Wykasuj wybrane"  %}
-		<table align="center" border="0"  cellpadding="0" cellspacing="0" class="call_border">
-			<tr class="line_table_2">
-				<td class="table_header" align="center"><input type="submit" name="all" value="all"</td>
-				<td class="table_header" align="center">Dzień</td>				
-				<td class="table_header" align="center">Tydzień</td>	
-				<td class="table_header" align="center">Początek</td>	
-				<td class="table_header" align="center">Koniec</td>	
-				<td class="table_header" align="center">Budynek</td>	
-				<td class="table_header" align="center">Sala</td>	
-			</tr>
-		{% for wiersze in entries %}
-			<tr class="line_table_2">
-				
-				<td class="line_table_2" align="center"><input type="checkbox" checked="checked" name="ww" /></td>
-			{% for wiersze2 in wiersze %}
-				<td class="line_table_2" align="center">{{ wiersze2 }}</td>			
-			{% endfor %}
-			</tr>
-		{% endfor %}
-		</table>
-		<p align="center">
-		<input type="submit" name="dodaj"  value="Dodaj termin" />
-		<input type="submit" name="zmien"  value="Zmien wybrane" />
-		<input type="submit" name="wykasuj"  value="Wykasuj wybrane" />
-		</p>
-		</form>
-	{% endif %}
-	
-
- 
-
     <p>&nbsp;</p></td>
   </tr>
 </table>
 <p>&nbsp;</p>
 </body>
 </html>
- {{ form.dodaj }}
 
 
 

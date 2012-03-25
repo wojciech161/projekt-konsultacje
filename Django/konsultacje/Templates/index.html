@@ -28,69 +28,49 @@
 <a href="https://s.pwr.wroc.pl">Poczta Elektroniczna</a>
 </div>	
 <p></p>
+<p align="center" class="title">System Konsultacji</p>
+<div id="coolmenu">
+<a href="/authorization/">Zaloguj</a>
+</div>
+<p>&nbsp;</p></td>
+    <td style="background-color:#FFF" valign="top">
+    <p align="center"></p>
+    <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+	  <tr>
+        <td>&nbsp;</td>
+        <td align="center" class="table_header">Tytul</td>
+        <td align="center" class="table_header">Imie</td>
+        <td align="center" class="table_header">Nazwisko</td>
+        <td align="center" class="table_header">Budynek</td>
+		<td align="center" class="table_header">Pokój</td>
+        <td align="center" class="table_header">Telefon</td>
+        <td align="center" class="table_header">Konsultacji</td>
+        <td align="center" class="table_header">Uwagi</td>
+        <td>&nbsp;</td>
+      </tr>
+
 {% if tutors_list and localizations_list and consultations_list  %}
     <ul>
 	{% for consultation in consultations_list %}
-		{{ consultation.tutor_ID.surname }}
-		{{ consultation.tutor_ID.name }}
-		{{ consultation.tutor_ID.degree }}
+		<tr>
+        <td>&nbsp;</td>
+		<td class="line_table_1">{{ consultation.tutor_ID.degree }}</td>
+		<td class="line_table_1">{{ consultation.tutor_ID.name }}</td>
+		<td class="line_table_1">{{ consultation.tutor_ID.surname }}</td>
 		
-		{{ consultation.localization_ID.building }}
-		{{ consultation.localization_ID.room }}
+		<td class="line_table_1">{{ consultation.localization_ID.building }}</td>
+		<td class="line_table_1">{{ consultation.localization_ID.room }}</td>
+		<td class="line_table_1">{{ consultation.tutor_ID.phone }}</td>
 		
-		{{ consultation.day }}
-		{{ consultation.start_hour.hour }}
-		{{ consultation.start_hour.minute }}
-		{{ consultation.end_hour.hour }}
-		{{ consultation.end_hour.minute }}
-        <li><a href="/tutor/{{ tutor.id }}/">{{ tutor.name }}</a></li>
+		<td class="line_table_1">{{ consultation.day }} {{ consultation.start_hour.hour }}:{{ consultation.start_hour.minute }}-{{ consultation.end_hour.hour }}:{{ consultation.end_hour.minute }} </td>
+        <td class="line_table_1"><a href="/tutor/{{ tutor.id }}/">{{ tutor.name }}</a></td>
+		</tr>
     {% endfor %}
     </ul>
 {% else %}
     <p>No consultations are available.</p>
 {% endif %}
-<p align="center" class="title">System Konsultacji</p>
-
-<p>&nbsp;</p></td>
-    <td style="background-color:#FFF" valign="top">
-    <p align="center"></p>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
-        <tr>
-        <td>&nbsp;</td>
-        <td align="center" class="table_header">Nazwisko</td>
-        <td align="center" class="table_header">Imie</td>
-        <td align="center" class="table_header">Tytul</td>
-        <td align="center" class="table_header">Pokój</td>
-        <td align="center" class="table_header">Telefon</td>
-        <td align="center" class="table_header">Konsultacje</td>
-        <td align="center" class="table_header">Ważne do</td>
-        <td align="center" class="table_header">Uwagi</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td class="line_table_1">Bawiec</td>
-        <td class="line_table_1">Marek</td>
-        <td class="line_table_1">mgr inż.</td>
-        <td class="line_table_1">223</td>
-        <td class="line_table_1">27-59</td>
-        <td class="line_table_1">śr 11-13; pt 13-15</td>
-        <td class="line_table_1">&nbsp;</td>
-        <td class="line_table_1">&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td class="line_table_2">Dubeła</td>
-        <td class="line_table_2">Ignacy</td>
-        <td class="line_table_2">prof.dr hab.inż.</td>
-        <td class="line_table_2">210</td>
-        <td class="line_table_2">43-55</td>
-        <td class="line_table_2">wt 11-12, 16-17; czw 9-11</td>
-        <td class="line_table_2">&nbsp;</td>
-        <td class="line_table_2">&nbsp;</td>
-		</tr>
-\
-
+        
   </table>
 
     <p>&nbsp;</p></td>

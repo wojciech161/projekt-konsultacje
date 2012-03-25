@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from consultations.models import *
 from django.template import Context, loader
-from consultations.models import User, Consultation
+from consultations.models import User, Consultation, Localization
 
 
 def consultation_index(request):
@@ -17,51 +17,58 @@ def consultation_index(request):
 	c = Context({'localizations_list' : localizations_list, 'consultations_list': consultations_list, 'tutors_list' : tutors_list, })
 	return HttpResponse(t.render(c))
 	
-def consultation_detail(request, consultation_id):
-	return HttpResponse("Konsultacja %s"%consultation_id)
-
 def tutors_index(request):
 	tutors_list = Tutor.objects.all().order_by('name')[:5]
 	t = loader.get_template('index.html')
 	c = Context({'tutors_list': tutors_list,})
 	return HttpResponse(t.render(c))
 	
+
 def tutor_index(request, tutor_id):
 	if request.user.is_authenticated():
-		tutor_connsultations = Consultation.objects.filter(tutor_ID = tutor_id)
-		tutor = Tutor.objects.get(tutor_ID = tutor_id)
-		return HttpResponse("Strona wykladowcy %s"%tutor_id)
+
+		return render_to_response('tutor_index.html', {'tutor_id':tutor_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
 def tutor_detail(request, tutor_id):
-	return HttpResponse("Edycja wykladowcy %s"%tutor_id)
+	tutor = Tutor.objects.get(tutor_ID = tutor_id)
+	localization = Localization.objects.get(tutor_id = tutor_id)
+	return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor})
+
 	
-def tutor_consultations(request, tutor_id):
-	return HttpResponse("Tu tutor %s bedzie mogl zobaczyc liste swoich konsultacji i ile osob jest zapisanych do niego(pozniej)"%tutor_id)
+def consultations_detail(request, tutor_id):
+	if request.user.is_authenticated():
+		tutor_connsultations = Consultation.objects.filter(tutor_ID = tutor_id)
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		localization = Localization.objects.get(tutor_id = tutor_id)
+		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':tutor_connsultations, 'localization':localization})
+	else:
+		return render_to_response(reverse('consultations.views.authorization'))
 	
 def edit_consultation(request, tutor_id, consultation_id):
-	consultation = Consultation.objects.get(id = consultation_id)
-	if (tutor_id == consultation.tutor_id.id):
-		if (request.POST.has_key('start_hour')):
-			start_hour = request.POST.get('start_hour')
-			consultation.start_hour = start_hour
-		if (request.POST.has_key('end_hour')):
-			end_hour = request.POST.get('end_hour')
-			consultation.end_hour = end_hour
-		if (request.POST.has_key('day')):
-			day = request.POST.get('day')
-			consultation.day = day
-		#week_type = reques.POST.get('week_type')
-		#students_limit = reques.POST.get('students_limit')
-		#loc_room = request.POST.get('room')
-		#loc_building = request.POST.get('building')
-		#localization = Localization.objects.get(room = loc_room, building = loc_building)
-		consultation.save()
-		render_to_response("edit_consultation.html", {'start_hour' : start_hour, 'end_hour' : end_hour, 'day' : day}, context_instance = RequestContext(request))
+	if request.user.is_authenticated():
+		if (tutor_id == consultation.tutor_id.id):
+			if (request.POST.has_key('start_hour')):
+				start_hour = request.POST.get('start_hour')
+				consultation.start_hour = start_hour
+			if (request.POST.has_key('end_hour')):
+				end_hour = request.POST.get('end_hour')
+				consultation.end_hour = end_hour
+			if (request.POST.has_key('day')):
+				day = request.POST.get('day')
+				consultation.day = day
+			#week_type = reques.POST.get('week_type')
+			#students_limit = reques.POST.get('students_limit')
+			#loc_room = request.POST.get('room')
+			#loc_building = request.POST.get('building')
+			#localization = Localization.objects.get(room = loc_room, building = loc_building)
+			consultation.save()
+			render_to_response("edit_consultation.html", {'start_hour' : start_hour, 'end_hour' : end_hour, 'day' : day}, context_instance = RequestContext(request))
+		else:
+			return HttpResponse("Ta konsultacja nie przynale¿y do tego tutora")
 	else:
-		return HttpResponse("Ta konsultacja nie przynale¿y do tego tutora")
-	#return HttpResponse("Edycja konsultacji %s"%consultation_id)
+		return render_to_response(reverse('consultations.views.authorization'))
 
 def authorization(request):	
 	state = "Prosze sie zalogowac"
