@@ -26,16 +26,20 @@ def tutors_index(request):
 
 def tutor_index(request, tutor_id):
 	if request.user.is_authenticated():
-
 		return render_to_response('tutor_index.html', {'tutor_id':tutor_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
 def tutor_detail(request, tutor_id):
-	tutor = Tutor.objects.get(tutor_ID = tutor_id)
-	localization = Localization.objects.get(tutor_id = tutor_id)
-	return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor})
-
+	if request.user.is_authenticated():
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		try:
+			localization = Localization.objects.get(tutor_id = tutor_id)
+		except:
+			localization = ""
+		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
 def consultations_detail(request, tutor_id):
 	if request.user.is_authenticated():
