@@ -124,7 +124,7 @@ def edit_consultation(request, tutor_id, consultation_id):
 		return render_to_response(reverse('consultations.views.authorization'))
 
 def authorization(request):	
-	state = "Prosze sie zalogowac"
+	state = "Proszę się zalogować"
 	username = password = ''
 	if request.POST:
 		username = request.POST.get('username')
@@ -136,20 +136,21 @@ def authorization(request):
 				try:
 					user_from_table = User.objects.get(login = username)
 				except:
-					state = "Brak konta w bazie danych"
+					state = """Użytkownik nie posiada konta w bazie wykładowców.
+								Proszę skontaktować się z Administratorem"""
 				else:
 					try:
 						tutor_from_table = Tutor.objects.get(tutor_ID = user_from_table.id)
 					except:
-						state = "Nie jestes wykladowca"
+						state = "Użytkownik nie jest wykładowcą"
 					else:
 						login(request, user)
-						state = "Zostales zalogowany"
+						state = "Zalogowano"
 						return HttpResponseRedirect(reverse('consultations.views.tutor_index', args=(user_from_table.id,)))
 			else:
 				state = "Twoje konto nie zostalo jeszcze aktywowane"
 		else:
-			state = "Login lub haslo nieprawidlowe"
+			state = "Login lub hasło nieprawidłowe"
 		
 	return render_to_response('logging.html', {'state':state, 'username':username}, context_instance = RequestContext(request))
 	
