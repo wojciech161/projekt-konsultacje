@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from consultations.models import *
 from django.template import Context, loader
 from consultations.models import User, Consultation, Localization
+from django.contrib import auth
 
 
 def consultation_index(request):
@@ -118,3 +119,7 @@ def authorization(request):
 			state = "Login lub haslo nieprawidlowe"
 		
 	return render_to_response('logging.html', {'state':state, 'username':username}, context_instance = RequestContext(request))
+	
+def logout(request):
+	auth.logout(request)
+	return HttpResponseRedirect(reverse('consultations.views.consultation_index'))
