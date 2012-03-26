@@ -70,16 +70,23 @@ def tutor_detail(request, tutor_id):
 	
 def consultations_detail(request, tutor_id):
 	if request.user.is_authenticated():
-	
-		tutor_connsultations = Consultation.objects.filter(tutor_ID = tutor_id)
-		#print tutor_connsultations[0].day
-		#tutaj powinnismy pobraæ id z tutora bo tutor_id wskazuje na usera a nie id tutora - a konsultacje bior¹ maj¹ w fk id tutora a niejgo tutor_id
-		tutor = Tutor.objects.get(id = tutor_id)#zmieni³em z tutor_ID na id
+		#pobieramy tutora
 		try:
-			localization = Localization.objects.get(tutor_id = tutor_id)
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		except:
-			localization = ' '
-		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':tutor_connsultations, 'localization':localization})
+			return HttpResponse("Blad krytyczny")
+		tutor_id_from_table = tutor.id
+		#pobieramy konsultacje tutora
+		try:
+			consultations = Consultation.objects.filter(tutor_ID = tutor_id_from_table)
+		except:
+			consultations = None
+		#pobieramy lokalizacje
+		try:
+			localization = Localization.objects.get(tutor_id = tutor_id_from_table)
+		except:
+			localization = None
+		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations, 'localization':localization})
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 	
