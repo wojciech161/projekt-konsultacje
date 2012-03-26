@@ -34,11 +34,37 @@ def tutor_index(request, tutor_id):
 def tutor_detail(request, tutor_id):
 	if request.user.is_authenticated():
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_id_from_table = tutor.id
 		try:
-			localization = Localization.objects.get(tutor_id = tutor_id)
+			localization = Localization.objects.get(tutor_id = tutor_id_from_table)
 		except:
-			localization = ""
-		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor})
+			localization = None
+			
+		if request.POST:
+			#zbiermay dane
+			title = request.POST.get('tytul')
+			name = request.POST.get('imie')
+			surname = request.POST.get('nazwisko')
+			building = request.POST.get('budynek')
+			room = request.POST.get('pokoj')
+			phone = request.POST.get('telefon')
+			mail = request.POST.get('email')
+			www = request.POST.get('www')
+			
+			#zapisujemy zmiany w bazie
+			tutor.degree = title
+			tutor.name = name
+			tutor.surname = surname
+			tutor.phone = phone
+			tutor.email = mail
+			tutor.www = www
+			tutor.save()
+			
+			localization.room = room
+			localization.building = building
+			localization.save()
+			
+		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	

@@ -34,17 +34,18 @@
 <a href="/logout/">Wyloguj</a></div>
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
-  
+<form action="/tutor/{{ tutor_id }}/edit/" name="formedit" method="POST">
+{% csrf_token %}
     <p> <a>Tytul: </a> <input name="tytul" type="text" class="okienko" value="{{ tutor.degree }}" /></p>
     <p> <a>Imie: </a> <input name="imie" type="text" class="okienko" value="{{ tutor.name }}" /></p>
     <p> <a>Nazwisko: </a> <input name="nazwisko" type="text" class="okienko" value="{{ tutor.surname }}" /></p>
-    <p> <a>Budynek: </a> <input name="nazwisko" type="text" class="okienko" value="{{ localization.building }}" /></p>
-    <p> <a>Pokój: </a> <input name="nazwisko" type="text" class="okienko" value="{{ localization.room }}" /></p>
-    <p> <a>Telefon: </a> <input name="nazwisko" type="text" class="okienko" value="{{ tutor.phone }}" /></p>
-    <p> <a>e-mail: </a> <input name="nazwisko" type="text" class="okienko" value="{{ tutor.email }}" /></p>
-    <p> <a>Strona: </a> <input name="nazwisko" type="text" class="okienko" value="{{ tutor.www }}" /></p>
+    <p> <a>Budynek: </a> <input name="budynek" type="text" class="okienko" value="{{ localization.building }}" /></p>
+    <p> <a>Pokój: </a> <input name="pokoj" type="text" class="okienko" value="{{ localization.room }}" /></p>
+    <p> <a>Telefon: </a> <input name="telefon" type="text" class="okienko" value="{{ tutor.phone }}" /></p>
+    <p> <a>e-mail: </a> <input name="email" type="text" class="okienko" value="{{ tutor.email }}" /></p>
+    <p> <a>Strona: </a> <input name="www" type="text" class="okienko" value="{{ tutor.www }}" /></p>
     <input type="submit" name="zmien" value="Zmień dane" />
-    
+</form>
     </td>
   </tr>
 </table>
