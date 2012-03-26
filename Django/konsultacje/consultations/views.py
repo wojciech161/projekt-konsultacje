@@ -6,16 +6,36 @@ from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from consultations.models import *
 from django.template import Context, loader
-from consultations.models import User, Consultation, Localization
+from consultations.models import User, Consultation, Localization, InfoBoard
 from django.contrib import auth
+from consultations import consultationdata
 
 
 def consultation_index(request):
-	consultations_list = Consultation.objects.all()
+	#Pobieramy wszystkich wykladowcow
 	tutors_list = Tutor.objects.all()
-	localizations_list = Localization.objects.all()
+	consultations_data = []
+	for tutor in tutors_list:
+		t_id = tutor.id
+		tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
+		tutor_localizations = Localization.objects.get(tutor_id = t_id)
+		tutor_info = InfoBoard.objects.get(tutor_id = t_id)
+		consult = consultationdata.ConsultationsData()
+		consult.name = tutor.name
+		consult.surname = tutor.surname
+		consult.www = "\"http://" + tutor.www + "\""
+		consult.title = tutor.degree
+		consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
+		consult.phone = tutor.phone
+		consult.consultations = ""
+		for con in tutor_consultations:
+			strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour.hour, con.end_hour.hour)
+			consult.consultations += strcon
+		consult.info = tutor_info.message
+		consultations_data.append(consult)
+		consult = None
 	t = loader.get_template('index.html')
-	c = Context({'localizations_list' : localizations_list, 'consultations_list': consultations_list, 'tutors_list' : tutors_list, })
+	c = Context({'consultations_data' : consultations_data, })
 	return HttpResponse(t.render(c))
 	
 def tutors_index(request):

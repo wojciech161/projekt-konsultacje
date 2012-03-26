@@ -23,7 +23,7 @@
     <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
       <p align="center" class="title">Linki</p>
 <div id="coolmenu">
-<a href="http://www.pwr.wroc.pl">Strona  PWR</a>
+<a href="http://www.pwr.wroc.pl">Politechnika Wrocławska</a>
 <a href="https://edukacja.pwr.wroc.pl">Edukacja CL</a>
 <a href="https://s.pwr.wroc.pl">Poczta Elektroniczna</a>
 </div>	
@@ -31,6 +31,7 @@
 <p align="center" class="title">System Konsultacji</p>
 <div id="coolmenu">
 <a href="/authorization/">Zaloguj</a>
+<a href="/admin/">Administracja</a>
 </div>
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
@@ -38,38 +39,36 @@
     <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
 	  <tr>
         <td>&nbsp;</td>
-        <td align="center" class="table_header">Tytul</td>
-        <td align="center" class="table_header">Imie</td>
-        <td align="center" class="table_header">Nazwisko</td>
-        <td align="center" class="table_header">Budynek</td>
-		<td align="center" class="table_header">Pokój</td>
-        <td align="center" class="table_header">Telefon</td>
-        <td align="center" class="table_header">Konsultacji</td>
+        <td align="center" class="table_header">Nazwisko/WWW</td>
+        <td align="center" class="table_header">Imię</td>
+        <td align="center" class="table_header">Tytuł</td>
+        <td align="center" class="table_header">Lokalizacja</td>
+		<td align="center" class="table_header">Telefon</td>
+        <td align="center" class="table_header">Konsultacje</td>
         <td align="center" class="table_header">Uwagi</td>
         <td>&nbsp;</td>
       </tr>
 
-{% if tutors_list and localizations_list and consultations_list  %}
-    <ul>
-	{% for consultation in consultations_list %}
-		<tr>
-        <td>&nbsp;</td>
-		<td class="line_table_1">{{ consultation.tutor_ID.degree }}</td>
-		<td class="line_table_1">{{ consultation.tutor_ID.name }}</td>
-		<td class="line_table_1">{{ consultation.tutor_ID.surname }}</td>
-		
-		<td class="line_table_1">{{ consultation.localization_ID.building }}</td>
-		<td class="line_table_1">{{ consultation.localization_ID.room }}</td>
-		<td class="line_table_1">{{ consultation.tutor_ID.phone }}</td>
-		
-		<td class="line_table_1">{{ consultation.day }} {{ consultation.start_hour.hour }}:{{ consultation.start_hour.minute }}-{{ consultation.end_hour.hour }}:{{ consultation.end_hour.minute }} </td>
-        <td class="line_table_1"><a href="/tutor/{{ tutor.id }}/">{{ tutor.name }}</a></td>
-		</tr>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No consultations are available.</p>
-{% endif %}
+<!--- Konsultacje --->
+	{% if consultations_data %}
+		<ul>
+		{% for con in consultations_data %}
+			<tr>
+			<td>&nbsp;</td>
+			<td class="line_table_1"> <a href={{ con.www }}>{{ con.surname }}</a></td>
+			<td class="line_table_1"> {{ con.name }}</td>
+			<td class="line_table_1"> {{ con.title }}</td>
+			<td class="line_table_1"> {{ con.localization }}</td>
+			<td class="line_table_1"> {{ con.phone }}</td>
+			<td class="line_table_1"> {{ con.consultations }}</td>
+			<td class="line_table_1"> {{ con.info }}</td>
+			<td>&nbsp;</td>
+			</tr>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>Brak dostępnych konsultacji</p>
+	{% endif %}
         
   </table>
 
@@ -77,18 +76,7 @@
   </tr>
 </table>
 
-
-
-
 <p>&nbsp;</p>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
