@@ -43,16 +43,31 @@ def tutor_detail(request, tutor_id):
 	
 def consultations_detail(request, tutor_id):
 	if request.user.is_authenticated():
+	
 		tutor_connsultations = Consultation.objects.filter(tutor_ID = tutor_id)
-		tutor = Tutor.objects.get(tutor_ID = tutor_id)
-		localization = Localization.objects.get(tutor_id = tutor_id)
+		#print tutor_connsultations[0].day
+		#tutaj powinnismy pobraæ id z tutora bo tutor_id wskazuje na usera a nie id tutora - a konsultacje bior¹ maj¹ w fk id tutora a niejgo tutor_id
+		tutor = Tutor.objects.get(id = tutor_id)#zmieni³em z tutor_ID na id
+		try:
+			localization = Localization.objects.get(tutor_id = tutor_id)
+		except:
+			localization = ' '
 		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':tutor_connsultations, 'localization':localization})
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 	
 def edit_consultation(request, tutor_id, consultation_id):
+	try:
+		consultation = Consultation.objects.get(id = consultation_id)
+	except:
+		return HttpResponse("Nie istnieje taka konsultacja")
+		
+	start_hour = consultation.start_hour
+	end_hour = consultation.end_hour
+	day = consultation.day
 	if request.user.is_authenticated():
-		if (tutor_id == consultation.tutor_id.id):
+		
+		if (Tutor.objects.get(id = tutor_id) == consultation.tutor_ID):
 			if (request.POST.has_key('start_hour')):
 				start_hour = request.POST.get('start_hour')
 				consultation.start_hour = start_hour
@@ -68,9 +83,9 @@ def edit_consultation(request, tutor_id, consultation_id):
 			#loc_building = request.POST.get('building')
 			#localization = Localization.objects.get(room = loc_room, building = loc_building)
 			consultation.save()
-			render_to_response("edit_consultation.html", {'start_hour' : start_hour, 'end_hour' : end_hour, 'day' : day}, context_instance = RequestContext(request))
+			return render_to_response("edit_consultation.html", {'start_hour' : start_hour, 'end_hour' : end_hour, 'day' : day}, context_instance = RequestContext(request))
 		else:
-			return HttpResponse("Ta konsultacja nie przynale¿y do tego tutora")
+			return HttpResponse("Ta konsultacja nie przynalezy do tego tutora " )
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 
