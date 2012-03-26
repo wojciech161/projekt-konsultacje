@@ -86,7 +86,7 @@ def consultations_detail(request, tutor_id):
 			localization = Localization.objects.get(tutor_id = tutor_id_from_table)
 		except:
 			localization = None
-		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations, 'localization':localization})
+		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations, 'localization':localization}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 	

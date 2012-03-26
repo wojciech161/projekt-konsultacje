@@ -35,7 +35,7 @@
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
 	<p></p>
-	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations/edit/1/">
+	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations_detail/">{% csrf_token %}
 		<table align="center" border="0"  cellpadding="0" cellspacing="0" class="call_border">
 			<tr class="line_table_2">
 				<td class="table_header" align="center"></td>

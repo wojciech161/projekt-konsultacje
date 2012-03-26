@@ -35,9 +35,9 @@
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
 	<p></p>
-	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations_detail/">
-		<p>Dzien: <input name="day" type="text" class="okienko" value="{{ day }}" /></p>
-		<p>Tydzien: <input name="week_type" type="text" /></p>
+	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations_detail/">{% csrf_token %}
+		<p>Dzień: <input name="day" type="text" class="okienko" value="{{ day }}" /></p>
+		<p>Tydzień: <input name="week_type" type="text" /></p>
 		<p>Godzina rozpoczęcia: <input name="start_hour" type="text" /></p>
 		<p>Godzina zakończenia: <input name="end_hour" type="text" /></p>
 		<p>Budynek: <input name="building" type="text" /></p>
