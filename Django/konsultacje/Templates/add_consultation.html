@@ -28,7 +28,7 @@
 <a href="/tutor/{{ tutor_id }}/">Strona Prowadzącego</a>
 <a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
 <a href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
-</div>	
+</div>
 <p></p>
 <div id="coolmenu">
 <a href="/logout/">Wyloguj</a></div>
@@ -36,15 +36,65 @@
     <td style="background-color:#FFF" valign="top">
 	<p></p>
 	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations/add/">{% csrf_token %}
-		<p>Dzień: <input name="day" type="text" class="okienko" value="{{ day }}" /></p>
-		<p>Tydzień: <input name="week_type" type="text" class="okienko" value="{{ week_type }}" /></p>
-		<p>Godzina rozpoczęcia: <input name="start_hour" type="text" class="okienko" value="{{ start_hour }}" /></p>
-		<p>Godzina zakończenia: <input name="end_hour" type="text" class="okienko" value="{{ end_hour }}" /></p>
-		<p>Limit studentów: <input name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></p>
-		<input type="submit" name="zmien" value="Zmień dane" />
+		<p> Dzień: 
+		<select name="day">
+			<option value="Poniedziaek">Poniedziaek</option>
+			<option value="Wtorek">Wtorek</option>
+			<option value="Sroda">Środa</option>
+			<option value="Czwartek">Czwartek</option>
+			<option value="Piatek">Piątek</option>
+			<option value="Sobota">Sobota</option>
+		</select></p>
+		
+		<p> Tydzień:
+		<select name="week_type">
+			<option value="P">P</option>
+			<option value="N">N</option>
+			<option value="A">A</option>
+		</select></p>
+		
+		<p> Godzina rozpoczęcia: 
+		<select name="start_hour">
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+		</select></p>
+		
+		<p> Godzina zakończenia: 
+		<select name="end_hour">
+			<option value="07">07</option>
+			<option value="08">08</option>
+			<option value="09">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+		</select></p>
+	
+		<p>Limit studentów: <input size="3" maxlength="2" name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></p>
+		<input class="button" type="submit" name="zmien" value="Dodaj dane" />
 	</form>
-		
-		
+	{% if week_type != '' %}
+	Konsultacje zostały dodane
+	{% endif %}
+
+
     </td>
   </tr>
 </table>

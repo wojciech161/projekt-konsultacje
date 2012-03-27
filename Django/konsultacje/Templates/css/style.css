@@ -148,7 +148,101 @@ input.button2
    border-width:1px;
 }
 
+#buttons_hr{
+border: 1px solid black; /*Стиль рамки */
+border-bottom-width: 0;
+color: #993300;
+width: 50px; /*Ширина меню */
+background-color: #F8D7B8;  /*Фоновый цвет ячейки*/
+margin:8px; /*Ширина отступов*/
+font-weight: bold;
+background-color:#F8D7B8;
+border-top-color:#993300;
+border-right-color:#993300;
+border-bottom-color:#993300;
+border-left-color:#993300;
+border-style:solid;
+border-width:1px;
+white-space:nowrap;
+}
 
+#buttons_hr a:hover{
+background-color: #e8a646; /*Фоновый цвет ячейки при наведение курсора*/
+color: #993300;  /*Цвет текста при наведении курсора*/
+}
+
+html>body #buttons_hr a{ 
+width: auto;
+}
+
+#buttons_hr a{
+font: bold 13px Verdana; /*Шрифт текста*/
+font-size: 12px;
+background-color: #F8D7B8;
+padding: 2px; /*Внутренний отсутп текста ссылки от краев ячейки*/
+padding-left: 2px;/*Внутренний отсутп текста ссылки от левого края ячейки*/
+display: block;
+width: 10px; /*Ширина ячейки*/
+size:auto
+color: #993300;  /*Цвет текста*/
+text-decoration: none; /*Подчеркивание у ссылок - нет*/
+border-bottom: 1px solid gray;
+}
+
+
+.button {
+    border-top-color:#993300;
+    border-right-color:#993300;
+    border-bottom-color:#993300;
+    border-left-color:#993300;
+    border-style:solid;
+    border-width:1px;
+    white-space:nowrap;			
+	cursor:pointer;
+width: 50px;
+font-weight: bold;
+background-color:#F8D7B8;
+color: #993300;
+}
+
+.button+hover {
+    border-top-color:#993300;
+    border-right-color:#993300;
+    border-bottom-color:#993300;
+    border-left-color:#993300;
+    cursor:pointer;
+width: 50px;
+font-weight: bold;
+background-color:#F8D7B8;
+color: #993300;
+}
+
+.button3 {
+    border-top-color:#993300;
+    border-right-color:#993300;
+    border-bottom-color:#993300;
+    border-left-color:#993300;
+    border-style:solid;
+    border-width:1px;
+    white-space:nowrap;			
+	cursor:pointer;
+width: 100px;
+font-weight: bold;
+background-color:#F8D7B8;
+color: #993300;
+}
+
+.button3+hover {
+    border-top-color:#993300;
+    border-right-color:#993300;
+    border-bottom-color:#993300;
+    border-left-color:#993300;
+    cursor:pointer;
+width: 100px;
+font-weight: bold;
+background-color:#F8D7B8;
+color: #993300;
+}
 
 
 

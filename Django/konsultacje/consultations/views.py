@@ -13,13 +13,27 @@ from consultations import consultationdata
 
 def consultation_index(request):
 	#Pobieramy wszystkich wykladowcow
-	tutors_list = Tutor.objects.all()
+	try:
+		tutors_list = Tutor.objects.all()
+	except:
+		tutor_list = None
+		
 	consultations_data = []
 	for tutor in tutors_list:
 		t_id = tutor.id
-		tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
-		tutor_localizations = Localization.objects.get(tutor_id = t_id)
-		tutor_info = InfoBoard.objects.get(tutor_id = t_id)
+		try:
+			tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
+		except:
+			tutor_consultations = None
+		try:
+			tutor_localizations = Localization.objects.get(tutor_id = t_id)
+		except:
+			tutor_localizations = None
+		try:
+			tutor_info = InfoBoard.objects.get(tutor_id = t_id)
+		except:
+			tutor_info = InfoBoard()
+			tutor_info.message = ""
 		consult = consultationdata.ConsultationsData()
 		consult.name = tutor.name
 		consult.surname = tutor.surname
@@ -53,6 +67,7 @@ def tutor_index(request, tutor_id):
 	
 def tutor_detail(request, tutor_id):
 	if request.user.is_authenticated():
+		status = ""
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		tutor_id_from_table = tutor.id
 		try:
@@ -84,9 +99,10 @@ def tutor_detail(request, tutor_id):
 				localization.room = room
 				localization.building = building
 				localization.save()
+				status = "Dane zostały zmienione"
 			except:
-				pass
-		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor}, context_instance = RequestContext(request))
+				status = "Błąd: Nie mogę zmienić danych"
+		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
@@ -172,7 +188,7 @@ def delete_consultation(request, tutor_id, consultation_id):
 			localization = None
 		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations, 'localization':localization}, context_instance = RequestContext(request))	
 	except:
-		return HttpResponse("Nie istnieje taka konsultacja " )
+		return HttpResponse ("Blad")
 	
 def add_consultation(request, tutor_id):
 	if request.user.is_authenticated():
@@ -185,23 +201,24 @@ def add_consultation(request, tutor_id):
 		if request.POST:
 			
 			new_start_hour = request.POST.get('start_hour')
+			print new_start_hour
 
 			new_end_hour = request.POST.get('end_hour')
-
+			print new_end_hour
 			new_day = request.POST.get('day')
-			
+			print new_day
 			new_week_type = request.POST.get('week_type')
-			
+			print new_week_type
 			new_students_limit = request.POST.get('students_limit')
 			new_localization = Localization.objects.get(tutor_id = tutor_id)
 			tutor = Tutor.objects.get(id = tutor_id)
-			print "fdafas"
+			print "1"
 			if (new_start_hour != "" and new_end_hour != "" and new_day != "" and new_week_type != "" and new_localization != ""):
-				print "fdafas"
+				print "2"
 				try:
 					consultation = Consultation(tutor_ID = tutor, start_hour = new_start_hour, end_hour = new_end_hour, 
 					day = new_day, week_type = new_week_type, localization_ID = new_localization)
-					print "fdafas"
+					print "3"
 				except:
 					return HttpResponse("Nie mozna dodac konsultacji")
 				if(new_students_limit != None):
@@ -209,10 +226,12 @@ def add_consultation(request, tutor_id):
 						consultation.students_limit = new_students_limit
 					except:
 						pass
-				try:
-					consultation.save()
-				except:
-					pass
+				#try:
+				print "Dodano"
+				consultation.save()
+				#except:
+				print "expcept"
+				
 				
 			else:
 				return HttpResponse("Nie mozna dodaccc konsultacji")

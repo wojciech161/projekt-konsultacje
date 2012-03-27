@@ -43,8 +43,6 @@ class Tutor(models.Model):
 	phone = models.CharField('Telefon', max_length = 20, null=True)
 	email = models.CharField('E-mail', max_length = 50)
 	www = models.CharField('WWW', max_length = 60, null=True)
-	#localization_ID = models.ForeignKey(Localization, null=True)
-	#infoboard_ID = models.ForeignKey(InfoBoard, null=True)	
 	def __unicode__(self):
 		return self.surname + ' ' + self.name
 	www = models.CharField('WWW', max_length = 60, null=True)

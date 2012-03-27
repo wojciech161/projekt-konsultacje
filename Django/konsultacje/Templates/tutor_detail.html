@@ -34,17 +34,36 @@
 <a href="/logout/">Wyloguj</a></div>
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
-<form action="/tutor/{{ tutor_id }}/edit/" name="formedit" method="POST">
-{% csrf_token %}
-    <p> <a>Tytuł naukowy: </a> <input name="tytul" type="text" class="okienko" value="{{ tutor.degree }}" /></p>
-    <p> <a>Imię: </a> <input name="imie" type="text" class="okienko" value="{{ tutor.name }}" /></p>
-    <p> <a>Nazwisko: </a> <input name="nazwisko" type="text" class="okienko" value="{{ tutor.surname }}" /></p>
-    <p> <a>Budynek: </a> <input name="budynek" type="text" class="okienko" value="{{ localization.building }}" /></p>
-    <p> <a>Pokój: </a> <input name="pokoj" type="text" class="okienko" value="{{ localization.room }}" /></p>
-    <p> <a>Telefon: </a> <input name="telefon" type="text" class="okienko" value="{{ tutor.phone }}" /></p>
-    <p> <a>E-mail: </a> <input name="email" type="text" class="okienko" value="{{ tutor.email }}" /></p>
-    <p> <a>Adres strony WWW: </a> <input name="www" type="text" class="okienko" value="{{ tutor.www }}" /></p>
-    <input type="submit" name="zmien" value="Zmień dane" />
+ {% csrf_token %}
+<form action="/tutor/{{ tutor_id }}/edit/" name="formedit" method="POST">{% csrf_token %}
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="143" style="padding-left:5px; font-weight: bold;">
+    <p><a>Tytuł naukowy: </a></p>
+    <p><a>Imię: </a></p>
+    <p><a>Nazwisko: </a></p>
+    <p><a>Budynek: </a></p>
+    <p><a>Pokój: </a></p>
+    <p><a>Telefon: </a></p>
+    <p><a>E-mail: </a></p>
+    <p><a>Adres strony WWW:</a></p>
+    </td>
+    <td width="183" style="style="padding-left:5px;">
+    <p><input name="tytul" type="text" class="okienko" value="{{ tutor.degree }}" /></p>
+    <p><input name="imie" type="text" class="okienko" value="{{ tutor.name }}" /></p>
+    <p><input name="nazwisko" type="text" class="okienko" value="{{ tutor.surname }}"/></p>
+    <p><input name="budynek" type="text" class="okienko" value="{{ localization.building }}" /></p>
+    <p><input name="pokoj" type="text" class="okienko" value="{{ localization.room }}" /></p>
+    <p><input name="telefon" type="text" class="okienko" value="{{ tutor.phone }}" /></p>
+    <p><input name="email" type="text" class="okienko" value="{{ tutor.email }}" /></p>
+    <p><input name="www" type="text" class="okienko" value="{{ tutor.www }}" /></p>
+    </td>
+  </tr>
+</table>
+  <input style="wigth: 100px;" class="button3" type="submit" name="zmien" value="Zmień dane" />
+	{% if status != '' %}
+		<p>{{ status }}</p>
+	{% endif %}
 </form>
     </td>
   </tr>
