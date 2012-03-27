@@ -38,30 +38,38 @@
 	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations_detail/">{% csrf_token %}
 		<table align="center" border="0"  cellpadding="0" cellspacing="0" class="call_border">
 			<tr class="line_table_2">
-				<td class="table_header" align="center"></td>
+				
 				<td class="table_header" align="center">Dzień</td>				
 				<td class="table_header" align="center">Tydzień</td>	
 				<td class="table_header" align="center">Godziny konsultacji</td>	
 				<td class="table_header" align="center">Budynek</td>	
 				<td class="table_header" align="center">Sala</td>	
-				<td class="table_header" align="center">Limit Studentów</td>	
+				<td class="table_header" align="center">Limit Studentów</td>
+				<td class="table_header" align="center">Edycja</td>				
 			</tr>
 		{% for konsultation in tutor_connsultations %}
 			<tr class="line_table_2">
-				<td class="line_table_2" align="center"><input type="radio"  name="konsultation" /></td>
+				
 				<td class="line_table_2" align="center">{{ konsultation.day }}</td>
 				<td class="line_table_2" align="center">{{ konsultation.week_type }}</td>
-				<td class="line_table_2" align="center">{{ konsultation.start_hour.hour }}:{{ konsultation.start_hour.minute }} - {{ konsultation.end_hour.hour }}:{{ konsultation.end_hour.minute }}</td>
+				<td class="line_table_2" align="center">{{ konsultation.start_hour }} - {{ konsultation.end_hour }} </td>
 				<td class="line_table_2" align="center">{{ localization.building }}</td>
 				<td class="line_table_2" align="center">{{ localization.room }}</td>
 				<td class="line_table_2" align="center">{{ konsultation.students_limit }}</td>
+				<td class="line_table_2" align="center">
+					<table border="0" cellspacing="2" cellpadding="12">
+						<tr>
+							<td> <a href="/tutor/{{ tutor_id }}/consultations/edit/{{ konsultation.id }}" >zmien </a></td>
+							<td> <a href="/tutor/{{ tutor_id }}/consultations/delete/{{ konsultation.id }}" >usun </a> </td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		{% endfor %}
 		</table>
 		<p align="center">
-		<input type="submit" name="dodaj"  value="Dodaj termin" />
-		<input type="submit" name="zmien"  value="Zmień wybrane" />
-		<input type="submit" name="wykasuj"  value="Wykasuj wybrane" />
+		<a href="/tutor/{{ tutor_id }}/consultations/add/" >dodaj </a>
+		
 		</p>
 		</form>
 		

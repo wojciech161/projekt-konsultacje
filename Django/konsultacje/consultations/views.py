@@ -29,7 +29,7 @@ def consultation_index(request):
 		consult.phone = tutor.phone
 		consult.consultations = ""
 		for con in tutor_consultations:
-			strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour.hour, con.end_hour.hour)
+			strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour, con.end_hour)
 			consult.consultations += strcon
 		consult.info = tutor_info.message
 		consultations_data.append(consult)
@@ -62,28 +62,30 @@ def tutor_detail(request, tutor_id):
 			
 		if request.POST:
 			#zbiermay dane
-			title = request.POST.get('tytul')
-			name = request.POST.get('imie')
-			surname = request.POST.get('nazwisko')
-			building = request.POST.get('budynek')
-			room = request.POST.get('pokoj')
-			phone = request.POST.get('telefon')
-			mail = request.POST.get('email')
-			www = request.POST.get('www')
-			
-			#zapisujemy zmiany w bazie
-			tutor.degree = title
-			tutor.name = name
-			tutor.surname = surname
-			tutor.phone = phone
-			tutor.email = mail
-			tutor.www = www
-			tutor.save()
-			
-			localization.room = room
-			localization.building = building
-			localization.save()
-			
+			try:
+				title = request.POST.get('tytul')
+				name = request.POST.get('imie')
+				surname = request.POST.get('nazwisko')
+				building = request.POST.get('budynek')
+				room = request.POST.get('pokoj')
+				phone = request.POST.get('telefon')
+				mail = request.POST.get('email')
+				www = request.POST.get('www')
+				
+				#zapisujemy zmiany w bazie
+				tutor.degree = title
+				tutor.name = name
+				tutor.surname = surname
+				tutor.phone = phone
+				tutor.email = mail
+				tutor.www = www
+				tutor.save()
+				
+				localization.room = room
+				localization.building = building
+				localization.save()
+			except:
+				pass
 		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -107,24 +109,7 @@ def consultations_detail(request, tutor_id):
 		except:
 			localization = None
 			
-		if request.POST:
-			button_add_pushed = request.POST.get('dodaj')
-			button_edit_pushed = request.POST.get('zmien')
-			button_delete_pushed = request.POST.get('wykasuj')
-			if button_add_pushed is not None:
-				print "Dodawanie konsultacji"
-				#tutaj dorobic trzeba dodawanie konsultacji
-				#w URL jest tylko edycja wiec trzeba dodac URL(template ten sam co edit)
-				#i w funkcji obsluzyc dodanie konsultacji. jak chcesz to ja moge zrobic
-			if button_edit_pushed is not None:
-				print "Edycja konsultacji"
-				#Tutaj edycja konsultacji
-				#Trzeba pomyslec jak to zrobic zeby z radiobuttona otworzyc wlasciwa
-				#ale mysle ze to ta sama kwestia co z przyciskiem
-			if button_delete_pushed is not None:
-				print "Usuwanie konsultacji"
-				#Tutaj usuwanie konsultacji
-				#Tu dorobić URL + funkcje i tak samo z radiobuttonem pomyśleć trza
+		
 		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations, 'localization':localization}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
@@ -139,29 +124,104 @@ def edit_consultation(request, tutor_id, consultation_id):
 				start_hour = consultation.start_hour
 				end_hour = consultation.end_hour
 				day = consultation.day
-		
+				week_type = consultation.week_type
+				students_limit = consultation.students_limit
 				if (Tutor.objects.get(id = tutor_id) == consultation.tutor_ID):
-					if (request.POST.has_key('start_hour')):
+					if request.POST:
 						start_hour = request.POST.get('start_hour')
 						consultation.start_hour = start_hour
-					if (request.POST.has_key('end_hour')):
+	
 						end_hour = request.POST.get('end_hour')
 						consultation.end_hour = end_hour
-					if (request.POST.has_key('day')):
+			
 						day = request.POST.get('day')
 						consultation.day = day
-					#week_type = reques.POST.get('week_type')
-					#students_limit = reques.POST.get('students_limit')
-					#loc_room = request.POST.get('room')
-					#loc_building = request.POST.get('building')
-					#localization = Localization.objects.get(room = loc_room, building = loc_building)
-					consultation.save()
-					return render_to_response("edit_consultation.html", {'start_hour' : start_hour, 'end_hour' : end_hour, 'day' : day}, context_instance = RequestContext(request))
+						
+						week_type = request.POST.get('week_type')
+						consultation.week_type = request.POST.get('week_type')
+						
+						students_limit = request.POST.get('students_limit')
+						consultation.students_limit = request.POST.get('students_limit')
+						
+						consultation.save()
+					return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour, 'end_hour' : end_hour, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit}, context_instance = RequestContext(request))
 				else:
 					return HttpResponse("Ta konsultacja nie przynalezy do tego tutora " )
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 
+def delete_consultation(request, tutor_id, consultation_id):
+	try:
+		consultation = Consultation.objects.get(id = consultation_id)
+		consultation.delete()
+		consultations_detail(request, tutor_id)
+		try:
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		except:
+			return HttpResponse("Blad krytyczny")
+		tutor_id_from_table = tutor.id
+		#pobieramy konsultacje tutora
+		try:
+			consultations = Consultation.objects.filter(tutor_ID = tutor_id_from_table)
+		except:
+			consultations = None
+		#pobieramy lokalizacje
+		try:
+			localization = Localization.objects.get(tutor_id = tutor_id_from_table)
+		except:
+			localization = None
+		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations, 'localization':localization}, context_instance = RequestContext(request))	
+	except:
+		return HttpResponse("Nie istnieje taka konsultacja " )
+	
+def add_consultation(request, tutor_id):
+	if request.user.is_authenticated():
+		new_start_hour = ""
+		new_end_hour = ""
+		new_day = ""
+		new_week_type = ""
+		new_students_limit = ""
+		
+		if request.POST:
+			
+			new_start_hour = request.POST.get('start_hour')
+
+			new_end_hour = request.POST.get('end_hour')
+
+			new_day = request.POST.get('day')
+			
+			new_week_type = request.POST.get('week_type')
+			
+			new_students_limit = request.POST.get('students_limit')
+			new_localization = Localization.objects.get(tutor_id = tutor_id)
+			tutor = Tutor.objects.get(id = tutor_id)
+			print "fdafas"
+			if (new_start_hour != "" and new_end_hour != "" and new_day != "" and new_week_type != "" and new_localization != ""):
+				print "fdafas"
+				try:
+					consultation = Consultation(tutor_ID = tutor, start_hour = new_start_hour, end_hour = new_end_hour, 
+					day = new_day, week_type = new_week_type, localization_ID = new_localization)
+					print "fdafas"
+				except:
+					return HttpResponse("Nie mozna dodac konsultacji")
+				if(new_students_limit != None):
+					try:
+						consultation.students_limit = new_students_limit
+					except:
+						pass
+				try:
+					consultation.save()
+				except:
+					pass
+				
+			else:
+				return HttpResponse("Nie mozna dodaccc konsultacji")
+			
+		return render_to_response("add_consultation.html", { 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'end_hour' : new_end_hour, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit}, context_instance = RequestContext(request))
+	else:
+		return render_to_response(reverse('consultations.views.authorization'))
+		
+		
 def authorization(request):	
 	state = "Proszę się zalogować"
 	username = password = ''

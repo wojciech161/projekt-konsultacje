@@ -35,15 +35,13 @@
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
 	<p></p>
-	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations_detail/">{% csrf_token %}
+	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations/edit/{{ consultation_id }}/">{% csrf_token %}
 		<p>Dzień: <input name="day" type="text" class="okienko" value="{{ day }}" /></p>
-		<p>Tydzień: <input name="week_type" type="text" /></p>
-		<p>Godzina rozpoczęcia: <input name="start_hour" type="text" /></p>
-		<p>Godzina zakończenia: <input name="end_hour" type="text" /></p>
-		<p>Budynek: <input name="building" type="text" /></p>
-		<p>Pokój: <input name="room" type="text" /></p>
-		<p>Limit studentów: <input name="students_limit" type="text" /></p>
-		<input name="zmien" type="submit" value="zmien" /></p>
+		<p>Tydzień: <input name="week_type" type="text" class="okienko" value="{{ week_type }}" /></p>
+		<p>Godzina rozpoczęcia: <input name="start_hour" type="text" class="okienko" value="{{ start_hour }}" /></p>
+		<p>Godzina zakończenia: <input name="end_hour" type="text" class="okienko" value="{{ end_hour }}" /></p>
+		<p>Limit studentów: <input name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></p>
+		<input type="submit" name="zmien" value="Zmień dane" />
 	</form>
 		
 		

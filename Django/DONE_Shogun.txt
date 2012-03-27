@@ -1,0 +1,7 @@
+zmiana w modelsach start_hour i end_hour na integera
+zmiana __unicode__ modelsach w consultation - rezultat poprzedniej zmiany
+zmiana we wszystkich fukcjach w views zeby nie by³o start_hour.hour tylko hour oraz to samo w plikach html 
+
+dodanie linków zmien i usun w tabelkach w consultations.detail
+dodanie urli do usuwania i dodawania konsultacji
+dodanie funkcji w views jak wy¿ej

@@ -67,15 +67,15 @@ class Localization(models.Model):
 
 class Consultation(models.Model):
 	tutor_ID = models.ForeignKey(Tutor)
-	start_hour = models.DateTimeField('Godzina rozpoczecia')
-	end_hour = models.DateTimeField('Godzina zakonczenia')
+	start_hour = models.IntegerField('Godzina rozpoczecia')
+	end_hour = models.IntegerField('Godzina zakonczenia')
 	day = models.CharField('Dzien', max_length = 15)
 	week_type = models.CharField('Typ tygodnia', max_length = 1)
 	students_limit = models.IntegerField('Limit', null=True)
 	localization_ID = models.ForeignKey(Localization)
 	def __unicode__(self):
 		tut = self.tutor_ID
-		tekst = ' '.join([ "%s %s %s %s %s" % (tut.surname, tut.name, self.start_hour.hour, self.end_hour.hour, self.day) ])
+		tekst = ' '.join([ "%s %s %s %s %s" % (tut.surname, tut.name, self.start_hour, self.end_hour, self.day) ])
 		return tekst
 
 class ConsultationAssignment(models.Model):

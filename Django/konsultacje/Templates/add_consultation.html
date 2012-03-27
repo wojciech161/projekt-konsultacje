@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Dane Osobowe</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.left #coolmenu a {
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body class="site_background">
+<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
+  </tr>
+</table>
+<p class="site_background">&nbsp;</p>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
+      <p></p>
+      <p align="center" class="title">Menu</p>
+<div id="coolmenu">
+<a href="/tutor/{{ tutor_id }}/">Strona Prowadzącego</a>
+<a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
+<a href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
+</div>	
+<p></p>
+<div id="coolmenu">
+<a href="/logout/">Wyloguj</a></div>
+<p>&nbsp;</p></td>
+    <td style="background-color:#FFF" valign="top">
+	<p></p>
+	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations/add/">{% csrf_token %}
+		<p>Dzień: <input name="day" type="text" class="okienko" value="{{ day }}" /></p>
+		<p>Tydzień: <input name="week_type" type="text" class="okienko" value="{{ week_type }}" /></p>
+		<p>Godzina rozpoczęcia: <input name="start_hour" type="text" class="okienko" value="{{ start_hour }}" /></p>
+		<p>Godzina zakończenia: <input name="end_hour" type="text" class="okienko" value="{{ end_hour }}" /></p>
+		<p>Limit studentów: <input name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></p>
+		<input type="submit" name="zmien" value="Zmień dane" />
+	</form>
+		
+		
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>
