@@ -36,28 +36,15 @@
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
  {% csrf_token %}
-<form action="/tutor/{{ tutor_id }}/edit/" name="formedit" method="POST">{% csrf_token %}
+<form action="/tutor/{{ tutor_id }}/infoboard/" name="formedit" method="POST">{% csrf_token %}
 <table border="0" cellspacing="0" cellpadding="0">
+	<p>W tym dziale można podać informację dla studentów dotyczącą konsultacji.</p>
   <tr>
     <td width="143" style="padding-left:5px; font-weight: bold;">
-    <p><a>Tytuł naukowy: </a></p>
-    <p><a>Imię: </a></p>
-    <p><a>Nazwisko: </a></p>
-    <p><a>Budynek: </a></p>
-    <p><a>Pokój: </a></p>
-    <p><a>Telefon: </a></p>
-    <p><a>E-mail: </a></p>
-    <p><a>Adres strony WWW:</a></p>
+    <p><a>Informacja: </a></p>
     </td>
-    <td width="183" style="style="padding-left:5px;">
-    <p><input name="tytul" type="text" class="okienko" value="{{ tutor.degree }}" /></p>
-    <p><input name="imie" type="text" class="okienko" value="{{ tutor.name }}" /></p>
-    <p><input name="nazwisko" type="text" class="okienko" value="{{ tutor.surname }}"/></p>
-    <p><input name="budynek" type="text" class="okienko" value="{{ localization.building }}" /></p>
-    <p><input name="pokoj" type="text" class="okienko" value="{{ localization.room }}" /></p>
-    <p><input name="telefon" type="text" class="okienko" value="{{ tutor.phone }}" /></p>
-    <p><input name="email" type="text" class="okienko" value="{{ tutor.email }}" /></p>
-    <p><input name="www" type="text" class="okienko" value="{{ tutor.www }}" /></p>
+    <td width="183" style="style="padding-left:5px">
+    <p><input name="Informacja" type="text" class="okienko" value="{{ infoboard.message }}" /></p>
     </td>
   </tr>
 </table>

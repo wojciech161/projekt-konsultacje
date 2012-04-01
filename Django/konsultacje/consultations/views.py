@@ -274,3 +274,28 @@ def authorization(request):
 def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect(reverse('consultations.views.consultation_index'))
+	
+def edit_infoboard(request, tutor_id):
+	if request.user.is_authenticated():
+		status = ""
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_id_from_table = tutor.id
+		try:
+			infoboard = InfoBoard.objects.get(tutor_id = tutor_id_from_table)
+		except:
+			infoboard = None
+			
+		if request.POST:
+			#zbieramy dane
+			try:
+				info = request.POST.get('Informacja')
+				print info
+				#zapisujemy zmiany w bazie
+				infoboard.message = info
+				infoboard.save()
+				status = "Dane zostały zmienione"
+			except:
+				status = "Błąd: Nie mogę zmienić danych"
+		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard}, context_instance = RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
