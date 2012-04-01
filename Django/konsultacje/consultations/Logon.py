@@ -6,15 +6,20 @@ def authorize(login, password):
 	
 	print "authorize"
 	server = "ldap://z-student.pwr.wroc.pl:389"
-	auth = "uid=%s, ou=People, o=student.pwr.wroc.pl,o=pracownicy"%login
+	auth = "uid=%s, ou=People, o=pwr.wroc.pl,o=pracownicy"%login
 	ld = ldap.initialize(server)
 		
 	try:
 		result = ld.simple_bind_s(auth, password)
 		return result
 	except:
-		print "Logowanie nie powiodlo sie."
-		return -1
+		auth = "uid=%s, ou=People, o=student.pwr.wroc.pl,o=studenci"%login
+		try:
+			result = ld.simple_bind_s(auth, password)
+			return result
+		except:
+			print "Logowanie nie powiodlo sie."
+			return -1
 
 class LDAPBackend(object):
 	def authenticate(self, username=None, password=None):

@@ -240,7 +240,6 @@ def add_consultation(request, tutor_id):
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
-		
 def authorization(request):	
 	state = "Proszę się zalogować"
 	username = password = ''
