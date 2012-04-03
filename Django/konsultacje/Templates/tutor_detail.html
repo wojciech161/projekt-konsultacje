@@ -26,15 +26,14 @@
       <p align="center" class="title">Menu</p>
 <div id="coolmenu">
 <a href="/tutor/{{ tutor_id }}/">Strona Prowadzącego</a>
-<a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
+<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
 <a href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
-<a href="/tutor/{{ tutor_id }}/infoboard/">Zamieść Informację</a>
 </div>	
 <p></p>
 <div id="coolmenu">
 <a href="/logout/">Wyloguj</a></div>
 <p>&nbsp;</p></td>
-    <td style="background-color:#FFF" valign="top">
+    <td style="background-color:#f8f3ec" valign="top">
  {% csrf_token %}
 <form action="/tutor/{{ tutor_id }}/edit/" name="formedit" method="POST">{% csrf_token %}
 <table border="0" cellspacing="0" cellpadding="0">
@@ -49,7 +48,7 @@
     <p><a>E-mail: </a></p>
     <p><a>Adres strony WWW:</a></p>
     </td>
-    <td width="183" style="style="padding-left:5px;">
+    <td width="183" style="padding-left:5px;">
     <p><input name="tytul" type="text" class="okienko" value="{{ tutor.degree }}" /></p>
     <p><input name="imie" type="text" class="okienko" value="{{ tutor.name }}" /></p>
     <p><input name="nazwisko" type="text" class="okienko" value="{{ tutor.surname }}"/></p>
@@ -61,7 +60,7 @@
     </td>
   </tr>
 </table>
-  <input style="wigth: 100px;" class="button3" type="submit" name="zmien" value="Zmień dane" />
+  <a style="padding-left:5px;"><input style="wigth: 100px;" class="button3" type="submit" name="zmien" value="Zmień dane" /></a>
 	{% if status != '' %}
 		<p>{{ status }}</p>
 	{% endif %}

@@ -27,18 +27,18 @@
 <div id="coolmenu">
 <a href="/tutor/{{ tutor_id }}/">Strona Prowadzącego</a>
 <a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
-<a href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
+<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
 </div>
 <p></p>
 <div id="coolmenu">
 <a href="/logout/">Wyloguj</a></div>
 <p>&nbsp;</p></td>
-    <td style="background-color:#FFF" valign="top">
-	<p></p>
+    <td  style="background-color:#f8f3ec; padding-left:5px;" valign="top">
+	<p align="center">Dodawanie Konsultacji</p>
 	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations/add/">{% csrf_token %}
 		<p> Dzień: 
-		<select name="day">
-			<option value="Poniedziaek">Poniedziaek</option>
+		<select class="selectt" name="day">
+			<option value="Poniedzialek">Poniedziałek</option>
 			<option value="Wtorek">Wtorek</option>
 			<option value="Sroda">Środa</option>
 			<option value="Czwartek">Czwartek</option>
@@ -47,14 +47,14 @@
 		</select></p>
 		
 		<p> Tydzień:
-		<select name="week_type">
-			<option value="P">P</option>
-			<option value="N">N</option>
-			<option value="A">A</option>
+		<select class="selectt" name="week_type">
+			<option value="P">Parzysty</option>
+			<option value="N">Nieparzysty</option>
+			<option value="A">Co Tydzień</option>
 		</select></p>
 		
 		<p> Godzina rozpoczęcia: 
-		<select name="start_hour">
+		<select class="selectt" name="start_hour">
 			<option value="07">07</option>
 			<option value="08">08</option>
 			<option value="09">09</option>
@@ -71,7 +71,7 @@
 		</select></p>
 		
 		<p> Godzina zakończenia: 
-		<select name="end_hour">
+		<select class="selectt" name="end_hour">
 			<option value="07">07</option>
 			<option value="08">08</option>
 			<option value="09">09</option>
@@ -88,9 +88,9 @@
 		</select></p>
 	
 		<p>Limit studentów: <input size="3" maxlength="2" name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></p>
-		<input class="button" type="submit" name="zmien" value="Dodaj dane" />
+		<input class="button3" type="submit" name="zmien" value="Dodaj dane" />
 	</form>
-	{% if week_type != '' %}
+	{% if week_type != '' and day != '' and start_hour != '' and end_hour != '' and students_limit != '' %}
 	Konsultacje zostały dodane
 	{% endif %}
 

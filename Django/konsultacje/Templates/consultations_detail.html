@@ -28,14 +28,13 @@
 <div id="coolmenu">
 <a href="/tutor/{{ tutor_id }}/">Strona Prowadzącego</a>
 <a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
-<a href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
-<a href="/tutor/{{ tutor_id }}/infoboard/">Zamieść Informację</a>
+<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
 </div>	
 <p></p>
 <div id="coolmenu">
 <a href="/logout/">Wyloguj</a></div>
 <p>&nbsp;</p></td>
-    <td style="background-color:#FFF" valign="top">
+    <td style="background-color:#f8f3ec" valign="top">
 	<p></p>
 	<form name="add_consultations" method="POST" action="/tutor/{{ tutor_id }}/consultations_detail/">{% csrf_token %}
 		<table align="center" border="0"  cellpadding="0" cellspacing="0" class="call_border">
@@ -53,7 +52,7 @@
 			<tr class="line_table_2">
 				
 				<td class="line_table_2" align="center">{{ konsultation.day }}</td>
-				<td class="line_table_2" align="center">{{ konsultation.week_type }}</td>
+				<td class="line_table_2" align="center">{%  if konsultation.week_type == 'P' %}Parzysty{% endif %}{% if konsultation.week_type == 'N' %}Nieparzysty{% endif %}{% if konsultation.week_type == 'A' %}Co Tydzień{% endif %} </td>
 				<td class="line_table_2" align="center">{{ konsultation.start_hour }} - {{ konsultation.end_hour }} </td>
 				<td class="line_table_2" align="center">{{ localization.building }}</td>
 				<td class="line_table_2" align="center">{{ localization.room }}</td>
@@ -69,10 +68,12 @@
 			</tr>
 		{% endfor %}
 		</table>
-		<p align="center">
-		<div align="center" id="buttons_hr"> <a href="/tutor/{{ tutor_id }}/consultations/add/" >Dodaj </a></div>
-		
-		</p>
+<table style="padding-top:3px;" align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th><div align="center" id="buttons_hr"> <a href="/tutor/{{ tutor_id }}/consultations/add/" >Dodaj </a></div></th>
+  </tr>
+</table>
+
 		</form>
 		
     

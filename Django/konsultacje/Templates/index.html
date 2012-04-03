@@ -1,5 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -17,26 +16,29 @@
     <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
   </tr>
 </table>
-<p class="site_background">&nbsp;</p>
+<div style="height:10px;"></div>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+	<tr class="call_background_menu">
+    	<td width="230"><div id="coolmenu"><a href="http://www.pwr.wroc.pl">Politechnika Wrocławska</a></div></td>
+        <td width="113"><div id="coolmenu"><a href="https://edukacja.pwr.wroc.pl">Edukacja CL</a></div></td>
+        <td width="174"><div id="coolmenu"><a href="https://s.pwr.wroc.pl">Poczta Elektroniczna</a></div></td>
+        <td width="367"> </td>
+        <td width="116"><div id="coolmenu"><a href="/authorization/">Zaloguj</a></div></td>
+  
+    </tr>
+</table>
 <table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
-      <p align="center" class="title">Linki</p>
-<div id="coolmenu">
-<a href="http://www.pwr.wroc.pl">Politechnika Wrocławska</a>
-<a href="https://edukacja.pwr.wroc.pl">Edukacja CL</a>
-<a href="https://s.pwr.wroc.pl">Poczta Elektroniczna</a>
-</div>	
-<p></p>
-<p align="center" class="title">System Konsultacji</p>
-<div id="coolmenu">
-<a href="/authorization/">Zaloguj</a>
-<a href="/admin/">Administracja</a>
-</div>
-<p>&nbsp;</p></td>
-    <td style="background-color:#FFF" valign="top">
-    <p align="center"></p>
-    <table width="800" border="0" align="center" cellpadding="0" cellspacing="0">
+    <td style="background-color:#F8D7B8; border-top-color:#F8D7B8" valign="top">
+    <div  style=" width:auto;
+    			/*height:242px; */
+  				overflow: auto;
+				border: 1px solid #F8D7B8;
+                padding-left:5px;
+                padding-right:5px;
+                background-color:#F8D7B8;
+			">
+    <table style="width: 95%;" border="0" align="center" cellpadding="0" cellspacing="0">
 	  <tr>
         <td>&nbsp;</td>
         <td align="center" class="table_header">Nazwisko/WWW</td>
@@ -55,28 +57,31 @@
 		{% for con in consultations_data %}
 			<tr>
 			<td>&nbsp;</td>
-			<td class="line_table_1"> <a href={{ con.www }}>{{ con.surname }}</a></td>
-			<td class="line_table_1"> {{ con.name }}</td>
-			<td class="line_table_1"> {{ con.title }}</td>
-			<td class="line_table_1"> {{ con.localization }}</td>
-			<td class="line_table_1"> {{ con.phone }}</td>
-			<td class="line_table_1"> {{ con.consultations }}</td>
-			<td class="line_table_1"> {{ con.info }}</td>
+			<td class="line_table_1"> <a href="{{ con.www }}">{{ con.surname }}</a></td>
+			<td class="line_table_1"> &nbsp;{{ con.name }}</td>
+			<td class="line_table_1"> &nbsp;{{ con.title }}</td>
+			<td class="line_table_1"> &nbsp;{{ con.localization }}</td>
+			<td class="line_table_1"> &nbsp;{{ con.phone }}</td>
+			<td class="line_table_1"> &nbsp;{{ con.consultations }}</td>
+			<td class="line_table_1"> &nbsp;{{ con.info }}</td>
 			<td>&nbsp;</td>
 			</tr>
 		{% endfor %}
-		</ul>
+        </table>
+
 	{% else %}
 		<p>Brak dostępnych konsultacji</p>
 	{% endif %}
-        
-  </table>
-
+  </div>
+	
     <p>&nbsp;</p></td>
+    
   </tr>
 </table>
 
+
 <p>&nbsp;</p>
+
 </body>
 </html>
 

@@ -7,13 +7,15 @@ def authorize(login, password):
 	print "authorize"
 	server = "ldap://z-student.pwr.wroc.pl:389"
 	auth = "uid=%s, ou=People, o=pwr.wroc.pl,o=pracownicy"%login
+	print auth
 	ld = ldap.initialize(server)
 		
 	try:
 		result = ld.simple_bind_s(auth, password)
 		return result
 	except:
-		auth = "uid=%s, ou=People, o=student.pwr.wroc.pl,o=studenci"%login
+		auth = "uid=%s, ou=People, o=student.pwr.wroc.pl,o=pracownicy"%login
+		print auth
 		try:
 			result = ld.simple_bind_s(auth, password)
 			return result

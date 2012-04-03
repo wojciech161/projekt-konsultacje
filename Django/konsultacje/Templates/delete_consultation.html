@@ -27,13 +27,13 @@
 <div id="coolmenu">
 <a href="/tutor/{{ tutor_id }}/">Strona Prowadzącego</a>
 <a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
-<a href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
+<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
 </div>	
 <p></p>
 <div id="coolmenu">
 <a href="/logout/">Wyloguj</a></div>
 <p>&nbsp;</p></td>
-    <td style="background-color:#FFF" valign="top">
+    <td style="background-color:#f8f3ec" valign="top">
 <form action="/tutor/{{ tutor_id }}/edit/" name="formedit" method="POST">
 {% csrf_token %}
     <p> <a>Czy na pewno chcesz usunąć tą konsultację </a> </p>
