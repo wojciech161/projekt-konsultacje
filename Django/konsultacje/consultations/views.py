@@ -299,3 +299,64 @@ def edit_infoboard(request, tutor_id):
 		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_index(request, user_id):
+	if request.user.is_authenticated():
+		#Pobieramy wszystkich wykladowcow
+		try:
+			tutors_list = Tutor.objects.all()
+		except:
+			tutor_list = None
+			
+		consultations_data = []
+		for tutor in tutors_list:
+			t_id = tutor.id
+			try:
+				tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
+			except:
+				tutor_consultations = None
+			try:
+				tutor_localizations = Localization.objects.get(tutor_id = t_id)
+			except:
+				tutor_localizations = None
+			try:
+				tutor_info = InfoBoard.objects.get(tutor_id = t_id)
+			except:
+				tutor_info = InfoBoard()
+				tutor_info.message = ""
+			consult = consultationdata.ConsultationsData()
+			consult.name = tutor.name
+			consult.surname = tutor.surname
+			consult.www = "\"http://" + tutor.www + "\""
+			consult.title = tutor.degree
+			consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
+			consult.phone = tutor.phone
+			consult.consultations = ""
+			for con in tutor_consultations:
+				strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour, con.end_hour)
+				consult.consultations += strcon
+			consult.info = tutor_info.message
+			consultations_data.append(consult)
+			consult = None
+		t = loader.get_template('assistant_index.html')
+		c = Context({'user_id' : user_id, 'consultations_data' : consultations_data, })
+		return HttpResponse(t.render(c))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_consultations_delete_confirm(request, user_id):
+	if request.user.is_authenticated():
+		return render_to_response('assistant_consultations_delete_confirm.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_consultations_delete(request, user_id):
+	if request.user.is_authenticated():
+		
+		consult_list = Consultation.objects.all()
+		for c in consult_list:
+			c.delete()
+		
+		return render_to_response('assistant_index.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))

@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Lista prowadzących</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.left #coolmenu a {
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body class="site_background">
+<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
+  </tr>
+</table>
+<p class="site_background">&nbsp;</p>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
+      <p></p>
+      <p align="center" class="title">Menu</p>
+<div id="coolmenu">
+<form name="menu" action="" method="POST" />
+<input type="hidden" name="username" value="{{ username }}" />
+<a href="/assistant/{{ user_id }}/">Lista Prowadzących</a>
+<a href="/assistant/{{ user_id }}/consultations_delete_confirm/">Lista Konsultacji</a>
+</form>
+</div>	
+<p></p>
+<div id="coolmenu">
+<a href="/logout/">Wyloguj</a></div>
+</div>
+<p>&nbsp;</p></td>
+
+<td style="background-color:#FFF" valign="top">
+<p align="center">Lista prowadzących<p>
+<div style="padding-left:8px;">
+<table class="call_border" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" class="table_header">Imię </td>
+    <td align="center" class="table_header">Nazwisko</td>
+    <td align="center" class="table_header">Konsultacje</td>
+    <td align="center" class="table_header">Edycja</td>
+  </tr>
+  
+  <!---Lista prowadzących--->
+  {% if consultations_data %}
+  <ul>
+  	{% for con in consultations_data %}
+		<tr>
+			<td class="line_table_1"> {{ con.name }}</td>
+			<td class="line_table_1"> {{ con.surname }}</td>
+			<td class="line_table_1"> {{ con.consultations }}</td>
+			<td class="line_table_1"> 
+				<table border="0" cellspacing="2" cellpadding="12">
+				<tr>
+					<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/" >Edycja Użytkownika </a></div></td>
+					<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/" >Edycja Konsultacji </a></div> </td>
+					<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/" >Usuń Użytkownika </a></div> </td>
+					<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/" >Usuń konsultacje </a></div> </td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+	{% endfor %}
+  </ul>
+  {% else %}
+	<p>Brak dostępnych konsultacji</p>
+  {% endif %}
+</table>
+</div>
+	
+    <p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
