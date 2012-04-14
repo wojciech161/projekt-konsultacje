@@ -9,7 +9,7 @@ from django.template import Context, loader
 from consultations.models import User, Consultation, Localization, InfoBoard
 from django.contrib import auth
 from consultations import consultationdata
-
+from consultations import singleconsultationdata
 
 #FUNKCJE POMOCNICZE
 def get_data_for_consultations_detail(tutor_id):
@@ -24,12 +24,30 @@ def get_data_for_consultations_detail(tutor_id):
 	except:
 		consultations = None
 	#pobieramy lokalizacje
-	try:
-		localization = Localization.objects.get(tutor_id = tutor_id_from_table)
-	except:
-		localization = None
+	consultations_data = []
+	for consultation in consultations:
+		c_id = consultation.id
+		try:
+			tutor_of_consultation = consultation.tutor_ID
+		except:
+			tutor_of_consultation = None
+		try:
+			consultation_localization = consultation.localization_ID
+			print "jest"
+		except:
+			consultation_localization = None
+			print "niema"
+		consult = singleconsultationdata.SingleConsultationsData()
+		consult.day = consultation.day
+		consult.week_type = consultation.week_type
+		consult.hours = "".join("%s.%s-%s.%s")%(consultation.start_hour, consultation.start_minutes, consultation.end_hour, consultation.end_minutes)
+		consult.building = consultation_localization.building
+		consult.room = consultation_localization.room
+		consult.students_limit = consultation.students_limit
+		consult.id = consultation.id
+		consultations_data.append(consult)
 	
-	data = {'tutor_id':tutor_id, 'tutor_connsultations':consultations, 'localization':localization}
+	data = {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}
 	return data
 	
 
@@ -40,6 +58,7 @@ def consultation_index(request):
 		tutors_list = Tutor.objects.all()
 	except:
 		tutor_list = None
+	
 		
 	consultations_data = []
 	for tutor in tutors_list:
@@ -57,12 +76,16 @@ def consultation_index(request):
 		except:
 			tutor_info = InfoBoard()
 			tutor_info.message = ""
+		print "bleh"
 		consult = consultationdata.ConsultationsData()
 		consult.name = tutor.name
 		consult.surname = tutor.surname
 		consult.www = "\"http://" + tutor.www + "\""
 		consult.title = tutor.degree
-		consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
+		try:
+			consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
+		except:
+			pass
 		consult.phone = tutor.phone
 		consult.consultations = ""
 		for con in tutor_consultations:
@@ -143,13 +166,30 @@ def consultations_detail(request, tutor_id):
 		except:
 			consultations = None
 		#pobieramy lokalizacje
-		try:
-			localization = Localization.objects.get(tutor_id = tutor_id_from_table)
-		except:
-			localization = None
+		consultations_data = []
+		for consultation in consultations:
+			c_id = consultation.id
+			try:
+				tutor_of_consultation = consultation.tutor_ID
+			except:
+				tutor_of_consultation = None
+			try:
+				consultation_localization = consultation.localization_ID
+				print "jest"
+			except:
+				consultation_localization = None
+				print "niema"
+			consult = singleconsultationdata.SingleConsultationsData()
+			consult.day = consultation.day
+			consult.week_type = consultation.week_type
+			consult.hours = "".join("%s.%s-%s.%s")%(consultation.start_hour, consultation.start_minutes, consultation.end_hour, consultation.end_minutes)
+			consult.building = consultation_localization.building
+			consult.room = consultation_localization.room
+			consult.students_limit = consultation.students_limit
+			consult.id = consultation.id
+			consultations_data.append(consult)
 			
-		
-		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations, 'localization':localization}, context_instance = RequestContext(request))
+		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 
@@ -160,6 +200,7 @@ def edit_consultation(request, tutor_id, consultation_id):
 			except:
 				return HttpResponse("Nie istnieje taka konsultacja")
 			else:
+				localization = consultation.localization_ID
 				start_hour = consultation.start_hour
 				start_minutes = consultation.start_minutes
 				print start_minutes
@@ -169,6 +210,8 @@ def edit_consultation(request, tutor_id, consultation_id):
 				day = consultation.day
 				week_type = consultation.week_type
 				students_limit = consultation.students_limit
+				building = localization.building
+				room = localization.room
 				if (Tutor.objects.get(id = tutor_id) == consultation.tutor_ID):
 					if request.POST:
 						start_hour = request.POST.get('start_hour')
@@ -192,12 +235,21 @@ def edit_consultation(request, tutor_id, consultation_id):
 						students_limit = request.POST.get('students_limit')
 						consultation.students_limit = request.POST.get('students_limit')
 						
+						building = request.POST.get('building')
+						
+						room = request.POST.get('room')
+						try:
+							loc = Localization.objects.get(room = room, building = building)
+							consultation.localization_ID = loc
+						except:
+							pass
 						consultation.save() 
+						
 						print "dziala"
 						data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
 						return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail jeśli udało się zapisać nową konsultację	
 						
-					return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit}, context_instance = RequestContext(request))
+					return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room}, context_instance = RequestContext(request))
 					
 				else:
 					return HttpResponse("Ta konsultacja nie przynalezy do tego tutora " )
@@ -225,6 +277,8 @@ def add_consultation(request, tutor_id):
 		new_day = ""
 		new_week_type = ""
 		new_students_limit = ""
+		new_room = ""
+		new_building = ""
 		
 		if request.POST:
 			
@@ -243,8 +297,12 @@ def add_consultation(request, tutor_id):
 			new_week_type = request.POST.get('week_type')
 			#print new_week_type
 			new_students_limit = request.POST.get('students_limit')
-			new_localization = Localization.objects.get(tutor_id = tutor_id)
+			new_room = request.POST.get('room')
+			new_building = request.POST.get('building')
+			new_localization = Localization.objects.get(room = new_room, building = new_building)
 			tutor = Tutor.objects.get(id = tutor_id)
+			
+			
 			#print "1"
 			if (new_start_hour != "" and new_start_minutes != "" and new_end_hour != "" and new_end_minutes != "" and new_day != "" and new_week_type != "" and new_localization != ""):
 				print "2"

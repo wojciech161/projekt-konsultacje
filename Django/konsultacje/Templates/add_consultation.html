@@ -109,7 +109,8 @@
 			<option {% if end_minutes == 45 %} selected="selected"  {% endif %} value="45">45</option>
 			
 		</select></p>
-	
+		<p>Budynek: <input name="building" type="text" class="okienko" value="{{ building }}" /></p>
+		<p>Pokój: <input name="room" type="text" class="okienko" value="{{ room }}" /></p>
 		<p>Limit studentów: <input size="3" maxlength="2" name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></p>
 		<input class="button3" type="submit" name="zmien" value="Dodaj dane" />
 	</form>
