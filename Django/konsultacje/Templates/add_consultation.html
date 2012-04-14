@@ -27,7 +27,7 @@
 <div id="coolmenu">
 <a href="/tutor/{{ tutor_id }}/">Strona Prowadzącego</a>
 <a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
-<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
+<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/consultations_detail/">Moje konsultacje</a>
 </div>
 <p></p>
 <div id="coolmenu">
@@ -68,7 +68,19 @@
 			<option value="17">17</option>
 			<option value="18">18</option>
 			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
 		</select></p>
+		
+		<p> Minuta rozpoczęcia: 
+		<select class="selectt" name="start_minutes">
+			<option {% if start_minutes == 15 %} selected="selected"  {% endif %} value="15">15</option>
+			<option {% if start_minutes == 30 %} selected="selected"  {% endif %} value="30">30</option>
+			<option {% if start_minutes == 45 %} selected="selected"  {% endif %} value="45">45</option>
+			
+		</select></p>
+		
 		
 		<p> Godzina zakończenia: 
 		<select class="selectt" name="end_hour">
@@ -85,6 +97,17 @@
 			<option value="17">17</option>
 			<option value="18">18</option>
 			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+		</select></p>
+		
+		<p> Minuta zakończenia: 
+		<select class="selectt" name="end_minutes">
+			<option {% if end_minutes == 15 %} selected="selected"  {% endif %} value="15">15</option>
+			<option {% if end_minutes == 30 %} selected="selected"  {% endif %} value="30">30</option>
+			<option {% if end_minutes == 45 %} selected="selected"  {% endif %} value="45">45</option>
+			
 		</select></p>
 	
 		<p>Limit studentów: <input size="3" maxlength="2" name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></p>

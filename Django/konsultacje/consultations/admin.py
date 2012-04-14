@@ -46,7 +46,7 @@ class TutorAdmin(admin.ModelAdmin):
 class ConsultationAdmin(admin.ModelAdmin):
 	fieldsets = [
 	('time',
-	{'fields' : ['start_hour', 'end_hour', 'day', 'week_type']}),
+	{'fields' : ['start_hour', 'start_minutes', 'end_hour', 'end_minutes', 'day', 'week_type']}),
 	('place',
 	{'fields' : ['students_limit', 'tutor_ID', 'localization_ID']}),]
 	list_display = ('start_hour', 'end_hour')

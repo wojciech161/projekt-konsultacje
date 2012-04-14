@@ -63,11 +63,36 @@ class Localization(models.Model):
 		tut = self.tutor_id
 		return tut.surname + ' ' + tut.name + ' ' + self.room
 
+MINUTES_CHOICES = (
+    ('15', '15'),
+    ('30', '30'),
+    ('45', '45'),
+	)	
+	
+HOUR_CHOICES = (
+    ('7', '7'),
+    ('8', '8'),
+    ('9', '9'),
+	('10', '10'),
+	('11', '11'),
+	('12', '12'),
+	('13', '13'),
+	('14', '14'),
+	('15', '15'),
+	('16', '16'),
+	('17', '17'),
+	('18', '18'),
+	('19', '19'),
+	('20', '20'),
+	('21', '21'),
+	)	
 class Consultation(models.Model):
 	tutor_ID = models.ForeignKey(Tutor)
 	start_hour = models.IntegerField('Godzina rozpoczecia')
+	start_minutes = models.CharField(max_length = 2, choices = MINUTES_CHOICES)
 	end_hour = models.IntegerField('Godzina zakonczenia')
-	day = models.CharField('Dzien', max_length = 15)
+	end_minutes = models.CharField(max_length = 2, choices = MINUTES_CHOICES)
+	day = models.CharField('Dzien', max_length = 20)
 	week_type = models.CharField('Typ tygodnia', max_length = 1)
 	students_limit = models.IntegerField('Limit', null=True)
 	localization_ID = models.ForeignKey(Localization)
