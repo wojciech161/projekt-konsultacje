@@ -68,7 +68,7 @@ def consultation_index(request):
 		except:
 			tutor_consultations = None
 		try:
-			tutor_localizations = Localization.objects.get(tutor_id = t_id)
+			tutor_localizations = Localization.objects.get(id = tutor.localization_ID_id)
 		except:
 			tutor_localizations = None
 		try:
@@ -76,7 +76,6 @@ def consultation_index(request):
 		except:
 			tutor_info = InfoBoard()
 			tutor_info.message = ""
-		print "bleh"
 		consult = consultationdata.ConsultationsData()
 		consult.name = tutor.name
 		consult.surname = tutor.surname
@@ -89,7 +88,11 @@ def consultation_index(request):
 		consult.phone = tutor.phone
 		consult.consultations = ""
 		for con in tutor_consultations:
-			strcon = "".join("%s %s %s.%s-%s.%s;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes)
+			try:
+				con_localization = Localization.objects.get(id = con.localization_ID_id)
+			except:
+				pass
+			strcon = "".join("%s %s %s.%s-%s.%s %s %s;\n")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
 			consult.consultations += strcon
 		consult.info = tutor_info.message
 		consultations_data.append(consult)
@@ -117,7 +120,7 @@ def tutor_detail(request, tutor_id):
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		tutor_id_from_table = tutor.id
 		try:
-			localization = Localization.objects.get(tutor_id = tutor_id_from_table)
+			localization = Localization.objects.get(id = tutor.localization_ID_id)
 		except:
 			localization = None
 			
@@ -299,7 +302,13 @@ def add_consultation(request, tutor_id):
 			new_students_limit = request.POST.get('students_limit')
 			new_room = request.POST.get('room')
 			new_building = request.POST.get('building')
-			new_localization = Localization.objects.get(room = new_room, building = new_building)
+			try:
+				new_localization = Localization.objects.get(room = new_room, building = new_building)
+			except:
+				new_localization = Localization()
+				new_localization.room = new_room
+				new_localization.building = new_building
+				new_localization.save()
 			tutor = Tutor.objects.get(id = tutor_id)
 			
 			

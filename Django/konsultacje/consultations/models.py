@@ -34,6 +34,12 @@ class Assistant(models.Model):
 	def __unicode__(self):
 		return self.surname + ' ' + self.name
 	
+class Localization(models.Model):
+	room = models.CharField('Pokoj', max_length = 8)
+	building = models.CharField('Budynek', max_length = 8)
+	def __unicode__(self):
+		return self.room + ' ' + self.building
+		
 class Tutor(models.Model):
 	tutor_ID = models.ForeignKey(User)
 	degree = models.CharField('Stopien naukowy', max_length = 40, null=True)
@@ -43,9 +49,9 @@ class Tutor(models.Model):
 	phone = models.CharField('Telefon', max_length = 20, null=True)
 	email = models.CharField('E-mail', max_length = 50)
 	www = models.CharField('WWW', max_length = 60, null=True)
+	localization_ID = models.ForeignKey(Localization)
 	def __unicode__(self):
 		return self.surname + ' ' + self.name
-	www = models.CharField('WWW', max_length = 60, null=True)
 		
 class InfoBoard(models.Model):
 	date_of_adding = models.DateTimeField('Data dodania')
@@ -54,14 +60,6 @@ class InfoBoard(models.Model):
 	def __unicode__(self):
 		tut = self.tutor_id
 		return tut.surname + ' ' + tut.name
-	
-class Localization(models.Model):
-	room = models.CharField('Pokoj', max_length = 8)
-	building = models.CharField('Budynek', max_length = 8)
-	tutor_id = models.ForeignKey(Tutor)
-	def __unicode__(self):
-		tut = self.tutor_id
-		return tut.surname + ' ' + tut.name + ' ' + self.room
 
 MINUTES_CHOICES = (
     ('15', '15'),

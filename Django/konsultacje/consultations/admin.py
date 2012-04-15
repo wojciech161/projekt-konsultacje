@@ -14,9 +14,9 @@ class UserAdmin(admin.ModelAdmin):
 	list_filter = ['last_login_date']
 	date_hierarchy = 'last_login_date'
 
-class LocalizationInline(admin.StackedInline):
-	model = Localization
-	extra = 1
+#class LocalizationInline(admin.StackedInline):
+#	model = Localization
+#	extra = 1
 	
 class InfoBoardInline(admin.StackedInline):
 	model = InfoBoard
@@ -36,10 +36,11 @@ class TutorAdmin(admin.ModelAdmin):
 	{'fields': 
 	['phone', 
 	'www', 
-	'email']
+	'email',
+	'localization_ID']
 	}),
 	]
-	inlines = [LocalizationInline, InfoBoardInline]
+	inlines = [InfoBoardInline]
 	list_display = ('name', 'surname')
 	search_fields = ['name']
 	
@@ -56,6 +57,7 @@ class ConsultationAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Student)
+admin.site.register(Localization)
 #admin.site.register(Administrator)
 #admin.site.register(Assistant)
 admin.site.register(Tutor, TutorAdmin)
