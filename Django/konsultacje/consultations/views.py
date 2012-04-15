@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from consultations.models import *
 from django.template import Context, loader
-from consultations.models import User, Consultation, Localization, InfoBoard
+from consultations.models import User, Consultation, Localization, InfoBoard, Assistant
 from django.contrib import auth
 from consultations import consultationdata
 from consultations import singleconsultationdata
@@ -346,6 +346,8 @@ def add_consultation(request, tutor_id):
 def authorization(request):	
 	state = "Proszę się zalogować"
 	username = password = ''
+	user_is_tutor = False
+	user_is_assistant = False
 	if request.POST:
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -362,11 +364,32 @@ def authorization(request):
 					try:
 						tutor_from_table = Tutor.objects.get(tutor_ID = user_from_table.id)
 					except:
+						user_is_tutor = False
 						state = "Użytkownik nie jest wykładowcą"
 					else:
+						user_is_tutor = True
+					
+					try:
+						assistant_from_table = Assistant.objects.get(assistant_ID = user_from_table.id)
+					except:
+						user_is_assistant = False
+						state = "Uzytkownik nie jest asystentem"
+					else:
+						user_is_assistant = True
+						
+					if user_is_tutor and not(user_is_assistant):
 						login(request, user)
 						state = "Zalogowano"
 						return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(user_from_table.id,)))
+					elif not(user_is_tutor) and user_is_assistant:
+						login(request, user)
+						state = "Zalogowano"
+						return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_from_table.id,)))
+					elif user_is_tutor and user_is_assistant:
+						#Dorobic pole wyboru jakies
+						pass
+					else:
+						state = "Błąd logowania!"
 			else:
 				state = "Twoje konto nie zostalo jeszcze aktywowane"
 		else:
@@ -419,8 +442,9 @@ def assistant_index(request, user_id):
 			except:
 				tutor_consultations = None
 			try:
-				tutor_localizations = Localization.objects.get(tutor_id = t_id)
+				tutor_localizations = Localization.objects.get(id = tutor.localization_ID_id)
 			except:
+				print tutor.localization_ID_id
 				tutor_localizations = None
 			try:
 				tutor_info = InfoBoard.objects.get(tutor_id = t_id)
