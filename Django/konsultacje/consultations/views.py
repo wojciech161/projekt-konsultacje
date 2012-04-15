@@ -366,7 +366,7 @@ def authorization(request):
 					else:
 						login(request, user)
 						state = "Zalogowano"
-						return HttpResponseRedirect(reverse('consultations.views.tutor_index', args=(user_from_table.id,)))
+						return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(user_from_table.id,)))
 			else:
 				state = "Twoje konto nie zostalo jeszcze aktywowane"
 		else:
