@@ -59,10 +59,12 @@
 			<td class="line_table_1"> 
 				<table border="0" cellspacing="2" cellpadding="12">
 				<tr>
-					<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/" >Edycja Użytkownika </a></div></td>
-					<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/" >Edycja Konsultacji </a></div> </td>
-					<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/" >Usuń Użytkownika </a></div> </td>
-					<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/" >Usuń konsultacje </a></div> </td>
+				
+				<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/edit/" >Edycja Użytkownika </a></div></td>
+				<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ con.tutor_id }}/list/" >Edycja Konsultacji </a></div> </td>
+				<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/delete/confirm/" >Usuń Użytkownika </a></div> </td>
+				<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ con.tutor_id }}/delete/list/" >Usuń konsultacje </a></div> </td>
+				
 				</tr>
 				</table>
 			</td>

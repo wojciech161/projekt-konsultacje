@@ -10,6 +10,7 @@ from consultations.models import User, Consultation, Localization, InfoBoard, As
 from django.contrib import auth
 from consultations import consultationdata
 from consultations import singleconsultationdata
+import time
 
 #FUNKCJE POMOCNICZE
 def get_data_for_consultations_detail(tutor_id):
@@ -206,10 +207,8 @@ def edit_consultation(request, tutor_id, consultation_id):
 				localization = consultation.localization_ID
 				start_hour = consultation.start_hour
 				start_minutes = consultation.start_minutes
-				print start_minutes
 				end_hour = consultation.end_hour
 				end_minutes = consultation.end_minutes
-				print end_minutes
 				day = consultation.day
 				week_type = consultation.week_type
 				students_limit = consultation.students_limit
@@ -248,7 +247,6 @@ def edit_consultation(request, tutor_id, consultation_id):
 							pass
 						consultation.save() 
 						
-						print "dziala"
 						data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
 						return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail jeśli udało się zapisać nową konsultację	
 						
@@ -452,6 +450,7 @@ def assistant_index(request, user_id):
 				tutor_info = InfoBoard()
 				tutor_info.message = ""
 			consult = consultationdata.ConsultationsData()
+			consult.tutor_id = tutor.id
 			consult.name = tutor.name
 			consult.surname = tutor.surname
 			consult.www = "\"http://" + tutor.www + "\""
@@ -485,5 +484,95 @@ def assistant_consultations_delete(request, user_id):
 			c.delete()
 		
 		return render_to_response('assistant_index.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_tutor_edit(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		status = ""
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_id_from_table = tutor.id
+		try:
+			localization = Localization.objects.get(id = tutor.localization_ID_id)
+		except:
+			localization = None
+			
+		if request.POST:
+			#zbiermay dane
+			try:
+				title = request.POST.get('tytul')
+				name = request.POST.get('imie')
+				surname = request.POST.get('nazwisko')
+				building = request.POST.get('budynek')
+				room = request.POST.get('pokoj')
+				phone = request.POST.get('telefon')
+				mail = request.POST.get('email')
+				www = request.POST.get('www')
+				
+				#zapisujemy zmiany w bazie
+				tutor.degree = title
+				tutor.name = name
+				tutor.surname = surname
+				tutor.phone = phone
+				tutor.email = mail
+				tutor.www = www
+				tutor.save()
+				
+				print title + "\n"
+				print name + "\n"
+				print surname + "\n"
+				print room + "\n"
+				print building + "\n"
+				
+				localization.room = room
+				localization.building = building
+				localization.save()
+				status = "Dane zostały zmienione"
+				return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
+			except:
+				status = "Błąd: Nie mogę zmienić danych"
+		return render_to_response('assistant_tutor_edit.html', {'user_id':user_id, 'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+	
+def assistant_tutor_delete_confirm(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_tutor_delete(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_consultation_list(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_consultation_delete_confirm(request, user_id, tutor_id, consultation_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+def assistant_consultation_delete_list(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
