@@ -324,19 +324,12 @@ def add_consultation(request, tutor_id):
 						consultation.students_limit = new_students_limit
 					except:
 						pass
-				#try:
-				
-				
-				###################################################################
-				
-				
+
 				print "Dodano"
 				consultation.save()
 				data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
 				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=( tutor_id,)))
-				#jeśli udało się zapisać nową konsultację
-				#except:
-				print "expcept"
+				
 				
 				
 			else:
