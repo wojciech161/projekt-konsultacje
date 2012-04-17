@@ -325,10 +325,15 @@ def add_consultation(request, tutor_id):
 					except:
 						pass
 				#try:
+				
+				
+				###################################################################
+				
+				
 				print "Dodano"
 				consultation.save()
 				data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
-				return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail
+				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=( tutor_id,)))
 				#jeśli udało się zapisać nową konsultację
 				#except:
 				print "expcept"
@@ -337,7 +342,9 @@ def add_consultation(request, tutor_id):
 			else:
 				return HttpResponse("Nie mozna dodac konsultacji")
 			
-		return render_to_response("add_consultation.html", { 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit}, context_instance = RequestContext(request))
+		
+		
+		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -698,10 +705,11 @@ def assistant_consultation_add(request, user_id, tutor_id):
 			new_consultation.day = new_day
 			new_consultation.week_type = new_week_type
 			new_consultation.students_limit = new_students_limit
+			
 			new_consultation.localization_ID = new_localization
 			
 			new_consultation.save()
-			
+			print "save"
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 			
 		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit}, context_instance = RequestContext(request))
