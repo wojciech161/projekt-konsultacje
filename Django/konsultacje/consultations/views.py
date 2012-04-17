@@ -660,9 +660,53 @@ def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
 		
 def assistant_consultation_add(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("W budowie")
+		new_start_hour = ""
+		new_start_minutes = ""
+		new_end_minutes = ""
+		new_end_hour = ""
+		new_day = ""
+		new_week_type = ""
+		new_students_limit = ""
+		new_room = ""
+		new_building = ""
+		
+		if request.POST:
+			
+			new_start_hour = request.POST.get('start_hour')
+			new_start_minutes = request.POST.get('start_minutes')
+			new_end_hour = request.POST.get('end_hour')
+			new_end_minutes = request.POST.get('end_minutes')
+			new_day = request.POST.get('day')
+			new_week_type = request.POST.get('week_type')
+			new_students_limit = request.POST.get('students_limit')
+			new_room = request.POST.get('room')
+			new_building = request.POST.get('building')
+
+			new_localization = Localization()
+			new_localization.room = new_room
+			new_localization.building = new_building
+			new_localization.save()
+			
+			tutor = Tutor.objects.get(tutor_ID_id = tutor_id)
+			
+			new_consultation = Consultation()
+			new_consultation.tutor_ID = tutor
+			new_consultation.start_hour = new_start_hour
+			new_consultation.start_minutes = new_start_minutes
+			new_consultation.end_hour = new_end_hour
+			new_consultation.end_minutes = new_end_minutes
+			new_consultation.day = new_day
+			new_consultation.week_type = new_week_type
+			new_consultation.students_limit = new_students_limit
+			new_consultation.localization_ID = new_localization
+			
+			new_consultation.save()
+			
+			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
+			
+		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit}, context_instance = RequestContext(request))
 	else:
-		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		return render_to_response(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_deleteall_confirm(request, user_id, tutor_id):
 	if request.user.is_authenticated():
