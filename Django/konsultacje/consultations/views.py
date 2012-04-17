@@ -10,6 +10,7 @@ from consultations.models import User, Consultation, Localization, InfoBoard, As
 from django.contrib import auth
 from consultations import consultationdata
 from consultations import singleconsultationdata
+from datetime import date
 import time
 
 #FUNKCJE POMOCNICZE
@@ -214,6 +215,17 @@ def edit_consultation(request, tutor_id, consultation_id):
 				students_limit = consultation.students_limit
 				building = localization.building
 				room = localization.room
+				new_localization = Localization()
+				try:
+					expiry_year = consultation.expiry_date.year
+					expiry_month = consultation.expiry_date.month
+					expiry_day = consultation.expiry_date.day
+				except:
+					print "except"
+					expiry_year = ""
+					expiry_month = ""
+					expiry_day = ""
+				
 				if (Tutor.objects.get(id = tutor_id) == consultation.tutor_ID):
 					if request.POST:
 						start_hour = request.POST.get('start_hour')
@@ -240,17 +252,29 @@ def edit_consultation(request, tutor_id, consultation_id):
 						building = request.POST.get('building')
 						
 						room = request.POST.get('room')
+						
+						
 						try:
-							loc = Localization.objects.get(room = room, building = building)
-							consultation.localization_ID = loc
+							new_localization = Localization.objects.get(room = room, building = building)
+							consultation.localization_ID = new_localization
 						except:
-							pass
+							new_localization.room = room
+							new_localization.building = building
+							new_localization.save()
+							consultation.localization_ID = new_localization
+							
+						expiry_year = request.POST.get('expiry_year')
+						expiry_month = request.POST.get('expiry_month')
+						expiry_day = request.POST.get('expiry_day')
+						new_expiry_date = date(	int(expiry_year), int(expiry_month), int(expiry_day))
+						print new_expiry_date
+						consultation.expiry_date = new_expiry_date
 						consultation.save() 
 						
 						data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
 						return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail jeśli udało się zapisać nową konsultację	
 						
-					return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room}, context_instance = RequestContext(request))
+					return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_year' : expiry_year, 'expiry_month' : expiry_month, 'expiry_day' : expiry_day}, context_instance = RequestContext(request))
 					
 				else:
 					return HttpResponse("Ta konsultacja nie przynalezy do tego tutora " )
@@ -280,7 +304,10 @@ def add_consultation(request, tutor_id):
 		new_students_limit = ""
 		new_room = ""
 		new_building = ""
-		
+		new_expiry_year = ""
+		new_expiry_month = ""
+		new_expiry_day = ""
+		new_expiry_date = ""
 		if request.POST:
 			
 			new_start_hour = request.POST.get('start_hour')
@@ -309,13 +336,19 @@ def add_consultation(request, tutor_id):
 				new_localization.save()
 			tutor = Tutor.objects.get(tutor_ID = tutor_id)
 			
+			new_expiry_year = request.POST.get('expiry_year')
+			new_expiry_month = request.POST.get('expiry_month')
+			new_expiry_day = request.POST.get('expiry_day')
+			new_expiry_date = date(	int(new_expiry_year), int(new_expiry_month), int(new_expiry_day))
+			print new_expiry_date
+			
 			
 			#print "1"
 			if (new_start_hour != "" and new_start_minutes != "" and new_end_hour != "" and new_end_minutes != "" and new_day != "" and new_week_type != "" and new_localization != ""):
 				print "2"
 				try:
 					consultation = Consultation(tutor_ID = tutor, start_hour = new_start_hour, start_minutes = new_start_minutes, end_hour = new_end_hour, 
-					end_minutes = new_end_minutes, day = new_day, week_type = new_week_type, localization_ID = new_localization)
+					end_minutes = new_end_minutes, day = new_day, week_type = new_week_type, localization_ID = new_localization, expiry_date = new_expiry_date)
 					print "3"
 				except:
 					return HttpResponse("Nie mozna dodac konsultacji")
@@ -329,15 +362,11 @@ def add_consultation(request, tutor_id):
 				consultation.save()
 				data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
 				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=( tutor_id,)))
-				
-				
-				
+							
 			else:
 				return HttpResponse("Nie mozna dodac konsultacji")
-			
-		
-		
-		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit}, context_instance = RequestContext(request))
+				
+		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -611,6 +640,17 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 			students_limit = consult.students_limit
 			building = localization.building
 			room = localization.room
+			expiry_year = ""
+			expiry_month = ""
+			expiry_day = ""
+			try:
+				expiry_year = consult.expiry_date.year
+				expiry_month = consult.expiry_date.month
+				expiry_day = consult.expiry_date.day
+			except:
+				pass
+				print "exceptiiui"
+				
 		
 		if request.POST:
 			start_hour = request.POST.get('start_hour')
@@ -632,13 +672,21 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 			consult.students_limit = students_limit
 			localization.building = building
 			localization.room = room
-			
+			try:
+				expiry_year = request.POST.get('expiry_year')
+				expiry_month = request.POST.get('expiry_month')
+				expiry_day = request.POST.get('expiry_day')
+				new_expiry_date = date(	int(expiry_year), int(expiry_month), int(expiry_day))
+				print new_expiry_date
+				consult.expiry_date = new_expiry_date
+			except:
+				pass
 			consult.save()
 			localization.save()
 			
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 			
-		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room}, context_instance = RequestContext(request))
+		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_year' : expiry_year, 'expiry_month' : expiry_month, 'expiry_day' : expiry_day}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -669,6 +717,10 @@ def assistant_consultation_add(request, user_id, tutor_id):
 		new_students_limit = ""
 		new_room = ""
 		new_building = ""
+		new_expiry_year = ""
+		new_expiry_month = ""
+		new_expiry_day = ""
+		new_expiry_date = ""
 		
 		if request.POST:
 			
@@ -701,11 +753,17 @@ def assistant_consultation_add(request, user_id, tutor_id):
 			
 			new_consultation.localization_ID = new_localization
 			
+			new_expiry_year = request.POST.get('expiry_year')
+			new_expiry_month = request.POST.get('expiry_month')
+			new_expiry_day = request.POST.get('expiry_day')
+			new_expiry_date = date(	int(new_expiry_year), int(new_expiry_month), int(new_expiry_day))
+			new_consultation.expiry_date = new_expiry_date
+			
 			new_consultation.save()
 			print "save"
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 			
-		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit}, context_instance = RequestContext(request))
+		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
