@@ -71,11 +71,15 @@
 	{% endfor %}
   </ul>
   {% else %}
-	<p>Brak dostępnych konsultacji</p>
+	<p>Brak dostępnych użytkowników</p>
   {% endif %}
 </table>
 </div>
-	
+<table style="padding-top:3px;" align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th><div align="center" id="buttons_hr"> <a href="/assistant/{{ user_id }}/adduser/" >Dodaj użytkownika</a></div></th>
+  </tr>
+</table>
     <p>&nbsp;</p></td>
   </tr>
 </table>

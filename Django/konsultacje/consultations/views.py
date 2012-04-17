@@ -644,30 +644,37 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 		
 def assistant_consultation_delete_confirm(request, user_id, tutor_id, consultation_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		return render_to_response('assistant_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		
+		consult = Consultation.objects.get(id = consultation_id)
+		consult.delete()
+		return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
+	
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_add(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		return HttpResponse ("W budowie")
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_deleteall_confirm(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		return HttpResponse ("W budowie")
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_deleteall(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		return HttpResponse ("W budowie")
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_adduser(request, user_id):
+	return HttpResponse ("W budowie")

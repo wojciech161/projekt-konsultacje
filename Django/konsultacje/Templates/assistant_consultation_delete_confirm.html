@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title>Lista konsultacji</title>
+<title>Potwierdź usunięcie</title>
 <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .left #coolmenu a {
@@ -36,9 +36,9 @@
 <p>&nbsp;</p></td>
 
 <td style="background-color:#FFF" valign="top">
-<p align="center">Zostaną usunięte konsultacje wszystkich prowadzących. Jesteś pewien?<p>
-<div align="center" id="buttons_hr"> <a href="/assistant/{{ user_id }}/consultations_delete/" >Tak</a></div>
-<div align="center" id="buttons_hr"> <a href="/assistant/{{ user_id }}/" >Nie</a></div>
+<p align="center">Zostanie usunięta konsultacja. Jesteś pewien?<p>
+<div align="center" id="buttons_hr"> <a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/delete/{{ consultation_id }}/" >Tak</a></div>
+<div align="center" id="buttons_hr"> <a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/list/" >Nie</a></div>
 <p>&nbsp;</p></td>
 </tr>
 </table>
