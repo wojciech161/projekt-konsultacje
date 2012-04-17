@@ -307,7 +307,7 @@ def add_consultation(request, tutor_id):
 				new_localization.room = new_room
 				new_localization.building = new_building
 				new_localization.save()
-			tutor = Tutor.objects.get(id = tutor_id)
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
 			
 			
 			#print "1"
@@ -450,7 +450,7 @@ def assistant_index(request, user_id):
 				tutor_info = InfoBoard()
 				tutor_info.message = ""
 			consult = consultationdata.ConsultationsData()
-			consult.tutor_id = tutor.id
+			consult.tutor_id = tutor.tutor_ID_id
 			consult.name = tutor.name
 			consult.surname = tutor.surname
 			consult.www = "\"http://" + tutor.www + "\""
@@ -537,27 +537,110 @@ def assistant_tutor_edit(request, user_id, tutor_id):
 	
 def assistant_tutor_delete_confirm(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		return render_to_response('assistant_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_tutor_delete(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		
+		tutor = Tutor.objects.filter(tutor_ID = tutor_id)
+		tutor.delete()
+		
+		return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_list(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		#pobieramy tutora
+		try:
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		except:
+			return HttpResponse("Blad krytyczny")
+		tutor_id_from_table = tutor.id
+		#pobieramy konsultacje tutora
+		try:
+			consultations = Consultation.objects.filter(tutor_ID = tutor_id_from_table)
+		except:
+			consultations = None
+		#pobieramy lokalizacje
+		consultations_data = []
+		for consultation in consultations:
+			c_id = consultation.id
+			try:
+				tutor_of_consultation = consultation.tutor_ID
+			except:
+				tutor_of_consultation = None
+			try:
+				consultation_localization = consultation.localization_ID
+			except:
+				consultation_localization = None
+			consult = singleconsultationdata.SingleConsultationsData()
+			consult.day = consultation.day
+			consult.week_type = consultation.week_type
+			consult.hours = "".join("%s.%s-%s.%s")%(consultation.start_hour, consultation.start_minutes, consultation.end_hour, consultation.end_minutes)
+			consult.building = consultation_localization.building
+			consult.room = consultation_localization.room
+			consult.students_limit = consultation.students_limit
+			consult.id = consultation.id
+			consultations_data.append(consult)
+			
+		return render_to_response('assistant_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))
 	else:
-		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		return render_to_response(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("OK")
+		try:
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+			consult = Consultation.objects.get(id = consultation_id)
+			localization = Localization.objects.get(id = consult.localization_ID_id)
+			print tutor
+			print consult
+			print localization
+		except:
+			return HttpResponse("Blad krytyczny");
+		else:
+			start_hour = consult.start_hour
+			start_minutes = consult.start_minutes
+			end_hour = consult.end_hour
+			end_minutes = consult.end_minutes
+			day = consult.day
+			week_type = consult.week_type
+			students_limit = consult.students_limit
+			building = localization.building
+			room = localization.room
+		
+		if request.POST:
+			start_hour = request.POST.get('start_hour')
+			start_minutes = request.POST.get('start_minutes')
+			end_hour = request.POST.get('end_hour')
+			end_minutes = request.POST.get('end_minutes')
+			day = request.POST.get('day')
+			week_type = request.POST.get('week_type')
+			students_limit = request.POST.get('students_limit')
+			building = request.POST.get('building')
+			room = request.POST.get('room')
+			
+			consult.start_hour = start_hour
+			consult.start_minutes = start_minutes
+			consult.end_hour = end_hour
+			consult.end_minutes = end_minutes
+			consult.day = day
+			consult.week_type = week_type
+			consult.students_limit = students_limit
+			localization.building = building
+			localization.room = room
+			
+			consult.save()
+			localization.save()
+			
+			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
+			
+		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room}, context_instance = RequestContext(request))
 	else:
-		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		return render_to_response(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_delete_confirm(request, user_id, tutor_id, consultation_id):
 	if request.user.is_authenticated():
@@ -570,8 +653,20 @@ def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
 		return HttpResponse ("OK")
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
-
-def assistant_consultation_delete_list(request, user_id, tutor_id):
+		
+def assistant_consultation_add(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_consultation_deleteall_confirm(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		return HttpResponse ("OK")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_consultation_deleteall(request, user_id, tutor_id):
 	if request.user.is_authenticated():
 		return HttpResponse ("OK")
 	else:

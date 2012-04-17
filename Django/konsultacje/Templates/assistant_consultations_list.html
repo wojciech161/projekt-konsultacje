@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Konsultacje wykładowcy</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.left #coolmenu a {
+	font-size: 12px;
+}
+
+</style>
+</head>
+
+<body class="site_background">
+<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
+  </tr>
+</table>
+<p class="site_background">&nbsp;</p>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
+      <p></p>
+      <p align="center" class="title">Menu</p>
+<div id="coolmenu">
+<a href="/assistant/{{ user_id }}/">Lista Prowadzących</a>
+<a href="/assistant/{{ user_id }}/consultations_delete_confirm/">Usuń wszystkie konsultacje</a>
+</div>	
+<p></p>
+<div id="coolmenu">
+<a href="/logout/">Wyloguj</a></div>
+<p>&nbsp;</p></td>
+    <td style="background-color:#f8f3ec" valign="top">
+	<p></p>
+	<form name="add_consultations" method="POST" action="/assistant/({{ user_id }}/consultation/({{ tutor_id }}/list/">{% csrf_token %}
+		<table align="center" border="0"  cellpadding="0" cellspacing="0" class="call_border">
+			<tr class="line_table_2">
+				
+				<td class="table_header" align="center">Dzień</td>				
+				<td class="table_header" align="center">Tydzień</td>	
+				<td class="table_header" align="center">Godziny konsultacji</td>	
+				<td class="table_header" align="center">Budynek</td>	
+				<td class="table_header" align="center">Sala</td>	
+				<td class="table_header" align="center">Limit Studentów</td>
+				<td class="table_header" align="center">Edycja</td>				
+			</tr>
+		{% for konsultation in tutor_connsultations %}
+			<tr class="line_table_2">
+				
+				<td class="line_table_2" align="center">{{ konsultation.day }}</td>
+				<td class="line_table_2" align="center">{%  if konsultation.week_type == 'P' %}Parzysty{% endif %}{% if konsultation.week_type == 'N' %}Nieparzysty{% endif %}{% if konsultation.week_type == 'A' %}Co Tydzień{% endif %} </td>
+				<td class="line_table_2" align="center">{{ konsultation.hours }} </td>
+				<td class="line_table_2" align="center">{{ konsultation.building }}</td>
+				<td class="line_table_2" align="center">{{ konsultation.room }}</td>
+				<td class="line_table_2" align="center">{{ konsultation.students_limit }}</td>
+				<td class="line_table_2" align="center">
+					<table border="0" cellspacing="2" cellpadding="12">
+						<tr>
+							<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/edit/{{ konsultation.id }}" >Zmien </a></div></td>
+							<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/delete/{{ konsultation.id }}" >Usuń </a></div> </td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		{% endfor %}
+		</table>
+<table style="padding-top:3px;" align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th><div align="center" id="buttons_hr"> <a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/add/" >Dodaj </a></div></th>
+    <th><div align="center" id="buttons_hr"> <a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/deleteall/confirm/" >Usuń wszystkie </a></div></th>
+  </tr>
+</table>
+
+		</form>
+		
+    
+    </td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+</body>
+</html>
