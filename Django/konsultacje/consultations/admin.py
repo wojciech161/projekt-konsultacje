@@ -49,7 +49,9 @@ class ConsultationAdmin(admin.ModelAdmin):
 	('time',
 	{'fields' : ['start_hour', 'start_minutes', 'end_hour', 'end_minutes', 'day', 'week_type']}),
 	('place',
-	{'fields' : ['students_limit', 'tutor_ID', 'localization_ID']}),]
+	{'fields' : ['students_limit', 'tutor_ID', 'localization_ID']}),
+	('expiry',
+	{'fields' : ['expiry_date']}),]
 	list_display = ('start_hour', 'end_hour')
 
 	

@@ -52,7 +52,7 @@ def get_data_for_consultations_detail(tutor_id):
 	data = {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}
 	return data
 	
-
+##############KONIEC FUNKCJI POMOCNICZYCH
 
 def consultation_index(request):
 	#Pobieramy wszystkich wykladowcow
@@ -94,7 +94,12 @@ def consultation_index(request):
 				con_localization = Localization.objects.get(id = con.localization_ID_id)
 			except:
 				pass
-			strcon = "".join("%s %s %s.%s-%s.%s %s %s;\n")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+			today = date.today();
+			if (today>con.expiry_date):
+				strcon = ""
+			else:
+				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;\n")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+				
 			consult.consultations += strcon
 		consult.info = tutor_info.message
 		consultations_data.append(consult)
@@ -192,6 +197,11 @@ def consultations_detail(request, tutor_id):
 			consult.room = consultation_localization.room
 			consult.students_limit = consultation.students_limit
 			consult.id = consultation.id
+			today = date.today();
+			if(today>consultation.expiry_date):
+				consult.expiry = "expiry"
+			else:
+				consult.expiry = "not_expiry"
 			consultations_data.append(consult)
 			
 		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))
@@ -491,6 +501,11 @@ def assistant_index(request, user_id):
 				strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour, con.end_hour)
 				consult.consultations += strcon
 			consult.info = tutor_info.message
+			today = date.today();
+			if(today>consultation.expiry_date):
+				consult.expiry = "expiry"
+			else:
+				consult.expiry = "not_expiry"
 			consultations_data.append(consult)
 			consult = None
 		t = loader.get_template('assistant_index.html')
@@ -613,6 +628,11 @@ def assistant_consultation_list(request, user_id, tutor_id):
 			consult.room = consultation_localization.room
 			consult.students_limit = consultation.students_limit
 			consult.id = consultation.id
+			today = date.today();
+			if(today>consultation.expiry_date):
+				consult.expiry = "expiry"
+			else:
+				consult.expiry = "not_expiry"
 			consultations_data.append(consult)
 			
 		return render_to_response('assistant_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))

@@ -53,7 +53,7 @@
 			<tr class="line_table_2">
 				
 				<td class="line_table_2" align="center">{{ konsultation.day }}</td>
-				<td class="line_table_2" align="center">{%  if konsultation.week_type == 'P' %}Parzysty{% endif %}{% if konsultation.week_type == 'N' %}Nieparzysty{% endif %}{% if konsultation.week_type == 'A' %}Co Tydzień{% endif %} </td>
+				<td class="line_table_2" align="center">{%  if konsultation.week_type == 'P' %}Parzysty{% endif %}{% if konsultation.week_type == 'N' %}Nieparzysty{% endif %}{% if konsultation.week_type == 'A' %}Co Tydzień{% endif %} {% if konsultation.expiry == 'expiry' %} EXP{% endif %} </td>
 				<td class="line_table_2" align="center">{{ konsultation.hours }} </td>
 				<td class="line_table_2" align="center">{{ konsultation.building }}</td>
 				<td class="line_table_2" align="center">{{ konsultation.room }}</td>

@@ -7,3 +7,4 @@ class SingleConsultationsData(object):
 	room = ""
 	students_limit = ""
 	id = ""
+	expiry = ""
