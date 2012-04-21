@@ -94,6 +94,7 @@ class Consultation(models.Model):
 	week_type = models.CharField('Typ tygodnia', max_length = 1)
 	students_limit = models.IntegerField('Limit', null=True)
 	localization_ID = models.ForeignKey(Localization)
+	expiry_date = models.DateField()
 	def __unicode__(self):
 		tut = self.tutor_ID
 		tekst = ' '.join([ "%s %s %s %s %s" % (tut.surname, tut.name, self.start_hour, self.end_hour, self.day) ])

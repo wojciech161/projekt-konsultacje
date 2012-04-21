@@ -9,3 +9,4 @@ class ConsultationsData(object):
 	phone = ""
 	consultations = ""
 	info = ""
+	expiry = ""

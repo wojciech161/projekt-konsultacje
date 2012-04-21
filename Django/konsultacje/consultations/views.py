@@ -497,15 +497,15 @@ def assistant_index(request, user_id):
 			consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
 			consult.phone = tutor.phone
 			consult.consultations = ""
+			today = date.today();
 			for con in tutor_consultations:
 				strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour, con.end_hour)
 				consult.consultations += strcon
+				if(today>con.expiry_date):
+					consult.expiry = "expiry"
+				else:
+					consult.expiry = "not_expiry"
 			consult.info = tutor_info.message
-			today = date.today();
-			if(today>consultation.expiry_date):
-				consult.expiry = "expiry"
-			else:
-				consult.expiry = "not_expiry"
 			consultations_data.append(consult)
 			consult = None
 		t = loader.get_template('assistant_index.html')
