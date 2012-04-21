@@ -789,13 +789,23 @@ def assistant_consultation_add(request, user_id, tutor_id):
 		
 def assistant_consultation_deleteall_confirm(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("W budowie")
+		return render_to_response('assistant_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_deleteall(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse ("W budowie")
+		try:
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		except:
+			return HttpResponse("Blad krytyczny")
+		tutor_id_from_table = tutor.id
+		
+		consults = Consultation.objects.filter(tutor_ID_id = tutor_id_from_table)
+		for con in consults:
+			con.delete()
+		
+		return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
