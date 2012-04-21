@@ -810,4 +810,77 @@ def assistant_consultation_deleteall(request, user_id, tutor_id):
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_adduser(request, user_id):
-	return HttpResponse ("W budowie")
+	if request.user.is_authenticated():
+		status = ""
+		login = ""
+		
+		user = User()
+		tutor = Tutor()
+		localization = Localization()
+		
+		user.login = ""
+		user.last_login_date = date.today()
+		user.typ = ""
+		
+		tutor.degree = ""
+		tutor.name = ""
+		tutor.surname = ""
+		tutor.institute = ""
+		tutor.phone = ""
+		tutor.email = ""
+		tutor.www = ""
+						
+		localization.room = ""
+		localization.building = ""
+		
+		if request.POST:
+			#zbiermay dane
+			try:
+				login = request.POST.get('login')
+				title = request.POST.get('tytul')
+				name = request.POST.get('imie')
+				surname = request.POST.get('nazwisko')
+				institute = request.POST.get('instytut')
+				building = request.POST.get('budynek')
+				room = request.POST.get('pokoj')
+				phone = request.POST.get('telefon')
+				mail = request.POST.get('email')
+				www = request.POST.get('www')
+				
+				#zapisujemy zmiany w bazie
+				
+				user.login = login
+				user.save()
+				
+				localization.room = room
+				localization.building = building
+				localization.save()
+				
+				tutor.tutor_ID = user
+				tutor.degree = title
+				tutor.name = name
+				tutor.surname = surname
+				tutor.institute = institute
+				tutor.phone = phone
+				tutor.email = mail
+				tutor.www = www
+				tutor.localization_ID = localization
+				
+				print tutor.tutor_ID
+				print tutor.degree
+				print tutor.name
+				print tutor.surname
+				print tutor.institute
+				print tutor.phone
+				print tutor.email
+				print tutor.www
+				print tutor.localization_ID
+				
+				tutor.save()
+
+				status = "Dodano użytkownika"
+			except:
+				status = "Błąd: Nie mogę dodać użytkownika"
+		return render_to_response('assistant_addtutor.html', {'user_id':user_id, 'user_login':login, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
