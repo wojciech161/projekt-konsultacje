@@ -947,7 +947,13 @@ def export_csv(request, user_id):
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
-def import_csv(request, user_id):
+def assistant_backup(request, user_id):
+	if request.user.is_authenticated():
+		return HttpResponse("Under Construction")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+def assistant_restore(request, user_id):
 	if request.user.is_authenticated():
 		return HttpResponse("Under Construction")
 	else:
