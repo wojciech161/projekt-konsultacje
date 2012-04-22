@@ -908,3 +908,17 @@ def choose_panel(request, user_id):
 		return render_to_response('choose_panel.html', {'user_id':user_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def assistant_export_csv(request, user_id):
+	if request.user.is_authenticated():
+		return HttpResponse("Under Construction")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+def assistant_import_csv(request, user_id):
+	if request.user.is_authenticated():
+		return HttpResponse("Under Construction")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+
