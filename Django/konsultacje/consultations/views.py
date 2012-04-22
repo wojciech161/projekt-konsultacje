@@ -10,10 +10,13 @@ from consultations.models import User, Consultation, Localization, InfoBoard, As
 from django.contrib import auth
 from consultations import consultationdata
 from consultations import singleconsultationdata
+from consultations import uploadfileform
 from datetime import date
+import cStringIO as StringIO
 import csv
 import sys
 import time
+import os
 
 #FUNKCJE POMOCNICZE
 def get_data_for_consultations_detail(tutor_id):
@@ -901,6 +904,8 @@ def assistant_adduser(request, user_id):
 				status = "Dodano użytkownika"
 			except:
 				status = "Błąd: Nie mogę dodać użytkownika"
+			else:
+				return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 		return render_to_response('assistant_addtutor.html', {'user_id':user_id, 'user_login':login, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -930,7 +935,7 @@ def export_csv(request, user_id):
 		response = HttpResponse(mimetype='text/csv')
 		response['Content-Disposition'] = 'attachment; filename=konsultacje.csv'
 		writer = csv.writer(response)
-		writer.writerow(["Login, Tytuł, Imię, Nazwisko, Instytut, Telefon, E-mail, WWW, Lokalizacja(Pokój, Budynek), Konsultacje(Termin, Tydzień, Limit, Lokalizacja)"])
+		writer.writerow(['Login, Tytuł, Imię, Nazwisko, Instytut, Telefon, E-mail, WWW, Lokalizacja(Pokój, Budynek), Konsultacje(Termin, Tydzień, Limit, Lokalizacja)'])
 		
 		#Pobieramy tutorow i konsultacje
 		tutors = Tutor.objects.all()
@@ -941,20 +946,74 @@ def export_csv(request, user_id):
 			tutor_user = tutor.tutor_ID
 			for con in consultations:
 				loc = con.localization_ID
-				consultations_string += "".join(["%s %s %s:%s-%s:%s %s %s %s;" %(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con.students_limit, loc.building, loc.room)])
-			writer.writerow(["%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" %(tutor_user.login, tutor.degree, tutor.name, tutor.surname, tutor.institute, tutor.phone, tutor.email, tutor.www, tutor_loc.room, tutor_loc.building, consultations_string)])
+				consultations_string += ''.join(['%s %s %s:%s-%s:%s %s %s %s;' %(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con.students_limit, loc.building, loc.room)])
+			writer.writerow(['%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s' %(tutor_user.login, tutor.degree, tutor.name, tutor.surname, tutor.institute, tutor.phone, tutor.email, tutor.www, tutor_loc.room, tutor_loc.building, consultations_string)])
 		return response
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
 def assistant_backup(request, user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Under Construction")
+		from django.core.servers.basehttp import FileWrapper
+		dbname = "ProjektZespolowy"
+		user = "pzuser"
+		password = "pzpass"
+		host = "localhost"
+		
+		backup_dir = '/home/marcin/backupdir'
+		filename = 'backup_%s.sql' % time.strftime('%y%m%d')
+		filepath = os.path.join(backup_dir, filename)
+		
+		args = []
+		
+		args += ["%s"%dbname]
+		args += ["%s %s %s %s %s %s %s %s %s"%("consultations_administrator", "consultations_assistant", "consultations_consultation", "consultations_consultationassignment", "consultations_infoboard", "consultations_localization", "consultations_student", "consultations_tutor", "consultations_user")]
+		args += ["--user=%s"%user]
+		args += ["--password=%s"%password]
+		
+		print "mysqldump %s > %s"%(' '.join(args), filepath)
+		os.system("mysqldump %s > %s"%(' '.join(args), filepath))
+		sqlfile = open(filepath, "r")
+		wrapper = FileWrapper(sqlfile)
+		
+		response = HttpResponse(wrapper, mimetype='application/force-download')
+		response['Content-Disposition'] = 'attachment; filename=%s' % filename
+		response['Content-Length'] = os.path.getsize(filepath)
+		return response
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
 def assistant_restore(request, user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Under Construction")
+		status = ""
+		if request.method == 'POST':
+			form = uploadfileform.UploadFileForm(request.POST, request.FILES)
+			if form.is_valid():
+				filepath = "/home/marcin/backupdir/user_backup.sql"
+				file = request.FILES['file']
+				file_on_server = open(filepath, 'w')
+				for chunk in file.chunks():
+					file_on_server.write(chunk)
+				file_on_server.close()
+				
+				dbname = "ProjektZespolowy"
+				user = "root"
+				password = "antananarywa"
+				host = "localhost"
+				
+				args = []
+				
+				args += ["--user=%s"%user]
+				args += ["--password=%s"%password]
+				args += ["%s"%dbname]
+				
+				polecenie = "mysql %s < %s"%(' '.join(args), filepath)
+				print polecenie
+				os.system("mysql --verbose %s < %s"%(' '.join(args), filepath))
+				
+				status = "Pomyślnie przywrócono bazę danych"
+		else:
+			form = uploadfileform.UploadFileForm()
+		return render_to_response('assistant_restore.html', {'user_id':user_id,'form':form, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
