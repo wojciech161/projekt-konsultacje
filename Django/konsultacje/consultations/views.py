@@ -52,6 +52,15 @@ def get_data_for_consultations_detail(tutor_id):
 	data = {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}
 	return data
 	
+def count_consultation_hours(tutor_id):
+	tutor = Tutor.objects.get(id = tutor_id)
+	consultations = Consultation.objects.filter(tutor_ID = tutor)
+	total_consultation_hours = 0
+	for con in consultations:
+		hours = con.end_hour - con.start_hour
+		total_consultation_hours += hours
+	return total_consultation_hours
+		
 ##############KONIEC FUNKCJI POMOCNICZYCH
 
 def consultation_index(request):
@@ -423,8 +432,9 @@ def authorization(request):
 						state = "Zalogowano"
 						return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_from_table.id,)))
 					elif user_is_tutor and user_is_assistant:
-						#Dorobic pole wyboru jakies
-						pass
+						login(request, user)
+						state = "Zalogowano"
+						return HttpResponseRedirect(reverse('consultations.views.choose_panel', args=(user_from_table.id,)))
 					else:
 						state = "Błąd logowania!"
 			else:
@@ -488,6 +498,8 @@ def assistant_index(request, user_id):
 			except:
 				tutor_info = InfoBoard()
 				tutor_info.message = ""
+			# Liczymy godziny konsultacji
+			con_hours = count_consultation_hours(t_id)
 			consult = consultationdata.ConsultationsData()
 			consult.tutor_id = tutor.tutor_ID_id
 			consult.name = tutor.name
@@ -506,6 +518,10 @@ def assistant_index(request, user_id):
 				else:
 					consult.expiry = "not_expiry"
 			consult.info = tutor_info.message
+			if con_hours < 4:
+				consult.consultation_status = "Za mało godzin"
+			else:
+				consult.consultation_status = "OK"
 			consultations_data.append(consult)
 			consult = None
 		t = loader.get_template('assistant_index.html')
@@ -588,8 +604,12 @@ def assistant_tutor_delete_confirm(request, user_id, tutor_id):
 def assistant_tutor_delete(request, user_id, tutor_id):
 	if request.user.is_authenticated():
 		
-		tutor = Tutor.objects.filter(tutor_ID = tutor_id)
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		user = tutor.tutor_ID
+		localization = tutor.localization_ID
 		tutor.delete()
+		user.delete()
+		localization.delete()
 		
 		return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 	else:
@@ -720,7 +740,9 @@ def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
 	if request.user.is_authenticated():
 		
 		consult = Consultation.objects.get(id = consultation_id)
+		localization = consult.localization_ID
 		consult.delete()
+		localization.delete()
 		return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 	
 	else:
@@ -866,21 +888,23 @@ def assistant_adduser(request, user_id):
 				tutor.www = www
 				tutor.localization_ID = localization
 				
-				print tutor.tutor_ID
-				print tutor.degree
-				print tutor.name
-				print tutor.surname
-				print tutor.institute
-				print tutor.phone
-				print tutor.email
-				print tutor.www
-				print tutor.localization_ID
-				
 				tutor.save()
+				
+				iboard = InfoBoard()
+				iboard.date_of_adding = date.today()
+				iboard.message = ""
+				iboard.tutor_id = tutor
+				iboard.save()
 
 				status = "Dodano użytkownika"
 			except:
 				status = "Błąd: Nie mogę dodać użytkownika"
 		return render_to_response('assistant_addtutor.html', {'user_id':user_id, 'user_login':login, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def choose_panel(request, user_id):
+	if request.user.is_authenticated():
+		return render_to_response('choose_panel.html', {'user_id':user_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))

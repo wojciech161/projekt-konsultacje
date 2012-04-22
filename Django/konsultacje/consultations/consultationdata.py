@@ -10,3 +10,4 @@ class ConsultationsData(object):
 	consultations = ""
 	info = ""
 	expiry = ""
+	consultation_status = ""

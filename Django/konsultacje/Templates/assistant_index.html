@@ -46,6 +46,7 @@
     <td align="center" class="table_header">Nazwisko</td>
     <td align="center" class="table_header">Konsultacje</td>
     <td align="center" class="table_header">Edycja</td>
+    <td align="center" class="table_header">Status</td>
   </tr>
   
   <!---Lista prowadzących--->
@@ -67,6 +68,7 @@
 				</tr>
 				</table>
 			</td>
+			<td class="line_table_1"> {{ con.consultation_status }}</td>
 		</tr>
 	{% endfor %}
   </ul>
