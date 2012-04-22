@@ -31,6 +31,8 @@ urlpatterns = patterns('',
 	url(r'^assistant/(?P<user_id>\d+)/consultation/(?P<tutor_id>\d+)/deleteall/$', 'consultations.views.assistant_consultation_deleteall'),
 	url(r'^assistant/(?P<user_id>\d+)/csvexport/$', 'consultations.views.assistant_export_csv'),
 	url(r'^assistant/(?P<user_id>\d+)/csvimport/$', 'consultations.views.assistant_import_csv'),
+	url(r'^assistant/(?P<user_id>\d+)/export/$', 'consultations.views.export_csv'),
+	url(r'^assistant/(?P<user_id>\d+)/import/$', 'consultations.views.import_csv'),
 	url(r'^logout/$', 'consultations.views.logout'),
 	
     url(r'^admin/', include(admin.site.urls)),

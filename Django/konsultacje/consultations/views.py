@@ -11,6 +11,8 @@ from django.contrib import auth
 from consultations import consultationdata
 from consultations import singleconsultationdata
 from datetime import date
+import csv
+import sys
 import time
 
 #FUNKCJE POMOCNICZE
@@ -911,14 +913,42 @@ def choose_panel(request, user_id):
 		
 def assistant_export_csv(request, user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Under Construction")
+		return render_to_response('assistant_export_csv.html', {'user_id':user_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
 def assistant_import_csv(request, user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("Under Construction")
+		return render_to_response('assistant_import_csv.html', {'user_id':user_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
+def export_csv(request, user_id):
+	if request.user.is_authenticated():
+		reload(sys)
+		sys.setdefaultencoding('utf8')
+		response = HttpResponse(mimetype='text/csv')
+		response['Content-Disposition'] = 'attachment; filename=konsultacje.csv'
+		writer = csv.writer(response)
+		writer.writerow(["Login, Tytuł, Imię, Nazwisko, Instytut, Telefon, E-mail, WWW, Lokalizacja(Pokój, Budynek), Konsultacje(Termin, Tydzień, Limit, Lokalizacja)"])
+		
+		#Pobieramy tutorow i konsultacje
+		tutors = Tutor.objects.all()
+		for tutor in tutors:
+			consultations_string = ""
+			consultations = Consultation.objects.filter(tutor_ID = tutor)
+			tutor_loc = tutor.localization_ID
+			tutor_user = tutor.tutor_ID
+			for con in consultations:
+				loc = con.localization_ID
+				consultations_string += "".join(["%s %s %s:%s-%s:%s %s %s %s;" %(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con.students_limit, loc.building, loc.room)])
+			writer.writerow(["%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s" %(tutor_user.login, tutor.degree, tutor.name, tutor.surname, tutor.institute, tutor.phone, tutor.email, tutor.www, tutor_loc.room, tutor_loc.building, consultations_string)])
+		return response
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
+def import_csv(request, user_id):
+	if request.user.is_authenticated():
+		return HttpResponse("Under Construction")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
