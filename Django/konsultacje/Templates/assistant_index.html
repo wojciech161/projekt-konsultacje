@@ -61,14 +61,14 @@
 			<td class="line_table_1"> {{ con.surname }}</td>
 			<td class="line_table_1"> {{ con.consultations }}</td>
 			<td class="line_table_1"> 
-				<table border="0" cellspacing="2" cellpadding="12">
-				<tr>
+				<table border="0" cellspacing="0" cellpadding="0">
 				
-				<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/edit/" >Edycja Użytkownika </a></div></td>
-				<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ con.tutor_id }}/list/" >Edycja Konsultacji </a></div> </td>
-				<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/delete/confirm/" >Usuń Użytkownika </a></div> </td>
 				
-				</tr>
+				<tr> <div style="width: auto;" id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/edit/" >Edycja Użytkownika </a></div></tr>
+				<tr> <div style="width: auto;" id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ con.tutor_id }}/list/" >Edycja Konsultacji </a></div> </tr>
+				<tr> <div style="width: auto;" id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/delete/confirm/" >Usuń Użytkownika </a></div> </tr>
+				
+				
 				</table>
 			</td>
 			<td class="line_table_1"> {{ con.consultation_status }}</td>
@@ -82,7 +82,7 @@
 </div>
 <table style="padding-top:3px;" align="center" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <th><div align="center" id="buttons_hr"> <a href="/assistant/{{ user_id }}/adduser/" >Dodaj użytkownika</a></div></th>
+    <th><div align="center" style="width: auto;"  id="buttons_hr"> <a href="/assistant/{{ user_id }}/adduser/" >Dodaj użytkownika</a></div></th>
   </tr>
 </table>
     <p>&nbsp;</p></td>
