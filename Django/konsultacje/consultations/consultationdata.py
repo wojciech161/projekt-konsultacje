@@ -7,7 +7,7 @@ class ConsultationsData(object):
 	title = ""
 	localization = ""
 	phone = ""
-	consultations = ""
+	consultations = []
 	info = ""
 	expiry = ""
 	consultation_status = ""

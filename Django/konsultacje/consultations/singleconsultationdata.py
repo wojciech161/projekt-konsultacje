@@ -3,6 +3,7 @@ class SingleConsultationsData(object):
 	day = ""
 	week_type = ""
 	hours = ""
+	start_hour = ""
 	building = ""
 	room = ""
 	students_limit = ""

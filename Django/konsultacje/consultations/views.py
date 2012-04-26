@@ -12,6 +12,8 @@ from consultations import consultationdata
 from consultations import singleconsultationdata
 from consultations import uploadfileform
 from datetime import date
+from operator import itemgetter, attrgetter
+
 import cStringIO as StringIO
 import csv
 import sys
@@ -54,6 +56,24 @@ def get_data_for_consultations_detail(tutor_id):
 	
 	data = {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}
 	return data
+	
+def time_cmp(x,y):
+	if (x.day == y.day):
+		return int(x.start_hour - y.start_hour)
+	else:
+		days = { u'Poniedziałek' : 1,
+				u'Wtorek' : 2,
+				u'Środa' : 3,
+				u'Czwartek' : 4,
+				u'Piątek' : 5,
+				u'Sobota' : 6,
+				u'Niedziela' : 7,
+				}
+		x_val = days[x.day]
+		y_val = days[y.day]
+		return x_val - y_val
+	
+	
 	
 def count_consultation_hours(tutor_id):
 	tutor = Tutor.objects.get(id = tutor_id)
@@ -100,7 +120,7 @@ def consultation_index(request):
 		except:
 			pass
 		consult.phone = tutor.phone
-		consult.consultations = ""
+		consult.consultations = []
 		for con in tutor_consultations:
 			try:
 				con_localization = Localization.objects.get(id = con.localization_ID_id)
@@ -111,11 +131,15 @@ def consultation_index(request):
 				strcon = ""
 			else:
 				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;\n")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
-				
-			consult.consultations += strcon
+			if (strcon != ""):
+				consult.consultations.append(strcon)
 		consult.info = tutor_info.message
 		consultations_data.append(consult)
 		consult = None
+	consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
+	#consultations_data.sort(key=ConsultationsData.surname)
+	for cons in consultations_data:
+		print cons.surname
 	t = loader.get_template('index.html')
 	c = Context({'consultations_data' : consultations_data, })
 	return HttpResponse(t.render(c))
@@ -202,6 +226,7 @@ def consultations_detail(request, tutor_id):
 			consult = singleconsultationdata.SingleConsultationsData()
 			consult.day = consultation.day
 			consult.week_type = consultation.week_type
+			consult.start_hour = consultation.start_hour
 			consult.hours = "".join("%s.%s-%s.%s")%(consultation.start_hour, consultation.start_minutes, consultation.end_hour, consultation.end_minutes)
 			consult.building = consultation_localization.building
 			consult.room = consultation_localization.room
@@ -217,6 +242,7 @@ def consultations_detail(request, tutor_id):
 				consult.expiry = "not_expiry"
 			consultations_data.append(consult)
 			
+		consultations_data = sorted (consultations_data,  cmp=time_cmp)	
 		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
