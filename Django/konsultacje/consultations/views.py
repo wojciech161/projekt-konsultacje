@@ -341,6 +341,8 @@ def delete_consultation(request, tutor_id, consultation_id):
 	
 def add_consultation(request, tutor_id):
 	if request.user.is_authenticated():
+		
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		new_start_hour = ""
 		new_start_minutes = ""
 		new_end_minutes = ""
@@ -348,12 +350,15 @@ def add_consultation(request, tutor_id):
 		new_day = ""
 		new_week_type = ""
 		new_students_limit = ""
-		new_room = ""
-		new_building = ""
+		new_room = tutor.localization_ID.room
+		new_building = tutor.localization_ID.building
 		new_expiry_year = ""
 		new_expiry_month = ""
 		new_expiry_day = ""
 		new_expiry_date = ""
+		
+		print new_room
+		
 		if request.POST:
 			
 			new_start_hour = request.POST.get('start_hour')
@@ -382,13 +387,12 @@ def add_consultation(request, tutor_id):
 				new_localization.room = new_room
 				new_localization.building = new_building
 				new_localization.save()
-			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+			
 			
 			new_expiry_year = request.POST.get('expiry_year')
 			new_expiry_month = request.POST.get('expiry_month')
 			new_expiry_day = request.POST.get('expiry_day')
 			new_expiry_date = date(	int(new_expiry_year), int(new_expiry_month), int(new_expiry_day))
-
 			
 			if (new_start_hour != "" and new_start_minutes != "" and new_end_hour != "" and new_end_minutes != "" and new_day != "" and new_week_type != "" and new_localization != ""):
 				try:
@@ -408,7 +412,7 @@ def add_consultation(request, tutor_id):
 			else:
 				return HttpResponse("Nie mozna dodac konsultacji")
 				
-		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day}, context_instance = RequestContext(request))
+		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day, 'building' : new_building, 'room' : new_room}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -768,6 +772,9 @@ def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
 		
 def assistant_consultation_add(request, user_id, tutor_id):
 	if request.user.is_authenticated():
+		
+		tutor = Tutor.objects.get(tutor_ID_id = tutor_id)
+		
 		new_start_hour = ""
 		new_start_minutes = ""
 		new_end_minutes = ""
@@ -775,8 +782,8 @@ def assistant_consultation_add(request, user_id, tutor_id):
 		new_day = ""
 		new_week_type = ""
 		new_students_limit = ""
-		new_room = ""
-		new_building = ""
+		new_room = tutor.localization_ID.room
+		new_building = tutor.localization_ID.building
 		new_expiry = ""
 		new_expiry_date = ""
 		
@@ -798,8 +805,6 @@ def assistant_consultation_add(request, user_id, tutor_id):
 			new_localization.room = new_room
 			new_localization.building = new_building
 			new_localization.save()
-			
-			tutor = Tutor.objects.get(tutor_ID_id = tutor_id)
 			
 			new_consultation = Consultation()
 			new_consultation.tutor_ID = tutor
