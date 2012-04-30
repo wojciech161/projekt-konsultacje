@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 def authorize(login, password):
 	u"""Sprawdzanie na serwerze LDAP-a czy dane pasuja"""
 	
-	print "authorize"
+	#print "authorize"
 	server = "ldap://z-student.pwr.wroc.pl:389"
 	auth = "uid=%s, ou=People, o=pwr.wroc.pl,o=pracownicy"%login
-	print auth
+	#print auth
 	ld = ldap.initialize(server)
 		
 	try:
@@ -15,7 +15,7 @@ def authorize(login, password):
 		return result
 	except:
 		auth = "uid=%s, ou=People, o=student.pwr.wroc.pl,o=pracownicy"%login
-		print auth
+		#print auth
 		try:
 			result = ld.simple_bind_s(auth, password)
 			return result
@@ -25,9 +25,9 @@ def authorize(login, password):
 
 class LDAPBackend(object):
 	def authenticate(self, username=None, password=None):
-		print "Authenticate"
+		#print "Authenticate"
 		au = authorize(username, password)
-		print au
+		#print au
 		if au == -1:
 			return None
 		

@@ -971,10 +971,10 @@ def assistant_backup(request, user_id):
 		from django.core.servers.basehttp import FileWrapper
 		dbname = "ProjektZespolowy"
 		user = "root"
-		password = "shogun13"
+		password = "dupa8"
 		host = "localhost"
 		
-		backup_dir = 'C:\\backupdir'
+		backup_dir = '/home/kons/backup/'
 		filename = 'backup_%s.sql' % time.strftime('%y%m%d')
 		filepath = os.path.join(backup_dir, filename)
 		
@@ -1001,7 +1001,7 @@ def assistant_restore(request, user_id):
 		if request.method == 'POST':
 			form = uploadfileform.UploadFileForm(request.POST, request.FILES)
 			if form.is_valid():
-				filepath = "C:\\backupdir\user_backup.sql"
+				filepath = "/home/kons/restore/backup_tmp.sql"
 				file = request.FILES['file']
 				file_on_server = open(filepath, 'w')
 				for chunk in file.chunks():
@@ -1010,7 +1010,7 @@ def assistant_restore(request, user_id):
 				
 				dbname = "ProjektZespolowy"
 				user = "root"
-				password = "shogun13"
+				password = "dupa8"
 				host = "localhost"
 				
 				args = []
