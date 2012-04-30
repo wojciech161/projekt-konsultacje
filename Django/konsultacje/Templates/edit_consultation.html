@@ -25,13 +25,13 @@
       <p></p>
       <p align="center" class="title">Menu</p>
 <div id="coolmenu">
-<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
-<a href="/tutor/{{ tutor_id }}/infoboard/">Zamieść Informację</a>
+<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/consultations_detail/" align="center">Edycja konsultacji</a>
+<a href="/tutor/{{ tutor_id }}/infoboard/" align="center">Informacja dla studentów</a>
 </div>	
 <span style="height: 2px"></span>
 <div id="coolmenu">
-<a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
-<a href="/tutor/{{ tutor_id }}/">Zapisani studenci</a>
+<a href="/tutor/{{ tutor_id }}/edit/" align="center">Dane Osobowe</a>
+<a href="/tutor/{{ tutor_id }}/" align="center">Zapisani studenci</a>
 </div>	
 
 <p></p>
@@ -141,7 +141,7 @@
         <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
         <tr>
             <td>Data Wygaśnięcia:</td>
-            <td><input style="border: solid 1px; border-bottom-color: #993300;" id="date" size="8" type="text" value="{{ expiry_date }}" /></td>
+            <td><input style="border: solid 1px; border-bottom-color: #993300;" name="expiry_date" id="date" size="8" type="text" value="{{ expiry_date }}" /></td>
             <td><span id="expiry_massage_status"></span><span id="expiry_massage_example"></span></td>
         </tr>
         <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
@@ -152,12 +152,6 @@
         </tr>
         
        </table>
-  <!-- Po poprawieniu kodu w pythonie wykasować -->
-        <p>Data Wygaśnięcia:</p>
-		<p>Rok: <input name="expiry_year" type="text" class="okienko" value="{{ expiry_year }}" /></p>
-		<p>Miesiąc: <input name="expiry_month" type="text" class="okienko" value="{{ expiry_month }}" /></p>
-		<p>Dzień: <input name="expiry_day" type="text" class="okienko" value="{{ expiry_day }}" /></p>
-  <!--____________________________________________ -->	
     </form>
 		
 		
