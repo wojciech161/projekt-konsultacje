@@ -35,19 +35,65 @@
 <a href="index.html">Wyloguj</a></div>
 <p>&nbsp;</p></td>
     <td style="background-color:#FFF" valign="top">
-   
-    <p> <a>Tytul: </a> <input name="tytul" type="text" class="okienko" value="dr" /></p>
-    <p> <a>Imie: </a> <input name="imie" type="text" class="okienko" value="Marek" /></p>
-    <p> <a>Nazwisko: </a> <input name="nazwisko" type="text" class="okienko" value="Bawiec" /></p>
-    <p> <a>Pokój: </a> <input name="nazwisko" type="text" class="okienko" value="223" /></p>
-    <p> <a>Telefon: </a> <input name="nazwisko" type="text" class="okienko" value="27-59" /></p>
-    <p> <a>e-mail: </a> <input name="nazwisko" type="text" class="okienko" value="Marek.Bawiec@pwr.wroc.pl" /></p>
-    <p> <a>Strona: </a> <input name="nazwisko" type="text" class="okienko" value="http://zak.ict.pwr.wroc.pl/bawiec/" /></p>
-    <input type="submit" name="zmien" value="Znien Dane" />
-    
+           <table style="padding-left: 8px; padding-top: 5px; font-weight: bold;" border="0" cellspacing="0" cellpadding="0">
+          <tr style="padding-top:3px; margin-top:4px; padding: 5px;">
+          	<td ><a>Tytuł naukowy: </a></td>
+          	<td><input id="degree" name="tytul" type="text" class="okienko" value="{{ tutor.degree }}" /></td>
+            <td><span style="padding-left: 5px;" id="degree_massage_status"></span><span style="padding-left: 3px;" id="degree_massage_example"></span></td>
+          </tr>
+          <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+          <tr>
+          	<td><a>Imię: </a></td>
+          	<td><input id="name" name="imie" type="text" class="okienko" value="{{ tutor.name }}" /></td>
+            <td><span style="padding-left: 5px;" id="name_massage_status"></span><span style="padding-left: 3px;" id="name_massage_example"></span></td>
+          </tr>
+          <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+            <tr>
+          	<td><a>Nazwisko: </a></td>
+          	<td><input id="surname" name="nazwisko" type="text" class="okienko" value="{{ tutor.surname }}"/></td>
+            <td><span style="padding-left: 5px;" id="surname_massage_status"></span><span style="padding-left: 3px;" id="surname_massage_example"></span></td>
+          </tr>
+          <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+            <tr>
+          	<td><a>Budynek: </a></td>
+          	<td><input id="building" name="budynek" type="text" class="okienko" value="{{ localization.building }}" /></td>
+            <td><span style="padding-left: 5px;" id="building_massage_status"></span><span style="padding-left: 3px;" id="building_massage_example"></span></td>
+          </tr>
+          <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+            <tr>
+          	<td><a>Pokój: </a></td>
+          	<td><input id="room" name="pokoj" type="text" class="okienko" value="{{ localization.room }}" /></td>
+            <td><span style="padding-left: 5px;" id="room_massage_status"></span><span style="padding-left: 3px;" id="room_massage_example"></span></td>
+          </tr>
+          <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+            <tr>
+          	<td><a>Telefon: </a></td>
+          	<td><input id="phone" name="telefon" type="text" class="okienko" value="{{ tutor.phone }}" /></td>
+            <td><span style="padding-left: 5px;" id="phone_massage_status"></span><span style="padding-left: 2px;" id="phone_massage_example"></span></td>
+          </tr>
+          <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+            <tr>
+          	<td><a>E-mail: </a></td>
+          	<td><input id="email" name="email" type="text" class="okienko" value="{{ tutor.email }}" /></td>
+            <td><span style="padding-left: 5px;" id="email_massage_status"></span><span style="padding-left: 2px;" id="email_massage_example"></span></td>
+          </tr>
+          <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+          <tr>
+          	<td><a>Adres strony WWW:</a></td>
+          	<td><input id="www" name="www" type="text" class="okienko" value="{{ tutor.www }}" /></td>
+            <td><span style="padding-left: 5px;" id="www_massage_status"></span><span style="padding-left: 2px;" id="www_massage_example"></span></td>
+          </tr>
+          <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+        </table>
+          <a style="padding-left:5px;"><input id="button" disabled="disabled" style="color:#777777;" class="button_disabled" type="submit" name="zmien" value="Zmień Dane" /></a>
+        	{% if status != '' %}
+        		<p>{{ status }}</p>
+        	{% endif %}
     </td>
   </tr>
 </table>
 <p>&nbsp;</p>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/tutor_detail.js"></script>
 </body>
 </html>

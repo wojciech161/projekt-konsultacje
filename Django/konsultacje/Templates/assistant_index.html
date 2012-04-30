@@ -40,10 +40,16 @@
 </div>
 <p>&nbsp;</p></td>
 
-<td style="background-color:#FFF" valign="top">
+<td style="background-color:#FFF; padding-right: 8px;" valign="top">
 <p align="center">Lista prowadzących<p>
+<table style="padding-top:3px;" align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th><div align="center" style="width: auto;"  id="buttons_hr"> <a href="/assistant/{{ user_id }}/adduser/" >Dodaj użytkownika</a></div>
+	</th>
+  </tr>
+</table>
 <div style="padding-left:8px;">
-<table class="call_border" border="0" cellspacing="0" cellpadding="0">
+<table style="width: 100%;" class="call_border" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td align="center" class="table_header">Imię </td>
     <td align="center" class="table_header">Nazwisko</td>
@@ -59,18 +65,23 @@
 		<tr>
 			<td class="line_table_1"> {{ con.name }}</td>
 			<td class="line_table_1"> {{ con.surname }}</td>
-			<td class="line_table_1"> {{ con.consultations }}</td>
+			<td class="line_table_1">
+			{% for consult in con.consultations %}
+			{{ consult }} <br>
+			{% endfor %}
+			</td>
 			<td class="line_table_1"> 
-				<table border="0" cellspacing="0" cellpadding="0">
+				<table align="center" border="0" cellspacing="0" cellpadding="0">
 				
 				
-				<tr> <div style="width: auto;" id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/edit/" >Edycja Użytkownika </a></div></tr>
-				<tr> <div style="width: auto;" id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ con.tutor_id }}/list/" >Edycja Konsultacji </a></div> </tr>
-				<tr> <div style="width: auto;" id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/delete/confirm/" >Usuń Użytkownika </a></div> </tr>
+			<tr><td><div id="buttons_hr" style="background-color: #000000; width: 40px; height: 43px"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/edit/"><img alt="Edytuj Użytkownika" style="width: 40px; height: 40px;" src="/static/images/edit_user.png" /></a></div></td>
+				<td><div style="width: 40px; height: 43px" id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ con.tutor_id }}/list/" ><img width="40px" height="40px" src="/static/images/note.png" /></a></div></td>
+				<td><div style="width: 40px; height: 43px" id="buttons_hr"><a href="/assistant/{{ user_id }}/tutor/{{ con.tutor_id }}/delete/confirm/" ><img width="40px" height="40px" src="/static/images/delete_user.png"/></a></div></td></tr>
 				
 				
 				</table>
 			</td>
+            
 			<td class="line_table_1"> {{ con.consultation_status }}</td>
 		</tr>
 	{% endfor %}
@@ -80,11 +91,8 @@
   {% endif %}
 </table>
 </div>
-<table style="padding-top:3px;" align="center" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <th><div align="center" style="width: auto;"  id="buttons_hr"> <a href="/assistant/{{ user_id }}/adduser/" >Dodaj użytkownika</a></div></th>
-  </tr>
-</table>
+
+
     <p>&nbsp;</p></td>
   </tr>
 </table>

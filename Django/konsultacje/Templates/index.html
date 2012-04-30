@@ -19,11 +19,7 @@
 <div style="height:10px;"></div>
 <table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
 	<tr class="call_background_menu">
-    	<td width="230"><div id="coolmenu"><a href="http://www.pwr.wroc.pl">Politechnika Wrocławska</a></div></td>
-        <td width="113"><div id="coolmenu"><a href="https://edukacja.pwr.wroc.pl">Edukacja CL</a></div></td>
-        <td width="174"><div id="coolmenu"><a href="https://s.pwr.wroc.pl">Poczta Elektroniczna</a></div></td>
-        <td width="367"> </td>
-        <td width="116"><div id="coolmenu"><a href="/authorization/">Zaloguj</a></div></td>
+        <td><div align="center" style="width: 65px;"id="coolmenu"><a href="/authorization/">Zaloguj</a></div></td>
   
     </tr>
 </table>
@@ -63,10 +59,9 @@
 			<td class="line_table_1"> &nbsp;{{ con.localization }}</td>
 			<td class="line_table_1"> &nbsp;{{ con.phone }}</td>
 			<td class="line_table_1">
-			{% for kon in con.consultations %}
-				 &nbsp;{{ kon }} 
-				 <br>
-			{% endfor %}
+			{% for consult in con.consultations %}
+			 {{ consult }} <br>
+			 {% endfor %}
 			</td>
 			<td class="line_table_1"> &nbsp;{{ con.info }}</td>
 			<td>&nbsp;</td>

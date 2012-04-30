@@ -9,3 +9,4 @@ class SingleConsultationsData(object):
 	students_limit = ""
 	id = ""
 	expiry = ""
+	expiry_date = None

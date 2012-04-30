@@ -130,16 +130,13 @@ def consultation_index(request):
 			if (today>con.expiry_date):
 				strcon = ""
 			else:
-				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;\n")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
 			if (strcon != ""):
 				consult.consultations.append(strcon)
 		consult.info = tutor_info.message
 		consultations_data.append(consult)
 		consult = None
 	consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
-	#consultations_data.sort(key=ConsultationsData.surname)
-	for cons in consultations_data:
-		print cons.surname
 	t = loader.get_template('index.html')
 	c = Context({'consultations_data' : consultations_data, })
 	return HttpResponse(t.render(c))
@@ -240,6 +237,7 @@ def consultations_detail(request, tutor_id):
 				consult.expiry = "expiry"
 			else:
 				consult.expiry = "not_expiry"
+			consult.expiry_date = consultation.expiry_date
 			consultations_data.append(consult)
 			
 		consultations_data = sorted (consultations_data,  cmp=time_cmp)	
@@ -484,6 +482,8 @@ def edit_infoboard(request, tutor_id):
 			infoboard = InfoBoard.objects.get(tutor_id = tutor_id_from_table)
 		except:
 			infoboard = None
+		
+		print infoboard.message
 			
 		if request.POST:
 			#zbieramy dane
@@ -544,9 +544,8 @@ def assistant_index(request, user_id):
 					consult.expiry = "not_expiry"
 				if (strcon != ""):
 					consult.consultations.append(strcon)
-		
-				
-				
+			
+			
 			consult.info = tutor_info.message
 			if con_hours < 4:
 				consult.consultation_status = "Za mało godzin"
@@ -555,8 +554,6 @@ def assistant_index(request, user_id):
 			consultations_data.append(consult)
 			consult = None
 		consultations_data = sorted (consultations_data,  key=attrgetter('name'))
-		for con in consultations_data:
-			print con.name
 		t = loader.get_template('assistant_index.html')
 		c = Context({'user_id' : user_id, 'consultations_data' : consultations_data, })
 		return HttpResponse(t.render(c))
@@ -800,7 +797,8 @@ def assistant_consultation_add(request, user_id, tutor_id):
 				new_students_limit = 0
 			new_room = request.POST.get('room')
 			new_building = request.POST.get('building')
-
+			new_expiry = request.POST.get('expiry_date')
+			
 			new_localization = Localization()
 			new_localization.room = new_room
 			new_localization.building = new_building
@@ -818,9 +816,10 @@ def assistant_consultation_add(request, user_id, tutor_id):
 			
 			new_consultation.localization_ID = new_localization
 			
-			new_expiry = request.POST.get('expiry_date')
+			print new_expiry
+			print new_room
 			data = new_expiry.split('/')
-		
+			
 			new_expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
 			new_consultation.expiry_date = new_expiry_date
 			

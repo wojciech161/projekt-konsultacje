@@ -26,14 +26,19 @@
       <p></p>
       <p align="center" class="title">Menu</p>
 <div id="coolmenu">
-<a href="/tutor/{{ tutor_id }}/">Zapisani studenci</a>
-<a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
 <a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
 <a href="/tutor/{{ tutor_id }}/infoboard/">Zamieść Informację</a>
 </div>	
+<span style="height: 2px"></span>
+<div id="coolmenu">
+<a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
+<a href="/tutor/{{ tutor_id }}/">Zapisani studenci</a>
+</div>	
+
 <p></p>
 <div id="coolmenu">
-<a href="/logout/">Wyloguj</a></div>
+<a href="/logout/"><div align="center">Wyloguj</div></a>
+</div>
 <p>&nbsp;</p></td>
     <td style="background-color:#f8f3ec" valign="top">
 	<p></p>
@@ -53,17 +58,26 @@
 			<tr class="line_table_2">
 				
 				<td class="line_table_2" align="center">{{ konsultation.day }}</td>
-				<td class="line_table_2" align="center">{%  if konsultation.week_type == 'P' %}Parzysty{% endif %}{% if konsultation.week_type == 'N' %}Nieparzysty{% endif %}{% if konsultation.week_type == 'A' %}Co Tydzień{% endif %} {% if konsultation.expiry == 'expiry' %} EXP{% endif %} </td>
+				<td class="line_table_2" align="center">{%  if konsultation.week_type == 'P' %}Parzysty{% endif %}{% if konsultation.week_type == 'N' %}Nieparzysty{% endif %}{% if konsultation.week_type == 'A' %}Co Tydzień{% endif %}</td>
 				<td class="line_table_2" align="center">{{ konsultation.hours }} </td>
 				<td class="line_table_2" align="center">{{ konsultation.building }}</td>
 				<td class="line_table_2" align="center">{{ konsultation.room }}</td>
 				<td class="line_table_2" align="center">{{ konsultation.students_limit }}</td>
 				<td class="line_table_2" align="center">
-					<table border="0" cellspacing="2" cellpadding="12">
-						<tr>
-							<td> <div id="buttons_hr"><a href="/tutor/{{ tutor_id }}/consultations/edit/{{ konsultation.id }}" >Zmien </a></div></td>
-							<td> <div id="buttons_hr"><a href="/tutor/{{ tutor_id }}/consultations/delete/{{ konsultation.id }}" >Usun </a></div> </td>
-						</tr>
+					<table border="0" cellspacing="0" cellpadding="0">
+						<tr><td style="height: 5px;">
+							<table>
+                                <tr style="height: 5px;">
+                                    <td> <div id="buttons_hr"><a href="/tutor/{{ tutor_id }}/consultations/edit/{{ konsultation.id }}" >Zmien </a></div></td>
+                                    <td> <div id="buttons_hr"><a href="/tutor/{{ tutor_id }}/consultations/delete/{{ konsultation.id }}" >Usun </a></div> </td>
+                                </tr>
+                            </table> 
+                            <table align="center"> 
+                                <tr style="height: 5px;">
+                                    <td><div style="font-size: 12px; {% if konsultation.expiry == 'expiry' %}color: red;{% endif %}" >ważne do: {{ konsultation.expiry_date }}</div></td>                               
+                                </tr>
+                            </table> 
+                        </td></tr>
 					</table>
 				</td>
 			</tr>
@@ -83,5 +97,7 @@
 </table>
 
 <p>&nbsp;</p>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/cosultations_detail.js"></script>
 </body>
 </html>

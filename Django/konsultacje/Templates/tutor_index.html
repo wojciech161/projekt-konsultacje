@@ -25,17 +25,19 @@
       <p></p>
       <p align="center" class="title">Menu</p>
 <div id="coolmenu">
-<form name="menu" action="" method="POST" />
-<input type="hidden" name="username" value="{{ username }}" />
-<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/">Zapisani studenci</a>
-<a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
 <a href="/tutor/{{ tutor_id }}/consultations_detail/">Edycja konsultacji</a>
 <a href="/tutor/{{ tutor_id }}/infoboard/">Zamieść Informację</a>
-</form>
 </div>	
+<span style="height: 2px"></span>
+<div id="coolmenu">
+<a href="/tutor/{{ tutor_id }}/edit/">Dane Osobowe</a>
+<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/">Zapisani studenci</a>
+</div>	
+
 <p></p>
 <div id="coolmenu">
-<a href="/logout/">Wyloguj</a></div>
+<a href="/logout/"><div align="center">Wyloguj</div></a>
+</div>
 <p>&nbsp;</p></td>
     <td style="background-color:#f8f3ec; padding-left:5px;" valign="top">
 	<p align="center">Zapisani studenci<p>
