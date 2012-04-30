@@ -44,11 +44,11 @@
             <td>Dzień:</td>
             <td> 
         		<select class="selectt" name="day" id="day">
-        			<option {% if day == "Poniedziałek" %} selected="selected"  {% endif %} value="Poniedzialek">Poniedzialek</option>
+        			<option {% if day == "Poniedziałek" %} selected="selected"  {% endif %} value="Poniedziałek">Poniedzialek</option>
         			<option {% if day == "Wtorek" %} selected="selected"  {% endif %} value="Wtorek">Wtorek</option>
-        			<option {% if day == "Środa" %} selected="selected"  {% endif %} value="Sroda">Środa</option>
+        			<option {% if day == "Środa" %} selected="selected"  {% endif %} value="Środa">Środa</option>
         			<option {% if day == "Czwartek" %} selected="selected"  {% endif %} value="Czwartek">Czwartek</option>
-        			<option {% if day == "Piątek" %} selected="selected"  {% endif %} value="Piatek">Piątek</option>
+        			<option {% if day == "Piątek" %} selected="selected"  {% endif %} value="Piątek">Piątek</option>
         			<option {% if day == "Sobota" %} selected="selected"  {% endif %} value="Sobota">Sobota</option>
         			<option {% if day == "Niedziela" %} selected="selected"  {% endif %} value="Niedziela">Niedziela</option>
         		</select>
@@ -133,7 +133,7 @@
         <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
         <tr>
             <td>Data Wygaśnięcia:</td>
-            <td><input style="border: solid 1px; border-bottom-color: #993300;" id="date" size="8" type="text" value="{{ expiry_date }}" /></td>
+            <td><input style="border: solid 1px; border-bottom-color: #993300;" id="date" name="expiry_date" size="8" type="text" value="{{ expiry_date }}" /></td>
             <td></td>
         </tr>
         <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>

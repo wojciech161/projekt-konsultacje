@@ -738,6 +738,7 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 				expiry = request.POST.get('expiry_date')
 				data = expiry.split('/')
 				expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
+				consult.expiry_date = expiry_date
 			except:
 				pass
 			consult.save()
@@ -816,12 +817,11 @@ def assistant_consultation_add(request, user_id, tutor_id):
 			
 			new_consultation.localization_ID = new_localization
 			
-			print new_expiry
-			print new_room
 			data = new_expiry.split('/')
 			
 			new_expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
 			new_consultation.expiry_date = new_expiry_date
+			print new_consultation.expiry_date
 			
 			new_consultation.save()
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
