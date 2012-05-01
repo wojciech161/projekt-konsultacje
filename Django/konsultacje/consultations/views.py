@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from consultations.models import *
 from django.template import Context, loader
-from consultations.models import User, Consultation, Localization, InfoBoard, Assistant
+from consultations.models import User, Consultation, Localization, InfoBoard, Assistant, Administrator
 from django.contrib import auth
 from consultations import consultationdata
 from consultations import singleconsultationdata
@@ -417,6 +417,7 @@ def authorization(request):
 	username = password = ''
 	user_is_tutor = False
 	user_is_assistant = False
+	user_is_admin = False
 	if request.POST:
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -427,7 +428,7 @@ def authorization(request):
 				try:
 					user_from_table = User.objects.get(login = username)
 				except:
-					state = """Użytkownik nie posiada konta w bazie wykładowców.
+					state = """Użytkownik nie posiada konta w bazie danych.
 								Proszę skontaktować się z Administratorem"""
 				else:
 					try:
@@ -446,7 +447,15 @@ def authorization(request):
 					else:
 						user_is_assistant = True
 						
-					if user_is_tutor and not(user_is_assistant):
+					try:
+						admin_from_table = Administrator.objects.get(administrator_ID = user_from_table.id)
+					except:
+						user_is_admin = False
+						state = "Użytkownik nie jest administratorem"
+					else:
+						user_is_admin = True
+						
+					if user_is_tutor and not(user_is_assistant) and not(user_is_admin):
 						login(request, user)
 						state = "Zalogowano"
 						return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(user_from_table.id,)))
@@ -458,6 +467,14 @@ def authorization(request):
 						login(request, user)
 						state = "Zalogowano"
 						return HttpResponseRedirect(reverse('consultations.views.choose_panel', args=(user_from_table.id,)))
+					elif user_is_admin and not(user_is_tutor):
+						login(request, user)
+						state = "Zalogowano"
+						return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_from_table.id,)))
+					elif user_is_admin and user_is_tutor:
+						login(request, user)
+						state = "Zalogowano"
+						return HttpResponseRedirect(reverse('consultations.views.admin_choose_panel', args=(user_from_table.id,)))
 					else:
 						state = "Błąd logowania!"
 			else:
@@ -1028,3 +1045,594 @@ def assistant_restore(request, user_id):
 		return render_to_response('assistant_restore.html', {'user_id':user_id,'form':form, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+
+
+
+
+
+
+
+
+def admin_index(request, user_id):
+	if request.user.is_authenticated():
+		#Pobieramy wszystkich wykladowcow
+		try:
+			tutors_list = Tutor.objects.all()
+		except:
+			tutor_list = None
+			
+		consultations_data = []
+		for tutor in tutors_list:
+			t_id = tutor.id
+			try:
+				tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
+			except:
+				tutor_consultations = None
+			try:
+				tutor_localizations = Localization.objects.get(id = tutor.localization_ID_id)
+			except:
+				tutor_localizations = None
+			try:
+				tutor_info = InfoBoard.objects.get(tutor_id = t_id)
+			except:
+				tutor_info = InfoBoard()
+				tutor_info.message = ""
+			# Liczymy godziny konsultacji
+			con_hours = count_consultation_hours(t_id)
+			consult = consultationdata.ConsultationsData()
+			consult.tutor_id = tutor.tutor_ID_id
+			consult.name =tutor.name
+			consult.surname = tutor.surname
+			consult.www = "\"http://" + tutor.www + "\""
+			consult.title = tutor.degree
+			consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
+			consult.phone = tutor.phone
+			consult.consultations = ""
+			today = date.today()
+			consult.consultations = []
+			for con in tutor_consultations:
+				strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour, con.end_hour)
+				if(today>con.expiry_date):
+					consult.expiry = "expiry"
+				else:
+					consult.expiry = "not_expiry"
+				if (strcon != ""):
+					consult.consultations.append(strcon)
+			
+			
+			consult.info = tutor_info.message
+			if con_hours < 4:
+				consult.consultation_status = "Za mało godzin"
+			else:
+				consult.consultation_status = "OK"
+			consultations_data.append(consult)
+			consult = None
+		consultations_data = sorted (consultations_data,  key=attrgetter('name'))
+		t = loader.get_template('admin_index.html')
+		c = Context({'user_id' : user_id, 'consultations_data' : consultations_data, })
+		return HttpResponse(t.render(c))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_consultations_delete_confirm(request, user_id):
+	if request.user.is_authenticated():
+		return render_to_response('admin_consultations_delete_confirm.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_consultations_delete(request, user_id):
+	if request.user.is_authenticated():
+		
+		consult_list = Consultation.objects.all()
+		for c in consult_list:
+			c.delete()
+		
+		return render_to_response('admin_index.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_tutor_edit(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		status = ""
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_id_from_table = tutor.id
+		try:
+			localization = Localization.objects.get(id = tutor.localization_ID_id)
+		except:
+			localization = None
+			
+		if request.POST:
+			#zbiermay dane
+			try:
+				title = request.POST.get('tytul')
+				name = request.POST.get('imie')
+				surname = request.POST.get('nazwisko')
+				building = request.POST.get('budynek')
+				room = request.POST.get('pokoj')
+				phone = request.POST.get('telefon')
+				mail = request.POST.get('email')
+				www = request.POST.get('www')
+				
+				#zapisujemy zmiany w bazie
+				tutor.degree = title
+				tutor.name = name
+				tutor.surname = surname
+				tutor.phone = phone
+				tutor.email = mail
+				tutor.www = www
+				tutor.save()
+				localization.room = room
+				localization.building = building
+				localization.save()
+				status = "Dane zostały zmienione"
+				return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
+			except:
+				status = "Błąd: Nie mogę zmienić danych"
+		return render_to_response('admin_tutor_edit.html', {'user_id':user_id, 'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+	
+def admin_tutor_delete_confirm(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		return render_to_response('admin_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_tutor_delete(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		user = tutor.tutor_ID
+		localization = tutor.localization_ID
+		tutor.delete()
+		user.delete()
+		localization.delete()
+		
+		return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_consultation_list(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		#pobieramy tutora
+		try:
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		except:
+			return HttpResponse("Blad krytyczny")
+		tutor_id_from_table = tutor.id
+		#pobieramy konsultacje tutora
+		try:
+			consultations = Consultation.objects.filter(tutor_ID = tutor_id_from_table)
+		except:
+			consultations = None
+		#pobieramy lokalizacje
+		consultations_data = []
+		for consultation in consultations:
+			c_id = consultation.id
+			try:
+				tutor_of_consultation = consultation.tutor_ID
+			except:
+				tutor_of_consultation = None
+			try:
+				consultation_localization = consultation.localization_ID
+			except:
+				consultation_localization = None
+			consult = singleconsultationdata.SingleConsultationsData()
+			consult.day = consultation.day
+			consult.week_type = consultation.week_type
+			consult.start_hour = consultation.start_hour
+			consult.hours = "".join("%s.%s-%s.%s")%(consultation.start_hour, consultation.start_minutes, consultation.end_hour, consultation.end_minutes)
+			consult.building = consultation_localization.building
+			consult.room = consultation_localization.room
+			consult.students_limit = consultation.students_limit
+			if (consult.students_limit == 0):
+				consult.students_limit = "-"
+			consult.id = consultation.id
+			today = date.today();
+			if(today>consultation.expiry_date):
+				consult.expiry = "expiry"
+			else:
+				consult.expiry = "not_expiry"
+			consultations_data.append(consult)
+		consultations_data = sorted (consultations_data,  cmp=time_cmp)		
+		return render_to_response('admin_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))
+	else:
+		return render_to_response(reverse('consultations.views.authorization'))
+		
+def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
+	if request.user.is_authenticated():
+		try:
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+			consult = Consultation.objects.get(id = consultation_id)
+			localization = Localization.objects.get(id = consult.localization_ID_id)
+		except:
+			return HttpResponse("Blad krytyczny");
+		else:
+			start_hour = consult.start_hour
+			start_minutes = consult.start_minutes
+			end_hour = consult.end_hour
+			end_minutes = consult.end_minutes
+			day = consult.day
+			week_type = consult.week_type
+			students_limit = consult.students_limit
+			building = localization.building
+			room = localization.room
+			expiry_date = ""
+			expiry = ""
+			try:
+				expiry_year = consult.expiry_date.year
+				expiry_month = consult.expiry_date.month
+				expiry_day = consult.expiry_date.day
+				expiry ="".join("%s/%s/%s")%(expiry_day, expiry_month, expiry_year) 
+			except:
+				pass
+				
+		
+		if request.POST:
+			start_hour = request.POST.get('start_hour')
+			start_minutes = request.POST.get('start_minutes')
+			end_hour = request.POST.get('end_hour')
+			end_minutes = request.POST.get('end_minutes')
+			day = request.POST.get('day')
+			week_type = request.POST.get('week_type')
+			students_limit = request.POST.get('students_limit')
+			building = request.POST.get('building')
+			room = request.POST.get('room')
+			
+			consult.start_hour = start_hour
+			consult.start_minutes = start_minutes
+			consult.end_hour = end_hour
+			consult.end_minutes = end_minutes
+			consult.day = day
+			consult.week_type = week_type
+			consult.students_limit = students_limit
+			localization.building = building
+			localization.room = room
+			try:
+				expiry = request.POST.get('expiry_date')
+				data = expiry.split('/')
+				expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
+				consult.expiry_date = expiry_date
+			except:
+				pass
+			consult.save()
+			localization.save()
+			
+			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
+			
+		return render_to_response("admin_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry}, context_instance = RequestContext(request))
+	else:
+		return render_to_response(reverse('consultations.views.authorization'))
+		
+def admin_consultation_delete_confirm(request, user_id, tutor_id, consultation_id):
+	if request.user.is_authenticated():
+		return render_to_response('admin_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_consultation_delete(request, user_id, tutor_id, consultation_id):
+	if request.user.is_authenticated():
+		
+		consult = Consultation.objects.get(id = consultation_id)
+		localization = consult.localization_ID
+		consult.delete()
+		localization.delete()
+		return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
+	
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_consultation_add(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		
+		tutor = Tutor.objects.get(tutor_ID_id = tutor_id)
+		
+		new_start_hour = ""
+		new_start_minutes = ""
+		new_end_minutes = ""
+		new_end_hour = ""
+		new_day = ""
+		new_week_type = ""
+		new_students_limit = ""
+		new_room = tutor.localization_ID.room
+		new_building = tutor.localization_ID.building
+		new_expiry = ""
+		new_expiry_date = ""
+		
+		if request.POST:
+			
+			new_start_hour = request.POST.get('start_hour')
+			new_start_minutes = request.POST.get('start_minutes')
+			new_end_hour = request.POST.get('end_hour')
+			new_end_minutes = request.POST.get('end_minutes')
+			new_day = request.POST.get('day')
+			new_week_type = request.POST.get('week_type')
+			new_students_limit = request.POST.get('students_limit')
+			if (new_students_limit == ""):
+				new_students_limit = 0
+			new_room = request.POST.get('room')
+			new_building = request.POST.get('building')
+			new_expiry = request.POST.get('expiry_date')
+			
+			new_localization = Localization()
+			new_localization.room = new_room
+			new_localization.building = new_building
+			new_localization.save()
+			
+			new_consultation = Consultation()
+			new_consultation.tutor_ID = tutor
+			new_consultation.start_hour = new_start_hour
+			new_consultation.start_minutes = new_start_minutes
+			new_consultation.end_hour = new_end_hour
+			new_consultation.end_minutes = new_end_minutes
+			new_consultation.day = new_day
+			new_consultation.week_type = new_week_type
+			new_consultation.students_limit = new_students_limit
+			
+			new_consultation.localization_ID = new_localization
+			
+			data = new_expiry.split('/')
+			
+			new_expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
+			new_consultation.expiry_date = new_expiry_date
+		#	print new_consultation.expiry_date
+			
+			new_consultation.save()
+			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
+			
+		return render_to_response("admin_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date}, context_instance = RequestContext(request))
+	else:
+		return render_to_response(reverse('consultations.views.authorization'))
+		
+def admin_consultation_deleteall_confirm(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		return render_to_response('admin_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_consultation_deleteall(request, user_id, tutor_id):
+	if request.user.is_authenticated():
+		try:
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		except:
+			return HttpResponse("Blad krytyczny")
+		tutor_id_from_table = tutor.id
+		
+		consults = Consultation.objects.filter(tutor_ID_id = tutor_id_from_table)
+		for con in consults:
+			con.delete()
+		
+		return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_adduser(request, user_id):
+	if request.user.is_authenticated():
+		status = ""
+		login = ""
+		
+		user = User()
+		tutor = Tutor()
+		localization = Localization()
+		
+		user.login = ""
+		user.last_login_date = date.today()
+		user.typ = ""
+		
+		tutor.degree = ""
+		tutor.name = ""
+		tutor.surname = ""
+		tutor.institute = ""
+		tutor.phone = ""
+		tutor.email = ""
+		tutor.www = ""
+						
+		localization.room = ""
+		localization.building = ""
+		
+		if request.POST:
+			#zbiermay dane
+			try:
+				login = request.POST.get('login')
+				title = request.POST.get('tytul')
+				name = request.POST.get('imie')
+				surname = request.POST.get('nazwisko')
+				institute = request.POST.get('instytut')
+				building = request.POST.get('budynek')
+				room = request.POST.get('pokoj')
+				phone = request.POST.get('telefon')
+				mail = request.POST.get('email')
+				www = request.POST.get('www')
+				
+				#zapisujemy zmiany w bazie
+				
+				user.login = login
+				user.save()
+				
+				localization.room = room
+				localization.building = building
+				localization.save()
+				
+				tutor.tutor_ID = user
+				tutor.degree = title
+				tutor.name = name
+				tutor.surname = surname
+				tutor.institute = institute
+				tutor.phone = phone
+				tutor.email = mail
+				tutor.www = www
+				tutor.localization_ID = localization
+				
+				tutor.save()
+				
+				iboard = InfoBoard()
+				iboard.date_of_adding = date.today()
+				iboard.message = ""
+				iboard.tutor_id = tutor
+				iboard.save()
+
+				status = "Dodano użytkownika"
+			except:
+				status = "Błąd: Nie mogę dodać użytkownika"
+			else:
+				return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
+		return render_to_response('admin_addtutor.html', {'user_id':user_id, 'user_login':login, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_choose_panel(request, user_id):
+	if request.user.is_authenticated():
+		return render_to_response('admin_choose_panel.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_export_csv_confirm(request, user_id):
+	if request.user.is_authenticated():
+		return render_to_response('admin_export_csv.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+def admin_import_csv(request, user_id):
+	if request.user.is_authenticated():
+		return render_to_response('admin_import_csv.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_export_csv(request, user_id):
+	if request.user.is_authenticated():
+		reload(sys)
+		sys.setdefaultencoding('utf8')
+		response = HttpResponse(mimetype='text/csv')
+		response['Content-Disposition'] = 'attachment; filename=konsultacje.csv'
+		writer = csv.writer(response)
+		writer.writerow(['Login, Tytuł, Imię, Nazwisko, Instytut, Telefon, E-mail, WWW, Lokalizacja(Pokój, Budynek), Konsultacje(Termin, Tydzień, Limit, Lokalizacja)'])
+		
+		#Pobieramy tutorow i konsultacje
+		tutors = Tutor.objects.all()
+		for tutor in tutors:
+			consultations_string = ""
+			consultations = Consultation.objects.filter(tutor_ID = tutor)
+			tutor_loc = tutor.localization_ID
+			tutor_user = tutor.tutor_ID
+			for con in consultations:
+				loc = con.localization_ID
+				consultations_string += ''.join(['%s %s %s:%s-%s:%s %s %s %s;' %(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con.students_limit, loc.building, loc.room)])
+			writer.writerow(['%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s' %(tutor_user.login, tutor.degree, tutor.name, tutor.surname, tutor.institute, tutor.phone, tutor.email, tutor.www, tutor_loc.room, tutor_loc.building, consultations_string)])
+		return response
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+def admin_backup(request, user_id):
+	if request.user.is_authenticated():
+		from django.core.servers.basehttp import FileWrapper
+		dbname = "ProjektZespolowy"
+		user = "root"
+		password = "dupa8"
+		host = "localhost"
+		
+		backup_dir = '/home/kons/backup/'
+		filename = 'backup_%s.sql' % time.strftime('%y%m%d')
+		filepath = os.path.join(backup_dir, filename)
+		
+		args = []
+		
+		args += ["%s"%dbname]
+		args += ["%s %s %s %s %s %s %s %s %s"%("consultations_administrator", "consultations_assistant", "consultations_consultation", "consultations_consultationassignment", "consultations_infoboard", "consultations_localization", "consultations_student", "consultations_tutor", "consultations_user")]
+		args += ["--user=%s"%user]
+		args += ["--password=%s"%password]
+		os.system("mysqldump %s > %s"%(' '.join(args), filepath))
+		sqlfile = open(filepath, "r")
+		wrapper = FileWrapper(sqlfile)
+		
+		response = HttpResponse(wrapper, mimetype='application/force-download')
+		response['Content-Disposition'] = 'attachment; filename=%s' % filename
+		response['Content-Length'] = os.path.getsize(filepath)
+		return response
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+def admin_restore(request, user_id):
+	if request.user.is_authenticated():
+		status = ""
+		if request.method == 'POST':
+			form = uploadfileform.UploadFileForm(request.POST, request.FILES)
+			if form.is_valid():
+				filepath = "/home/kons/restore/backup_tmp.sql"
+				file = request.FILES['file']
+				file_on_server = open(filepath, 'w')
+				for chunk in file.chunks():
+					file_on_server.write(chunk)
+				file_on_server.close()
+				
+				dbname = "ProjektZespolowy"
+				user = "root"
+				password = "dupa8"
+				host = "localhost"
+				
+				args = []
+				
+				args += ["--user=%s"%user]
+				args += ["--password=%s"%password]
+				args += ["%s"%dbname]
+				
+				polecenie = "mysql %s < %s"%(' '.join(args), filepath)
+				os.system("mysql --verbose %s < %s"%(' '.join(args), filepath))
+				
+				status = "Pomyślnie przywrócono bazę danych"
+		else:
+			form = uploadfileform.UploadFileForm()
+		return render_to_response('admin_restore.html', {'user_id':user_id,'form':form, 'status':status}, context_instance = RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_assistant_list(request, user_id):
+	if request.user.is_authenticated():
+		assistant_list = Assistant.objects.all()
+		print assistant_list
+		return render_to_response('admin_assistant_list.html', {'user_id':user_id, 'assistant_list':assistant_list})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_assistant_add(request, user_id):
+	if request.user.is_authenticated():
+		return HttpResponse("W budowie")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_assistant_delete_confirm(request, user_id, assistant_id):
+	if request.user.is_authenticated():
+		return HttpResponse("W budowie")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_assistant_delete(request, user_id, assistant_id):
+	if request.user.is_authenticated():
+		return HttpResponse("W budowie")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+	
+def admin_admin_list(request, user_id):
+	if request.user.is_authenticated():
+		return HttpResponse("W budowie")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_admin_add(request, user_id):
+	if request.user.is_authenticated():
+		return HttpResponse("W budowie")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_admin_delete_confirm(request, user_id, admin_id):
+	if request.user.is_authenticated():
+		return HttpResponse("W budowie")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_admin_delete(request, user_id, admin_id):
+	if request.user.is_authenticated():
+		return HttpResponse("W budowie")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+	

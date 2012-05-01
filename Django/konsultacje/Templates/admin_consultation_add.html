@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Dodaj konsultację</title>
+<link href="/static/css/jquery-ui-1.8.19.custom.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.left #coolmenu a {
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body class="site_background">
+<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
+  </tr>
+</table>
+<p class="site_background">&nbsp;</p>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
+      <p></p>
+      <p align="center" class="title">Menu</p>
+<div id="coolmenu">
+<a href="/admin/{{ user_id }}/">Lista Prowadzących</a>
+<a href="/admin/{{ user_id }}/consultations_delete_confirm/">Usuń wszystkie konsultacje</a>
+<a href="/admin/{{ user_id }}/csvexport/">Eksport do CSV</a>
+<a href="/admin/{{ user_id }}/backup/">Kopia Bazy Danych</a>
+<a href="/admin/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
+<a href="/admin/{{ user_id }}/assistants/">Lista asystentów</a>
+<a href="/admin/{{ user_id }}/admins/">Lista administratorów</a>
+</div>	
+<p></p>
+<div id="coolmenu">
+<a href="/logout/">Wyloguj</a></div>
+<p>&nbsp;</p></td>
+    <td style="background-color:#f8f3ec; padding-left:5px;" valign="top">
+	<p align="center">Dodaj konsultację</p>
+	<form name="add_consultations" method="POST" action="/admin/{{ user_id }}/consultation/{{ tutor_id }}/add/">{% csrf_token %}
+		<table style="font-weight: bold;">
+        <tr>
+            <td>Dzień:</td>
+            <td> 
+        		<select class="selectt" name="day" id="day">
+        			<option {% if day == "Poniedziałek" %} selected="selected"  {% endif %} value="Poniedziałek">Poniedzialek</option>
+        			<option {% if day == "Wtorek" %} selected="selected"  {% endif %} value="Wtorek">Wtorek</option>
+        			<option {% if day == "Środa" %} selected="selected"  {% endif %} value="Środa">Środa</option>
+        			<option {% if day == "Czwartek" %} selected="selected"  {% endif %} value="Czwartek">Czwartek</option>
+        			<option {% if day == "Piątek" %} selected="selected"  {% endif %} value="Piątek">Piątek</option>
+        			<option {% if day == "Sobota" %} selected="selected"  {% endif %} value="Sobota">Sobota</option>
+        			<option {% if day == "Niedziela" %} selected="selected"  {% endif %} value="Niedziela">Niedziela</option>
+        		</select>
+            </td>
+            <td><span id="day_check_yes"></span></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr>
+            <td>Tydzień:</td>
+            <td>
+                <select id="week" class="selectt" name="week_type" id="week">
+        			<option {% if week_type == "P" %} selected="selected"  {% endif %} value="P">Parzysty</option>
+        			<option {% if week_type == "N" %} selected="selected"  {% endif %} value="N">Nieparzysty</option>
+        			<option {% if week_type == "A" %} selected="selected"  {% endif %} value="A">Co Tydzień</option>
+        		</select>
+            </td>
+        <td><span id="week_check_yes"></span></td>
+		</tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr>
+            <td>Godzina rozpoczęcia:</td>
+            <td> 
+        		<select id="start_hour" class="selectt" name="start_hour">
+        			<option {% if start_hour == 07 %} selected="selected"  {% endif %} value="07">07</option>
+        			<option {% if start_hour == 08 %} selected="selected"  {% endif %} value="08">08</option>
+        			<option {% if start_hour == 09 %} selected="selected"  {% endif %} value="09">09</option>
+        			<option {% if start_hour == 10 %} selected="selected"  {% endif %} value="10">10</option>
+        			<option {% if start_hour == 11 %} selected="selected"  {% endif %} value="11">11</option>
+        			<option {% if start_hour == 12 %} selected="selected"  {% endif %} value="12">12</option>
+        			<option {% if start_hour == 13 %} selected="selected"  {% endif %} value="13">13</option>
+        			<option {% if start_hour == 14 %} selected="selected"  {% endif %} value="14">14</option>
+        			<option {% if start_hour == 15 %} selected="selected"  {% endif %} value="15">15</option>
+        			<option {% if start_hour == 16 %} selected="selected"  {% endif %} value="16">16</option>
+        			<option {% if start_hour == 17 %} selected="selected"  {% endif %} value="17">17</option>
+        			<option {% if start_hour == 18 %} selected="selected"  {% endif %} value="18">18</option>
+        			<option {% if start_hour == 19 %} selected="selected"  {% endif %} value="19">19</option>
+        			<option {% if start_hour == 20 %} selected="selected"  {% endif %} value="20">20</option>
+        			<option {% if start_hour == 21 %} selected="selected"  {% endif %} value="21">21</option>
+        			<option {% if start_hour == 22 %} selected="selected"  {% endif %} value="22">22</option>	
+        		</select> 
+        		<select disabled="disabled" id="start_minutes" class="selectt" name="start_minutes">
+        			<option {% if start_minutes == "0" %} selected="selected"  {% endif %} value="0">00</option>
+                    <option {% if start_minutes == "15" %} selected="selected"  {% endif %} value="15">15</option>
+        			<option {% if start_minutes == "30" %} selected="selected"  {% endif %} value="30">30</option>
+        			<option {% if start_minutes == "45" %} selected="selected"  {% endif %} value="45">45</option>
+        			
+        		</select>
+            </td>
+            <td><span id="start_hour_check_yes"></span></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+		<tr>
+            <td>Godzina zakończenia:</td>
+            <td><span id="end_hour_span">
+                <select disabled="disabled">
+                    <option>07</option>
+                </select></span>
+                <span>
+                    <input id="end_minutes" type="text" size="2" name="end_minutes" />
+                </span>
+            <td><span id="end_hour_check_yes"></span></td>
+            </td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr>
+            <td>Budynek:</td>
+            <td><input id="building" name="building" type="text" class="okienko" value="{{ building }}" /></td>
+            <td><span id="building_massage_status"></span><span id="building_massage_example"></span></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr>
+            <td>Pokój:</td>
+            <td><input id="room" name="room" type="text" class="okienko" value="{{ room }}" /></td>
+            <td><span id="room_massage_status"></span><span id="room_massage_example"></span></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+		<tr>
+            <td>Limit studentów:</td>
+            <td><input id="students_limit" name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></td>
+            <td><span id="students_limit_massage_status"></span><span id="students_limit_massage_example"></span></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr>
+            <td>Data Wygaśnięcia:</td>
+            <td><input style="border: solid 1px; border-bottom-color: #993300;" id="date" name="expiry_date" size="8" type="text" value="{{ expiry_date }}" /></td>
+            <td></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr>
+            <td><input id="button" disabled="disabled" style="color:#777777;" class="button_disabled" type="submit" name="zmien" value="Dodaj" /></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+       </table>
+    </form>
+		
+		
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/add_consultation.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.19.custom.min.js"></script>
+</body>
+</html>

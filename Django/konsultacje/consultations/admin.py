@@ -60,7 +60,7 @@ class ConsultationAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Student)
 admin.site.register(Localization)
-#admin.site.register(Administrator)
+admin.site.register(Administrator)
 admin.site.register(Assistant)
 admin.site.register(Tutor, TutorAdmin)
 admin.site.register(Consultation, ConsultationAdmin)
