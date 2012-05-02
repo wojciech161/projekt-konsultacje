@@ -1602,14 +1602,17 @@ def admin_assistant_add(request, user_id):
 			try:
 				user = User.objects.get(login = na_login)
 			except:
-				status = "Nie ma takiego użytkownika w bazie!"
-			else:
-				na = Assistant()
-				na.assistant_ID = user
-				na.name = na_name
-				na.surname = na_surname
-				na.save()
-				return HttpResponseRedirect(reverse('consultations.views.admin_assistant_list', args=(user_id,)))
+				user = User()
+				user.login = na_login
+				user.typ = "assistant"
+				user.save()
+				
+			na = Assistant()
+			na.assistant_ID = user
+			na.name = na_name
+			na.surname = na_surname
+			na.save()
+			return HttpResponseRedirect(reverse('consultations.views.admin_assistant_list', args=(user_id,)))
 		return render_to_response('admin_addassistant.html', {'user_id':user_id, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -1646,14 +1649,17 @@ def admin_admin_add(request, user_id):
 			try:
 				user = User.objects.get(login = na_login)
 			except:
-				status = "Nie ma takiego użytkownika w bazie!"
-			else:
-				na = Administrator()
-				na.administrator_ID = user
-				na.name = na_name
-				na.surname = na_surname
-				na.save()
-				return HttpResponseRedirect(reverse('consultations.views.admin_admin_list', args=(user_id,)))
+				user = User()
+				user.login = na_login
+				user.typ = "admin"
+				user.save()
+				
+			na = Administrator()
+			na.administrator_ID = user
+			na.name = na_name
+			na.surname = na_surname
+			na.save()
+			return HttpResponseRedirect(reverse('consultations.views.admin_admin_list', args=(user_id,)))
 		return render_to_response('admin_addadmin.html', {'user_id':user_id, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
