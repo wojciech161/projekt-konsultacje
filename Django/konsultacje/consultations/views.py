@@ -293,6 +293,8 @@ def edit_consultation(request, tutor_id, consultation_id):
 					
 					students_limit = request.POST.get('students_limit')
 					consultation.students_limit = request.POST.get('students_limit')
+					if (consultation.students_limit == ""):
+						consultation.students_limit = 0
 					
 					building = request.POST.get('building')
 					
@@ -743,6 +745,8 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 			day = request.POST.get('day')
 			week_type = request.POST.get('week_type')
 			students_limit = request.POST.get('students_limit')
+			if (students_limit == ""):
+				students_limit = 0
 			building = request.POST.get('building')
 			room = request.POST.get('room')
 			
@@ -1275,6 +1279,8 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 			day = request.POST.get('day')
 			week_type = request.POST.get('week_type')
 			students_limit = request.POST.get('students_limit')
+			if (students_limit == ""):
+				students_limit = 0
 			building = request.POST.get('building')
 			room = request.POST.get('room')
 			
