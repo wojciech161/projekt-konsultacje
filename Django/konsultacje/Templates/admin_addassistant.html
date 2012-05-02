@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Dodaj prowadzącego</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.left #coolmenu a {
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body class="site_background">
+<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
+  </tr>
+</table>
+<p class="site_background">&nbsp;</p>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
+      <p></p>
+      <p align="center" class="title">Menu</p>
+<div id="coolmenu">
+<a href="/admin/{{ user_id }}/">Lista Prowadzących</a>
+<a href="/admin/{{ user_id }}/consultations_delete_confirm/">Usuń wszystkie konsultacje</a>
+<a href="/admin/{{ user_id }}/csvexport/">Eksport do CSV</a>
+<a href="/admin/{{ user_id }}/backup/">Kopia Bazy Danych</a>
+<a href="/admin/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
+<a href="/admin/{{ user_id }}/assistants/">Lista asystentów</a>
+<a href="/admin/{{ user_id }}/admins/">Lista administratorów</a>
+</div>	
+<p></p>
+<div id="coolmenu">
+<a href="/logout/">Wyloguj</a></div>
+<p>&nbsp;</p></td>
+    <td style="background-color:#f8f3ec" valign="top">
+{% csrf_token %}
+<form action="/admin/{{ user_id }}/addassistant/" name="formedit" method="POST">{% csrf_token %}
+<table style="padding-left:8px; padding-top: 5px; font-weight: bold;" border="0" cellspacing="0" cellpadding="0">
+  <tr style="padding-top:3px; margin-top:4px; padding: 5px;">
+  	<td ><a>Login: </a></td>
+  	<td><input id="login" name="login" type="text" class="okienko" /></td>
+    <td><span style="padding-left: 5px;" id="login_massage_status"></span><span style="padding-left: 3px;" id="login_massage_example"></span></td>
+  </tr>
+  <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+  <tr>
+  	<td><a>Imię: </a></td>
+  	<td><input id="name" name="imie" type="text" class="okienko" /></td>
+    <td><span style="padding-left: 5px;" id="name_massage_status"></span><span style="padding-left: 3px;" id="name_massage_example"></span></td>
+  </tr>
+  <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+    <tr>
+  	<td><a>Nazwisko: </a></td>
+  	<td><input id="surname" name="nazwisko" type="text" class="okienko" /></td>
+    <td><span style="padding-left: 5px;" id="surname_massage_status"></span><span style="padding-left: 3px;" id="surname_massage_example"></span></td>
+  </tr>
+  <tr style="height:9px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td></tr>
+</table>
+  <a style="padding-left:5px;"><input id="button" style="color:#777777;" type="submit" name="zmien" value="Dodaj" /></a>
+	{% if status != '' %}
+		<p>{{ status }}</p>
+	{% endif %}
+</form>
+    </td>
+  </tr>
+<p>&nbsp;</p>
+</body>
+</html>

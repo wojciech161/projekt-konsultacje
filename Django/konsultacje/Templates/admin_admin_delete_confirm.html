@@ -3,12 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title>Lista administratorów</title>
+<title>Odbierz prawa administratora</title>
 <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .left #coolmenu a {
 	font-size: 12px;
 }
+
 </style>
 </head>
 
@@ -25,8 +26,6 @@
       <p></p>
       <p align="center" class="title">Menu</p>
 <div id="coolmenu">
-<form name="menu" action="" method="POST" />
-<input type="hidden" name="username" value="{{ username }}" />
 <a href="/admin/{{ user_id }}/">Lista Prowadzących</a>
 <a href="/admin/{{ user_id }}/consultations_delete_confirm/">Usuń wszystkie konsultacje</a>
 <a href="/admin/{{ user_id }}/csvexport/">Eksport do CSV</a>
@@ -34,68 +33,22 @@
 <a href="/admin/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
 <a href="/admin/{{ user_id }}/assistants/">Lista asystentów</a>
 <a href="/admin/{{ user_id }}/admins/">Lista administratorów</a>
-</form>
 </div>	
 <p></p>
 <div id="coolmenu">
 <a href="/logout/">Wyloguj</a></div>
 </div>
 <p>&nbsp;</p></td>
-<td style="background-color:#FFF; padding-right: 8px;" valign="top">
-<p align="center">Lista administratorów<p>
-<table style="padding-top:3px;" align="center" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <th><div align="center" style="width: auto;"  id="buttons_hr"> <a href="/admin/{{ user_id }}/admin/add/" >Dodaj administratora</a></div>
-	</th>
-  </tr>
-</table>
-<div style="padding-left:8px;">
-<table style="width: 100%;" class="call_border" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td align="center" class="table_header">Imię </td>
-    <td align="center" class="table_header">Nazwisko</td>
-    <td align="center" class="table_header">Edycja</td>
-  </tr>
-  
-  {% if admin_list %}
-  <ul>
-  	{% for admin in admin_list %}
-		<tr>
-			<td class="line_table_1"> {{ admin.name }}</td>
-			<td class="line_table_1"> {{ admin.surname }}</td>
-			<td class="line_table_1"> 
-			<table align="center" border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td>
-<div style="width: 40px; height: 43px" id="buttons_hr">
-<a href="/admin/{{ user_id }}/admin/{{ admin.administrator_ID_id }}/delete/confirm/" ><img width="40px" height="40px" src="/static/images/delete_user.png"/></a>
-</div>
-</td>
+
+<td style="background-color:#FFF" valign="top">
+<p align="center">Zostaną odebrane prawa administratora. Jesteś pewien?<p>
+<div align="center" id="buttons_hr"> <a href="/admin/{{ user_id }}/admin/{{ admin_id }}/delete/" >Tak</a></div>
+<div align="center" id="buttons_hr"> <a href="/admin/{{ user_id }}/admins/" >Nie</a></div>
+<p>&nbsp;</p></td>
 </tr>
-				</table>
-			</td>
-		</tr>
-	{% endfor %}
-  </ul>
-  {% else %}
-	<p>Brak dostępnych administratorów</p>
-  {% endif %}
-</table>
-</div>
-
-
-    <p>&nbsp;</p></td>
-  </tr>
 </table>
 <p>&nbsp;</p>
 
+
 </body>
 </html>
-
-
-
-
-
-
-
-

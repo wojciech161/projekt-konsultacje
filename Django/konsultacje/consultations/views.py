@@ -411,7 +411,13 @@ def add_consultation(request, tutor_id):
 		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day, 'building' : new_building, 'room' : new_room}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
-		
+
+def admin_choose_panel(request, user_id):
+	if request.user.is_authenticated():
+		return render_to_response('admin_choose_panel.html', {'user_id':user_id})
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
 def authorization(request):	
 	state = "Proszę się zalogować"
 	username = password = ''
@@ -459,11 +465,11 @@ def authorization(request):
 						login(request, user)
 						state = "Zalogowano"
 						return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(user_from_table.id,)))
-					elif not(user_is_tutor) and user_is_assistant:
+					elif not(user_is_tutor) and user_is_assistant and not(user_is_admin):
 						login(request, user)
 						state = "Zalogowano"
 						return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_from_table.id,)))
-					elif user_is_tutor and user_is_assistant:
+					elif user_is_tutor and user_is_assistant and not(user_is_admin):
 						login(request, user)
 						state = "Zalogowano"
 						return HttpResponseRedirect(reverse('consultations.views.choose_panel', args=(user_from_table.id,)))
@@ -510,7 +516,7 @@ def edit_infoboard(request, tutor_id):
 				status = "Dane zostały zmienione"
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
-		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard}, context_instance = RequestContext(request))
+		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1046,14 +1052,6 @@ def assistant_restore(request, user_id):
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
-
-
-
-
-
-
-
-
 def admin_index(request, user_id):
 	if request.user.is_authenticated():
 		#Pobieramy wszystkich wykladowcow
@@ -1481,12 +1479,6 @@ def admin_adduser(request, user_id):
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
-def admin_choose_panel(request, user_id):
-	if request.user.is_authenticated():
-		return render_to_response('admin_choose_panel.html', {'user_id':user_id})
-	else:
-		return HttpResponseRedirect(reverse('consultations.views.authorization'))
-		
 def admin_export_csv_confirm(request, user_id):
 	if request.user.is_authenticated():
 		return render_to_response('admin_export_csv.html', {'user_id':user_id})
@@ -1589,50 +1581,88 @@ def admin_restore(request, user_id):
 def admin_assistant_list(request, user_id):
 	if request.user.is_authenticated():
 		assistant_list = Assistant.objects.all()
-		print assistant_list
 		return render_to_response('admin_assistant_list.html', {'user_id':user_id, 'assistant_list':assistant_list})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_assistant_add(request, user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("W budowie")
+		status = ""
+		if request.POST:
+			#na - new_assistant
+			na_login = request.POST.get("login")
+			na_name = request.POST.get("imie")
+			na_surname = request.POST.get("nazwisko")
+			try:
+				user = User.objects.get(login = na_login)
+			except:
+				status = "Nie ma takiego użytkownika w bazie!"
+			else:
+				na = Assistant()
+				na.assistant_ID = user
+				na.name = na_name
+				na.surname = na_surname
+				na.save()
+				return HttpResponseRedirect(reverse('consultations.views.admin_assistant_list', args=(user_id,)))
+		return render_to_response('admin_addassistant.html', {'user_id':user_id, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_assistant_delete_confirm(request, user_id, assistant_id):
 	if request.user.is_authenticated():
-		return HttpResponse("W budowie")
+		return render_to_response('admin_assistant_delete_confirm.html', {'user_id':user_id, 'assistant_id':assistant_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_assistant_delete(request, user_id, assistant_id):
 	if request.user.is_authenticated():
-		return HttpResponse("W budowie")
+		assistant = Assistant.objects.get(assistant_ID_id = assistant_id)
+		assistant.delete()
+		return HttpResponseRedirect(reverse('consultations.views.admin_assistant_list', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
 def admin_admin_list(request, user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("W budowie")
+		admin_list = Administrator.objects.all()
+		return render_to_response('admin_admin_list.html', {'user_id':user_id, 'admin_list':admin_list})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_admin_add(request, user_id):
 	if request.user.is_authenticated():
-		return HttpResponse("W budowie")
+		status = ""
+		if request.POST:
+			#na - new_admin
+			na_login = request.POST.get("login")
+			na_name = request.POST.get("imie")
+			na_surname = request.POST.get("nazwisko")
+			try:
+				user = User.objects.get(login = na_login)
+			except:
+				status = "Nie ma takiego użytkownika w bazie!"
+			else:
+				na = Administrator()
+				na.administrator_ID = user
+				na.name = na_name
+				na.surname = na_surname
+				na.save()
+				return HttpResponseRedirect(reverse('consultations.views.admin_admin_list', args=(user_id,)))
+		return render_to_response('admin_addadmin.html', {'user_id':user_id, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_admin_delete_confirm(request, user_id, admin_id):
 	if request.user.is_authenticated():
-		return HttpResponse("W budowie")
+		return render_to_response('admin_admin_delete_confirm.html', {'user_id':user_id, 'admin_id':admin_id})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_admin_delete(request, user_id, admin_id):
 	if request.user.is_authenticated():
-		return HttpResponse("W budowie")
+		admin = Administrator.objects.get(administrator_ID = admin_id)
+		admin.delete()
+		return HttpResponseRedirect(reverse('consultations.views.admin_admin_list', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
