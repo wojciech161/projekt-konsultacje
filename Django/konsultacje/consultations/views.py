@@ -130,7 +130,10 @@ def consultation_index(request):
 			if (today>con.expiry_date):
 				strcon = ""
 			else:
-				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+				acweek_type = con.week_type
+				if (acweek_type == 'A'):
+					acweek_type = " "
+				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, acweek_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
 			if (strcon != ""):
 				consult.consultations.append(strcon)
 		consult.info = tutor_info.message
@@ -560,7 +563,10 @@ def assistant_index(request, user_id):
 			today = date.today()
 			consult.consultations = []
 			for con in tutor_consultations:
-				strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour, con.end_hour)
+				acweek_type = con.week_type
+				if (acweek_type == 'A'):
+					acweek_type = " "
+				strcon = "".join("%s %s %s-%s;")%(con.day, acweek_type, con.start_hour, con.end_hour)
 				if(today>con.expiry_date):
 					consult.expiry = "expiry"
 				else:
@@ -689,6 +695,7 @@ def assistant_consultation_list(request, user_id, tutor_id):
 			consult = singleconsultationdata.SingleConsultationsData()
 			consult.day = consultation.day
 			consult.week_type = consultation.week_type
+
 			consult.start_hour = consultation.start_hour
 			consult.hours = "".join("%s.%s-%s.%s")%(consultation.start_hour, consultation.start_minutes, consultation.end_hour, consultation.end_minutes)
 			consult.building = consultation_localization.building
@@ -1094,7 +1101,10 @@ def admin_index(request, user_id):
 			today = date.today()
 			consult.consultations = []
 			for con in tutor_consultations:
-				strcon = "".join("%s %s %s-%s;")%(con.day, con.week_type, con.start_hour, con.end_hour)
+				acweek_type = con.week_type
+				if (acweek_type == 'A'):
+					acweek_type = " "
+				strcon = "".join("%s %s %s-%s;")%(con.day, acweek_type, con.start_hour, con.end_hour)
 				if(today>con.expiry_date):
 					consult.expiry = "expiry"
 				else:
@@ -1223,6 +1233,7 @@ def admin_consultation_list(request, user_id, tutor_id):
 			consult = singleconsultationdata.SingleConsultationsData()
 			consult.day = consultation.day
 			consult.week_type = consultation.week_type
+
 			consult.start_hour = consultation.start_hour
 			consult.hours = "".join("%s.%s-%s.%s")%(consultation.start_hour, consultation.start_minutes, consultation.end_hour, consultation.end_minutes)
 			consult.building = consultation_localization.building
