@@ -58,6 +58,8 @@ def get_data_for_consultations_detail(tutor_id):
 	return data
 	
 def time_cmp(x,y):
+	if (y == None):
+		return 1
 	if (x.day == y.day):
 		return int(x.start_hour - y.start_hour)
 	else:
@@ -120,22 +122,38 @@ def consultation_index(request):
 		except:
 			pass
 		consult.phone = tutor.phone
+		today = date.today()
 		consult.consultations = []
+		raw_consultations = []
 		for con in tutor_consultations:
 			try:
 				con_localization = Localization.objects.get(id = con.localization_ID_id)
 			except:
 				pass
-			today = date.today();
+			single_con = singleconsultationdata.SingleConsultationsData()
+			single_con.day = con.day
+			single_con.start_hour = con.start_hour
+			single_con.week_type = con.week_type
+			if (single_con.week_type == 'A'):
+				single_con.week_type = " "
+			single_con.end_hour = con.end_hour
+			single_con.expiry_date = con.expiry_date
+			single_con.start_minutes = con.start_minutes
+			single_con.end_minutes = con.end_minutes
+			single_con.building = con_localization.building
+			single_con.room = con_localization.room
+			raw_consultations.append(single_con)
+		raw_consultations = sorted(raw_consultations, cmp=time_cmp)
+		
+		for con in raw_consultations:
+			strcon = "".join("%s %s %s:%s-%s:%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
 			if (today>con.expiry_date):
 				strcon = ""
 			else:
-				acweek_type = con.week_type
-				if (acweek_type == 'A'):
-					acweek_type = " "
-				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, acweek_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
 			if (strcon != ""):
 				consult.consultations.append(strcon)
+		
 		consult.info = tutor_info.message
 		consultations_data.append(consult)
 		consult = None
@@ -562,18 +580,32 @@ def assistant_index(request, user_id):
 			consult.consultations = ""
 			today = date.today()
 			consult.consultations = []
+			raw_consultations = []
 			for con in tutor_consultations:
-				acweek_type = con.week_type
-				if (acweek_type == 'A'):
-					acweek_type = " "
-				strcon = "".join("%s %s %s-%s;")%(con.day, acweek_type, con.start_hour, con.end_hour)
+				single_con = singleconsultationdata.SingleConsultationsData()
+				single_con.day = con.day
+				single_con.start_hour = con.start_hour
+				single_con.week_type = con.week_type
+				if (single_con.week_type == 'A'):
+					single_con.week_type = " "
+				single_con.end_hour = con.end_hour
+				single_con.expiry_date = con.expiry_date
+				single_con.start_minutes = con.start_minutes
+				single_con.end_minutes = con.end_minutes
+				raw_consultations.append(single_con)
+			raw_consultations = sorted(raw_consultations, cmp=time_cmp)
+			
+			for con in raw_consultations:
+				strcon = "".join("%s %s %s:%s-%s:%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
 				if(today>con.expiry_date):
 					consult.expiry = "expiry"
 				else:
 					consult.expiry = "not_expiry"
 				if (strcon != ""):
 					consult.consultations.append(strcon)
-			
+
+					
+					
 			
 			consult.info = tutor_info.message
 			if con_hours < 4:
@@ -1100,11 +1132,23 @@ def admin_index(request, user_id):
 			consult.consultations = ""
 			today = date.today()
 			consult.consultations = []
+			raw_consultations = []
 			for con in tutor_consultations:
-				acweek_type = con.week_type
-				if (acweek_type == 'A'):
-					acweek_type = " "
-				strcon = "".join("%s %s %s-%s;")%(con.day, acweek_type, con.start_hour, con.end_hour)
+				single_con = singleconsultationdata.SingleConsultationsData()
+				single_con.day = con.day
+				single_con.start_hour = con.start_hour
+				single_con.week_type = con.week_type
+				if (single_con.week_type == 'A'):
+					single_con.week_type = " "
+				single_con.end_hour = con.end_hour
+				single_con.expiry_date = con.expiry_date
+				single_con.start_minutes = con.start_minutes
+				single_con.end_minutes = con.end_minutes
+				raw_consultations.append(single_con)
+			raw_consultations = sorted(raw_consultations, cmp=time_cmp)
+			
+			for con in raw_consultations:
+				strcon = "".join("%s %s %s:%s-%s:%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
 				if(today>con.expiry_date):
 					consult.expiry = "expiry"
 				else:
