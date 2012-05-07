@@ -582,9 +582,9 @@ def export_html(request, tutor_id):
 
 def admin_choose_panel(request, user_id):
 	if request.user.is_authenticated():
-		tutor = Tutor.objects.get(tutor_ID = tutor_id)
-		user_name = tutor.name
-		user_surname = tutor.surname	
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname	
 		return render_to_response('admin_choose_panel.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
