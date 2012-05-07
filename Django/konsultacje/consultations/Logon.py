@@ -20,7 +20,7 @@ def authorize(login, password):
 			result = ld.simple_bind_s(auth, password)
 			return result
 		except:
-			print "Logowanie nie powiodlo sie."
+			#print "Logowanie nie powiodlo sie."
 			return -1
 
 class LDAPBackend(object):
