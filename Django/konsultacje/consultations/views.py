@@ -1256,14 +1256,20 @@ def admin_index(request, user_id):
 			consult = None
 		consultations_data = sorted (consultations_data,  key=attrgetter('name'))
 		t = loader.get_template('admin_index.html')
-		c = Context({'user_id' : user_id, 'consultations_data' : consultations_data, })
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		c = Context({'user_id' : user_id, 'consultations_data' : consultations_data, 'user_name':user_name, 'user_surname':user_surname })
 		return HttpResponse(t.render(c))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_consultations_delete_confirm(request, user_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_consultations_delete_confirm.html', {'user_id':user_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1273,8 +1279,10 @@ def admin_consultations_delete(request, user_id):
 		consult_list = Consultation.objects.all()
 		for c in consult_list:
 			c.delete()
-		
-		return render_to_response('admin_index.html', {'user_id':user_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_index.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1315,13 +1323,19 @@ def admin_tutor_edit(request, user_id, tutor_id):
 				return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
-		return render_to_response('admin_tutor_edit.html', {'user_id':user_id, 'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname		
+		return render_to_response('admin_tutor_edit.html', {'user_id':user_id, 'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
 def admin_tutor_delete_confirm(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1382,8 +1396,11 @@ def admin_consultation_list(request, user_id, tutor_id):
 			else:
 				consult.expiry = "not_expiry"
 			consultations_data.append(consult)
-		consultations_data = sorted (consultations_data,  cmp=time_cmp)		
-		return render_to_response('admin_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))
+		consultations_data = sorted (consultations_data,  cmp=time_cmp)	
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1452,14 +1469,19 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 				return HttpResponse("Nie udało się zmienić konsultacji")
 			
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
-			
-		return render_to_response("admin_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry}, context_instance = RequestContext(request))
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname	
+		return render_to_response("admin_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
 def admin_consultation_delete_confirm(request, user_id, tutor_id, consultation_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1536,14 +1558,19 @@ def admin_consultation_add(request, user_id, tutor_id):
 			except:
 				return HttpResponse("Nie udało się dodać konsultacji")
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
-			
-		return render_to_response("admin_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date}, context_instance = RequestContext(request))
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname	
+		return render_to_response("admin_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
 def admin_consultation_deleteall_confirm(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1633,19 +1660,28 @@ def admin_adduser(request, user_id):
 				status = "Błąd: Nie mogę dodać użytkownika"
 			else:
 				return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
-		return render_to_response('admin_addtutor.html', {'user_id':user_id, 'user_login':login, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_addtutor.html', {'user_id':user_id, 'user_login':login, 'localization':localization, 'tutor':tutor, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_export_csv_confirm(request, user_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_export_csv.html', {'user_id':user_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_export_csv.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
 def admin_import_csv(request, user_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_import_csv.html', {'user_id':user_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_import_csv.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1732,14 +1768,17 @@ def admin_restore(request, user_id):
 				status = "Pomyślnie przywrócono bazę danych"
 		else:
 			form = uploadfileform.UploadFileForm()
-		return render_to_response('admin_restore.html', {'user_id':user_id,'form':form, 'status':status}, context_instance = RequestContext(request))
+		return render_to_response('admin_restore.html', {'user_id':user_id,'form':form, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_assistant_list(request, user_id):
 	if request.user.is_authenticated():
 		assistant_list = Assistant.objects.all()
-		return render_to_response('admin_assistant_list.html', {'user_id':user_id, 'assistant_list':assistant_list})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_assistant_list.html', {'user_id':user_id, 'assistant_list':assistant_list, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1765,13 +1804,19 @@ def admin_assistant_add(request, user_id):
 			na.surname = na_surname
 			na.save()
 			return HttpResponseRedirect(reverse('consultations.views.admin_assistant_list', args=(user_id,)))
-		return render_to_response('admin_addassistant.html', {'user_id':user_id, 'status':status}, context_instance = RequestContext(request))
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_addassistant.html', {'user_id':user_id, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_assistant_delete_confirm(request, user_id, assistant_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_assistant_delete_confirm.html', {'user_id':user_id, 'assistant_id':assistant_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_assistant_delete_confirm.html', {'user_id':user_id, 'assistant_id':assistant_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1786,7 +1831,10 @@ def admin_assistant_delete(request, user_id, assistant_id):
 def admin_admin_list(request, user_id):
 	if request.user.is_authenticated():
 		admin_list = Administrator.objects.all()
-		return render_to_response('admin_admin_list.html', {'user_id':user_id, 'admin_list':admin_list})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_admin_list.html', {'user_id':user_id, 'admin_list':admin_list, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1812,13 +1860,19 @@ def admin_admin_add(request, user_id):
 			na.surname = na_surname
 			na.save()
 			return HttpResponseRedirect(reverse('consultations.views.admin_admin_list', args=(user_id,)))
-		return render_to_response('admin_addadmin.html', {'user_id':user_id, 'status':status}, context_instance = RequestContext(request))
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_addadmin.html', {'user_id':user_id, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_admin_delete_confirm(request, user_id, admin_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_admin_delete_confirm.html', {'user_id':user_id, 'admin_id':admin_id})
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_name = admin.name
+		user_surname = admin.surname
+		return render_to_response('admin_admin_delete_confirm.html', {'user_id':user_id, 'admin_id':admin_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
