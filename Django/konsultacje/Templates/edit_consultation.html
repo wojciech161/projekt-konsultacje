@@ -97,7 +97,7 @@
         		</select> 
         		<select id="start_minutes" class="selectt" name="start_minutes">
         			<option value="1">wybierz</option>
-                    <option {% if start_minutes == "0" %} selected="selected"  {% endif %} value="00">00</option>
+                    <option {% if start_minutes == "00" %} selected="selected"  {% endif %} value="00">00</option>
                     <option {% if start_minutes == "15" %} selected="selected"  {% endif %} value="15">15</option>
         			<option {% if start_minutes == "30" %} selected="selected"  {% endif %} value="30">30</option>
         			<option {% if start_minutes == "45" %} selected="selected"  {% endif %} value="45">45</option>
@@ -110,11 +110,11 @@
 		<tr>
             <td>Godzina zakończenia:</td>
             <td><span id="end_hour_span">
-                <select disabled="disabled">
-                    <option>07</option>
+                <select disabled="disabled" id="end_hour">
+                    <option>{{ end_hour }}</option>
                 </select></span>
                 <span style="padding-left: 30px;"></span>
-                <span style="border: 1px solid black; padding-left: 2px; padding-right: 2px;" id="end_minutes">
+                <span class="end_minut" style="border: 1px solid black; padding-left: 2px; padding-right: 2px;" id="end_minutes">
                     {{ end_minutes }}
                 </span>
             <td><span id="end_hour_check_yes"></span></td>
@@ -160,7 +160,7 @@
 </table>
 <p>&nbsp;</p>
 <script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/add_consultation.js"></script>
+<script type="text/javascript" src="/static/js/edit_consultation.js"></script>
 <script type="text/javascript" src="/static/js/jquery-ui-1.8.19.custom.min.js"></script>
 </body>
 </html>
