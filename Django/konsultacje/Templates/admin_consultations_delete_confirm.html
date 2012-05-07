@@ -45,8 +45,14 @@
 
 <td style="background-color:#FFF" valign="top">
 <p align="center">Zostaną usunięte konsultacje wszystkich prowadzących. Jesteś pewien?<p>
-<div align="center" id="buttons_hr"> <a href="/admin/{{ user_id }}/consultations_delete/" >Tak</a></div>
-<div align="center" id="buttons_hr"> <a href="/admin/{{ user_id }}/" >Nie</a></div>
+<p align="center">Wpisz TAK(dużymi literami), jeśli chcesz potwierdzić usunięcie</p>
+{% csrf_token %}
+<form action="/admin/{{ user_id }}/consultations_delete_confirm/" name="formedit" method="POST">{% csrf_token %}
+<div align="center"></div><input id="name" name="potwierdzenie" type="text" class="okienko" /></div>
+<a style="padding-left:5px;"><input id="button" style="color:#777777;" type="submit" name="zmien" value="Usuń" /></a>
+<div align="center" id="buttons_hr"> <a href="/admin/{{ user_id }}/" >Anuluj</a></div>
+</form>
+<p>{{ status }}</p>
 <p>&nbsp;</p></td>
 </tr>
 </table>

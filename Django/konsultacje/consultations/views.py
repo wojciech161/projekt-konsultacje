@@ -672,9 +672,19 @@ def assistant_index(request, user_id):
 def assistant_consultations_delete_confirm(request, user_id):
 	if request.user.is_authenticated():
 		assistant = Assistant.objects.get(assistant_ID = user_id)
+		status = ""
+		
+		if request.POST:
+			confirmation = request.POST.get("potwierdzenie")
+			if(confirmation == "TAK"):
+				status = "Pomyślnie usunięto konsultacje z bazy."
+				return HttpResponseRedirect(reverse('consultations.views.assistant_consultations_delete', args=(user_id,)))
+			else:
+				status = "Nie udało się usunąć konsultacji."
+		
 		user_surname = assistant.surname
 		user_name = assistant.name
-		return render_to_response('assistant_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
+		return render_to_response('assistant_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -684,10 +694,7 @@ def assistant_consultations_delete(request, user_id):
 		consult_list = Consultation.objects.all()
 		for c in consult_list:
 			c.delete()
-		assistant = Assistant.objects.get(assistant_ID = user_id)
-		user_surname = assistant.surname
-		user_name = assistant.name	
-		return render_to_response('assistant_index.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
+		return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1269,7 +1276,17 @@ def admin_consultations_delete_confirm(request, user_id):
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
 		user_surname = admin.surname
-		return render_to_response('admin_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
+		status = ""
+		
+		if request.POST:
+			confirmation = request.POST.get("potwierdzenie")
+			if(confirmation == "TAK"):
+				status = "Usunięto konsultacje użytkowników."
+				return HttpResponseRedirect(reverse('consultations.views.admin_consultations_delete', args=(user_id,)))
+			else:
+				status = "Nie udało się usunąć konsultacji."
+		
+		return render_to_response('admin_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1279,10 +1296,7 @@ def admin_consultations_delete(request, user_id):
 		consult_list = Consultation.objects.all()
 		for c in consult_list:
 			c.delete()
-		admin = Administrator.objects.get(administrator_ID = user_id)
-		user_name = admin.name
-		user_surname = admin.surname
-		return render_to_response('admin_index.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
+		return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
