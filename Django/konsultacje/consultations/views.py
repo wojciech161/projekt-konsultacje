@@ -659,7 +659,7 @@ def assistant_index(request, user_id):
 				consult.consultation_status = "OK"
 			consultations_data.append(consult)
 			consult = None
-		consultations_data = sorted (consultations_data,  key=attrgetter('name'))
+		consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
 		t = loader.get_template('assistant_index.html')
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
@@ -1254,7 +1254,7 @@ def admin_index(request, user_id):
 				consult.consultation_status = "OK"
 			consultations_data.append(consult)
 			consult = None
-		consultations_data = sorted (consultations_data,  key=attrgetter('name'))
+		consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
 		t = loader.get_template('admin_index.html')
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
