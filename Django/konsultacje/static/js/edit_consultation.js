@@ -63,7 +63,7 @@ $(document).ready(function(){
  }  
  
  var list_value = $('.end_minut').text();
- alert(list_value);
+
  var temp='<input type="hidden" name="end_minutes" id="end_minutes" value="'+list_value+'" />'+list_value;
   $('#end_minutes').html(temp);    
     
