@@ -13,6 +13,7 @@ from consultations import singleconsultationdata
 from consultations import uploadfileform
 from datetime import date
 from operator import itemgetter, attrgetter
+import string
 
 import cStringIO as StringIO
 import csv
@@ -147,7 +148,6 @@ def consultation_index(request):
 		
 		for con in raw_consultations:
 			strcon = "".join("%s %s %s:%s-%s:%s %s %s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
-			print strcon
 			if (today>con.expiry_date):
 				strcon = " "
 			consult.consultations.append(strcon)
@@ -458,120 +458,118 @@ def export_html(request, tutor_id):
 		
 		
 		
-		html_dir = '/home/marcin/Desktop/'
+		html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
-		before_filepath = '/home/marcin/Desktop/przed.txt'
-		after_filepath = '/home/marcin/Desktop/po.txt'
+		before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
-		after = open(after_filepath, "r")
-		
+		i = 0
 		for lines in before:
 			html.write(lines)
-		
-		try:
-			tutors_list = Tutor.objects.all()
-		except:
-			tutor_list = None
-		
-			
-		consultations_data = []
-		for tutor in tutors_list:
-			t_id = tutor.id
-			try:
-				tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
-			except:
-				tutor_consultations = None
-			try:
-				tutor_localizations = Localization.objects.get(id = tutor.localization_ID_id)
-			except:
-				tutor_localizations = None
-			try:
-				tutor_info = InfoBoard.objects.get(tutor_id = t_id)
-			except:
-				tutor_info = InfoBoard()
-				tutor_info.message = ""
-			consult = consultationdata.ConsultationsData()
-			consult.name = tutor.name
-			consult.surname = tutor.surname
-			consult.www = "\"http://" + tutor.www + "\""
-			consult.title = tutor.degree
-			try:
-				consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
-			except:
-				pass
-			consult.phone = tutor.phone
-			today = date.today()
-			consult.consultations = []
-			raw_consultations = []
-			for con in tutor_consultations:
+			if (i<150):
+				print (lines.count("eeeeee"))
+				i = i+1
+			if (lines.count("eeeeee") == 1):
 				try:
-					con_localization = Localization.objects.get(id = con.localization_ID_id)
+					tutors_list = Tutor.objects.all()
 				except:
-					pass
-				single_con = singleconsultationdata.SingleConsultationsData()
-				single_con.day = con.day
-				single_con.start_hour = con.start_hour
-				single_con.week_type = con.week_type
-				if (single_con.week_type == 'A'):
-					single_con.week_type = " "
-				single_con.end_hour = con.end_hour
-				single_con.expiry_date = con.expiry_date
-				single_con.start_minutes = con.start_minutes
-				single_con.end_minutes = con.end_minutes
-				single_con.building = con_localization.building
-				single_con.room = con_localization.room
-				raw_consultations.append(single_con)
-			raw_consultations = sorted(raw_consultations, cmp=time_cmp)
+					tutor_list = None
+				
+					
+				consultations_data = []
+				for tutor in tutors_list:
+					t_id = tutor.id
+					try:
+						tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
+					except:
+						tutor_consultations = None
+					try:
+						tutor_localizations = Localization.objects.get(id = tutor.localization_ID_id)
+					except:
+						tutor_localizations = None
+					try:
+						tutor_info = InfoBoard.objects.get(tutor_id = t_id)
+					except:
+						tutor_info = InfoBoard()
+						tutor_info.message = ""
+					consult = consultationdata.ConsultationsData()
+					consult.name = tutor.name
+					consult.surname = tutor.surname
+					consult.www = "\"http://" + tutor.www + "\""
+					consult.title = tutor.degree
+					try:
+						consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
+					except:
+						pass
+					consult.phone = tutor.phone
+					today = date.today()
+					consult.consultations = []
+					raw_consultations = []
+					for con in tutor_consultations:
+						try:
+							con_localization = Localization.objects.get(id = con.localization_ID_id)
+						except:
+							pass
+						single_con = singleconsultationdata.SingleConsultationsData()
+						single_con.day = con.day
+						single_con.start_hour = con.start_hour
+						single_con.week_type = con.week_type
+						if (single_con.week_type == 'A'):
+							single_con.week_type = " "
+						single_con.end_hour = con.end_hour
+						single_con.expiry_date = con.expiry_date
+						single_con.start_minutes = con.start_minutes
+						single_con.end_minutes = con.end_minutes
+						single_con.building = con_localization.building
+						single_con.room = con_localization.room
+						raw_consultations.append(single_con)
+					raw_consultations = sorted(raw_consultations, cmp=time_cmp)
+					
+					for con in raw_consultations:
+						strcon = "".join("%s %s %s.%s-%s.%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
+						if (today>con.expiry_date):
+							strcon = ""
+						else:
+							strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+						if (strcon ==""):
+							strcon = ""
+						consult.consultations.append(strcon)
+					
+					consult.info = tutor_info.message
+					consultations_data.append(consult)
+					consult = None
+				consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
+				
+				check = 1
+				for con in consultations_data:
+					if (check == 1):
+						check = 2
+					else:
+						html.write("<TR> \n")
+					html.write("<TD>")
+					html.write(con.surname)
+					html.write("</TD>")
+					html.write("<TD>")
+					html.write(con.name)
+					html.write("</TD>")
+					html.write("<TD>")
+					html.write(con.title)
+					html.write("</TD>")
+					html.write("<TD>")
+					html.write(con.localization)
+					html.write("</TD>")
+					html.write("<TD>")
+					html.write(con.phone)
+					html.write("</TD>")
+					html.write("<TD>")
+					for single_con in con.consultations:
+						html.write(repr(single_con))
+						html.write("<br>")
+					html.write("</TD>")
+					html.write("</TR>")
 			
-			for con in raw_consultations:
-				strcon = "".join("%s %s %s.%s-%s.%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
-				if (today>con.expiry_date):
-					strcon = ""
-				else:
-					strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
-				if (strcon ==""):
-					strcon = ""
-				consult.consultations.append(strcon)
-			
-			consult.info = tutor_info.message
-			consultations_data.append(consult)
-			consult = None
-		consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
 		
-		check = 1
-		for con in consultations_data:
-			if (check == 1):
-				check = 2
-			else:
-				html.write("<TR> \n")
-			html.write("<TD>")
-			html.write(con.surname)
-			html.write("</TD>")
-			html.write("<TD>")
-			html.write(con.name)
-			html.write("</TD>")
-			html.write("<TD>")
-			html.write(con.title)
-			html.write("</TD>")
-			html.write("<TD>")
-			html.write(con.localization)
-			html.write("</TD>")
-			html.write("<TD>")
-			html.write(con.phone)
-			html.write("</TD>")
-			html.write("<TD>")
-			for single_con in con.consultations:
-				html.write(repr(single_con))
-				html.write("<br>")
-			html.write("</TD>")
-			html.write("</TR>")
-		
-		
-		for lines in after:
-			html.write(lines)
-		after.close()
 		before.close()
 		html.close()
 		return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(tutor_id,)))
