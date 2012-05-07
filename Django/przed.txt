@@ -1,0 +1,136 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl-pl" lang="pl-pl">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="Politechnika wrocławska, automatyka, robotyka, informatyka, elektronika" />
+  <meta name="title" content="Kontakty 2011/12 (lato)" />
+  <meta name="description" content="Strona Instytutu Informatyki, Automatyki i Robotyki, Wydział Elektroniki, Politechnika Wrocławska" />
+  <meta name="generator" content="Joomla! 1.5 - Open Source Content Management" />
+  <title>Kontakty 2011/12 (lato)</title>
+  <link href="/iiar/templates/ja_purity/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <link rel="stylesheet" href="/iiar/components/com_jevents/views/default/assets/css/modstyle.css" type="text/css" />
+  <link rel="stylesheet" href="/iiar/modules/mod_jflanguageselection/tmpl/mod_jflanguageselection.css" type="text/css" />
+  <script type="text/javascript" src="/iiar/media/system/js/mootools.js"></script>
+  <script type="text/javascript" src="/iiar/media/system/js/caption.js"></script>
+
+
+<link rel="stylesheet" href="http://www.iiar.pwr.wroc.pl/iiar/templates/system/css/system.css" type="text/css" />
+<link rel="stylesheet" href="http://www.iiar.pwr.wroc.pl/iiar/templates/system/css/general.css" type="text/css" />
+<link rel="stylesheet" href="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/css/template.css" type="text/css" />
+
+<script language="javascript" type="text/javascript" src="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/js/ja.script.js"></script>
+
+<script language="javascript" type="text/javascript">
+var rightCollapseDefault='show';
+var excludeModules='38';
+</script>
+<script language="javascript" type="text/javascript" src="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/js/ja.rightcol.js"></script>
+
+<link rel="stylesheet" href="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/css/menu.css" type="text/css" />
+
+<link rel="stylesheet" href="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/css/ja-sosdmenu.css" type="text/css" />
+<script language="javascript" type="text/javascript" src="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/js/ja.moomenu.js"></script>
+
+<link rel="stylesheet" href="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/styles/background/lighter/style.css" type="text/css" />
+<link rel="stylesheet" href="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/styles/elements/black/style.css" type="text/css" />
+
+<!--[if IE 7.0]>
+<style type="text/css">
+.clearfix {display: inline-block;}
+</style>
+<![endif]-->
+
+<style type="text/css">
+#ja-header,#ja-mainnav,#ja-container,#ja-botsl,#ja-footer {width: 97%;margin: 0 auto;}
+#ja-wrapper {min-width: 100%;}
+</style>
+</head>
+
+<body id="bd" class="fs3 OPE" >
+<a name="Top" id="Top"></a>
+<ul class="accessibility">
+	<li><a href="#ja-content" title="Skocz do głównej treści strony">Skocz do głównej treści strony</a></li>
+	<li><a href="#ja-mainnav" title="Skocz do głównej nawigacji">Skocz do głównej nawigacji</a></li>
+	<li><a href="#ja-col1" title="Skocz do pierwszej kolumny">Skocz do pierwszej kolumny</a></li>
+	<li><a href="#ja-col2" title="Skocz do drugiej kolumny">Skocz do drugiej kolumny</a></li>
+</ul>
+
+<div id="ja-wrapper">
+
+<!-- BEGIN: HEADER -->
+<div id="ja-headerwrap">
+	<div id="ja-header" class="clearfix" style="background: url(http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/images/header/header1.jpg) no-repeat top right;">
+
+	<div class="ja-headermask">&nbsp;</div>
+
+			<h1 class="logo-text">
+			<a href="/iiar/index.php" title="Instytut Informatyki, Automatyki i Robotyki"><span>Instytut Informatyki, Automatyki i Robotyki</span></a>
+		</h1>
+		<p class="site-slogan">www.iiar.pwr.wroc.pl</p>
+	
+			<ul class="ja-usertools-font">
+	      <li><img style="cursor: pointer;" title="Zwiększ rozmiar czcionki" src="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/images/user-increase.png" alt="Zwiększ rozmiar czcionki" id="ja-tool-increase" onclick="switchFontSize('ja_purity_ja_font','inc'); return false;" /></li>
+		  <li><img style="cursor: pointer;" title="Domyślny  rozmiar czcionki" src="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/images/user-reset.png" alt="Domyślny  rozmiar czcionki" id="ja-tool-reset" onclick="switchFontSize('ja_purity_ja_font',3); return false;" /></li>
+		  <li><img style="cursor: pointer;" title="Zmniejsz rozmiar czcionki" src="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/images/user-decrease.png" alt="Zmniejsz rozmiar czcionki" id="ja-tool-decrease" onclick="switchFontSize('ja_purity_ja_font','dec'); return false;" /></li>
+		</ul>
+		<script type="text/javascript">var CurrentFontSize=parseInt('3');</script>
+		
+			<div id="ja-search">
+			<div id="jflanguageselection"><div class="rawimages"><span><a href="http://www.ict.pwr.wroc.pl/iiar/index.php?option=com_content&amp;view=article&amp;id=187&amp;Itemid=85&amp;lang=en"><img src="/iiar/components/com_joomfish/images/flags/en.gif" alt="English (United Kingdom)" title="English (United Kingdom)" /></a></span><span id="active_language"><a href="http://www.iiar.pwr.wroc.pl/iiar/index.php?option=com_content&amp;view=article&amp;id=187&amp;Itemid=85&amp;lang=pl"><img src="/iiar/components/com_joomfish/images/flags/pl.gif" alt="Polish (Poland)" title="Polish (Poland)" /></a></span></div></div><!--Joom!fish V2.0 (RC)-->
+<!-- &copy; 2003-2008 Think Network, released under the GPL. -->
+<!-- More information: at http://www.joomfish.net -->
+		</div>
+	
+	</div>
+</div>
+<!-- END: HEADER -->
+
+<!-- BEGIN: MAIN NAVIGATION -->
+<div id="ja-mainnavwrap">
+	<div id="ja-mainnav" class="clearfix">
+	<ul id="mainlevel-nav"><li><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=47&amp;Itemid=56&amp;lang=pl" class="mainlevel-nav" >Instytut</a></li><li><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=61&amp;Itemid=74&amp;lang=pl" class="mainlevel-nav" >Badania</a></li><li><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=187&amp;Itemid=85&amp;lang=pl" class="mainlevel-nav" id="active_menu-nav">Dydaktyka</a></li><li><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=88&amp;Itemid=89&amp;lang=pl" class="mainlevel-nav" >Pracownicy</a></li><li><a href="/iiar/index.php?option=com_content&amp;view=category&amp;layout=blog&amp;id=45&amp;Itemid=54&amp;lang=pl" class="mainlevel-nav" >Ogłoszenia</a></li></ul>
+	</div>
+</div>
+<!-- END: MAIN NAVIGATION -->
+
+<div id="ja-containerwrap-fr">
+<div id="ja-containerwrap2">
+	<div id="ja-container">
+	<div id="ja-container2" class="clearfix">
+
+		<div id="ja-mainbody-fr" class="clearfix">
+
+		<!-- BEGIN: CONTENT -->
+		<div id="ja-contentwrap">
+		<div id="ja-content">
+
+			
+
+						<div id="ja-pathway">
+				<span class="breadcrumbs pathway">
+<a href="http://www.iiar.pwr.wroc.pl/iiar/" class="pathway">Home</a> <img src="/iiar/templates/ja_purity/images/arrow.png" alt=""  /> Dydaktyka</span>
+
+			</div>
+			
+			
+<h2 class="contentheading">
+			Kontakty 2011/12 (lato)	</h2>
+
+
+
+
+<div class="article-content">
+<TABLE class="style=WIDTH: 647px mceItemTable" border="0" cellSpacing="0">
+<TBODY>
+<TR style="BACKGROUND-COLOR: rgb(192,192,192)" mce_style="background-color: #c0c0c0;">
+<TD width="195" align="left"><I>nazwisko/www</I></TD>
+<TD width="129" align="left"> imie</TD>
+<TD width="158" align="left"> tytul</TD>
+<TD width="92" align="left"><I>miejsce</I></TD>
+<TD width="133" align="left"><I>telefon</I></TD>
+<TD width="500" align="left"><I>konsultacje</I></TD></TR>
+<TR style="BACKGROUND-COLOR: rgb(238,238,238)" mce_style="background-color: #eeeeee;">
