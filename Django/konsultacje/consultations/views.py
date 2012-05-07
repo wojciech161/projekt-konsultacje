@@ -1768,6 +1768,11 @@ def admin_restore(request, user_id):
 				status = "Pomyślnie przywrócono bazę danych"
 		else:
 			form = uploadfileform.UploadFileForm()
+			
+		admin = Administrator.objects.get(administrator_ID = user_id)
+		user_surname = admin.surname
+		user_name = admin.name
+		
 		return render_to_response('admin_restore.html', {'user_id':user_id,'form':form, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))

@@ -24,16 +24,19 @@
     <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
       <p></p>
       <p align="center" class="title">Menu</p>
-<div id="coolmenu">
 <form name="menu" action="" method="POST" />
 <input type="hidden" name="username" value="{{ username }}" />
+<div id="coolmenu">
 <a href="/assistant/{{ user_id }}/">Lista Prowadzących</a>
-<a href="/assistant/{{ user_id }}/consultations_delete_confirm/">Usuń wszystkie konsultacje</a>
 <a href="/assistant/{{ user_id }}/csvexport/">Eksport do CSV</a>
 <a href="/assistant/{{ user_id }}/backup/">Kopia Bazy Danych</a>
 <a href="/assistant/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
-</form>
+</div>
+<p></p>
+<div id="coolmenu">
+<a href="/assistant/{{ user_id }}/consultations_delete_confirm/">Usuń wszystkie konsultacje</a>
 </div>	
+</form>
 <p></p>
 <div id="coolmenu">
 <a href="/logout/">Wyloguj</a></div>
