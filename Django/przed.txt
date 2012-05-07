@@ -128,9 +128,196 @@ var excludeModules='38';
 <TBODY>
 <TR style="BACKGROUND-COLOR: rgb(192,192,192)" mce_style="background-color: #c0c0c0;">
 <TD width="195" align="left"><I>nazwisko/www</I></TD>
-<TD width="129" align="left"> imie</TD>
-<TD width="158" align="left"> tytul</TD>
-<TD width="92" align="left"><I>miejsce</I></TD>
-<TD width="133" align="left"><I>telefon</I></TD>
+<TD width="129" align="left"> </TD>
+<TD width="158" align="left"> </TD>
+<TD width="92" align="left"><I>C-3</I></TD>
+<TD width="133" align="left"><I>71-320-</I></TD>
 <TD width="500" align="left"><I>konsultacje</I></TD></TR>
 <TR style="BACKGROUND-COLOR: rgb(238,238,238)" mce_style="background-color: #eeeeee;">
+
+</TBODY></TABLE>
+<P> </P>
+
+</div>
+
+	<span class="modifydate">
+		Poprawiony: środa, 04 kwietnia 2012 14:23	</span>
+
+<span class="article_separator">&nbsp;</span>
+
+
+			
+		</div>
+		</div>
+		<!-- END: CONTENT -->
+
+				<!-- BEGIN: LEFT COLUMN -->
+		<div id="ja-col1">
+					<div class="moduletable_menu">
+					<h3>Dydaktyka</h3>
+					<ul class="menu"><li class="item82"><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=187&amp;Itemid=82&amp;lang=pl"><span>Konsultacje, strony, telefony</span></a></li><li class="item102"><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=130&amp;Itemid=102&amp;lang=pl"><span>Rozkład zajęć prowadzących</span></a></li><li class="item106"><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=136&amp;Itemid=106&amp;lang=pl"><span>Kierunki i specjalności</span></a></li><li class="item95"><a href="/iiar/index.php?option=com_content&amp;view=category&amp;id=46&amp;Itemid=95&amp;lang=pl"><span>Kierunki zamawiane 2009/10</span></a></li><li class="item114"><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=174&amp;Itemid=114&amp;lang=pl"><span>Laboratoria dydaktyczne</span></a></li><li class="item81"><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=67&amp;Itemid=81&amp;lang=pl"><span>Koła naukowe</span></a></li><li class="item83"><a href="/iiar/index.php?option=com_content&amp;view=category&amp;id=58&amp;Itemid=83&amp;lang=pl"><span>Doktoranci</span></a></li><li class="item115"><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=177&amp;Itemid=115&amp;lang=pl"><span>Praktyki</span></a></li><li class="item116"><a href="/iiar/index.php?option=com_content&amp;view=article&amp;id=188&amp;Itemid=116&amp;lang=pl"><span>Konkursy, nagrody</span></a></li><li class="item107"><a href="/iiar/index.php?option=com_content&amp;view=category&amp;id=47&amp;Itemid=107&amp;lang=pl"><span>Dyplomy I stopnia</span></a></li><li class="item111"><a href="/iiar/index.php?option=com_content&amp;view=category&amp;id=57&amp;Itemid=111&amp;lang=pl"><span>Dyplomy II stopnia</span></a></li><li class="item120"><a href="http://dyplomy.pwr.wroc.pl/w4/" target="_blank"><span>Wykaz tematów PD/PI</span></a></li><li class="item113"><span class="separator"><span>SZPD (sys.instytutowy):</span></span></li><li class="item119"><a href="http://www.iiar.pwr.wroc.pl/pd2011/" target="_blank"><span>Prace dyplomowe 2011/12</span></a></li><li class="item108"><a href="http://www.iiar.pwr.wroc.pl/pd2010/" target="_blank"><span>Prace dyplomowe 2010/11</span></a></li><li class="item88"><a href="http://www.iiar.pwr.wroc.pl/pd2009/" target="_blank"><span>Prace dyplomowe 2009/10</span></a></li><li class="item84"><a href="http://www.iiar.pwr.wroc.pl/pd2008/" target="_blank"><span>Prace dyplomowe 2008/09</span></a></li><li class="item91"><a href="http://www.iiar.pwr.wroc.pl/pd2007/" target="_blank"><span>Prace dyplomowe 2007/08</span></a></li><li class="item110"><a href="http://www.iiar.pwr.wroc.pl/pd2006"><span>Prace dyplomowe 2006/07</span></a></li><li class="item99"><a href="http://zapisy.pwr.wroc.pl/dydaktyka/katalog/index.php"><span>Opis kursów - katalog EKA</span></a></li></ul>		</div>
+			<div class="moduletable">
+					<h3>Kalendarz</h3>
+						<script language="javascript"  type="text/javascript" ><!--
+	function navLoaded(elem, modid){
+		var myspan = document.getElementById("testspan"+modid);
+		var modbody = myspan.parentNode;
+		modbody.innerHTML=elem.innerHTML;
+	}
+	function callNavigation(link){
+		var mybody = document.getElementsByTagName('body')[0];
+		if (!document.getElementById('calnav')){
+			iframe = document.createElement('iframe');
+			iframe.setAttribute("name","calnav");
+			iframe.setAttribute("id","calnav");
+			iframe.style.display = "none";
+		}
+		mybody.appendChild(iframe);
+		iframe.setAttribute("src",link);
+	}
+	//--></script>
+	<div style="margin:0px;padding:0px;border-width:0px;"><span id='testspan48' style='display:none'></span>
+
+<table cellpadding="0" cellspacing="0" align="center" class="mod_events_monthyear" >
+<tr >
+<td><div class="mod_events_link" onmousedown="callNavigation('index.php?option=com_jevents&amp;task=modcal.ajax&amp;day=1&amp;month=05&amp;year=2011&amp;modid=48&amp;tmpl=component');">&laquo;</div>
+</td><td><div class="mod_events_link" onmousedown="callNavigation('index.php?option=com_jevents&amp;task=modcal.ajax&amp;day=1&amp;month=04&amp;year=2012&amp;modid=48&amp;tmpl=component');">&lt;</div>
+</td><td align="center"><a href="/iiar/index.php?option=com_jevents&amp;Itemid=1&amp;task=month.calendar&amp;month=05&amp;year=2012&amp;lang=pl" class = "mod_events_link" title = "Go to calendar - current month">May</a> <a href="/iiar/index.php?option=com_jevents&amp;Itemid=1&amp;task=year.listevents&amp;month=05&amp;year=2012&amp;lang=pl" class = "mod_events_link" title = "Go to calendar - current year">2012</a> </td><td><div class="mod_events_link" onmousedown="callNavigation('index.php?option=com_jevents&amp;task=modcal.ajax&amp;day=1&amp;month=06&amp;year=2012&amp;modid=48&amp;tmpl=component');">&gt;</div>
+</td><td><div class="mod_events_link" onmousedown="callNavigation('index.php?option=com_jevents&amp;task=modcal.ajax&amp;day=1&amp;month=05&amp;year=2013&amp;modid=48&amp;tmpl=component');">&raquo;</div>
+</td></tr>
+</table>
+<table align="center" class="mod_events_table" cellspacing="0" cellpadding="2" >
+<tr class="mod_events_dayname">
+<td class="mod_events_td_dayname">M</td>
+<td class="mod_events_td_dayname">T</td>
+<td class="mod_events_td_dayname">W</td>
+<td class="mod_events_td_dayname">T</td>
+<td class="mod_events_td_dayname">F</td>
+<td class="mod_events_td_dayname"><span class="saturday">S</span></td>
+<td class="mod_events_td_dayname"><span class="sunday">S</span></td>
+</tr>
+<tr>
+<td class="mod_events_td_dayoutofmonth">30</td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=01&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">1</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=02&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">2</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=03&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">3</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=04&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">4</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=05&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">5</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=06&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">6</a></td>
+</tr>
+<tr>
+<td class='mod_events_td_todaynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=07&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">7</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=08&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">8</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=09&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">9</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=10&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">10</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=11&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">11</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=12&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">12</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=13&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">13</a></td>
+</tr>
+<tr>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=14&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">14</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=15&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">15</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=16&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">16</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=17&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">17</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=18&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">18</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=19&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">19</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=20&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">20</a></td>
+</tr>
+<tr>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=21&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">21</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=22&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">22</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=23&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">23</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=24&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">24</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=25&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">25</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=26&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">26</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=27&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">27</a></td>
+</tr>
+<tr>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=28&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">28</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=29&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">29</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=30&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">30</a></td>
+<td class='mod_events_td_daynoevents'>
+<a href="/iiar/index.php?option=com_jevents&amp;task=day.listevents&amp;year=2012&amp;month=05&amp;day=31&amp;Itemid=1&amp;lang=pl" class = "mod_events_daylink" title = "Go to calendar - current day">31</a></td>
+<td class="mod_events_td_dayoutofmonth">1</td>
+<td class="mod_events_td_dayoutofmonth">2</td>
+<td class="mod_events_td_dayoutofmonth">3</td>
+</tr>
+</table>
+</div>		</div>
+	
+		</div><br />
+		<!-- END: LEFT COLUMN -->
+		
+		</div>
+
+		
+	</div>
+	</div>
+</div>
+</div>
+
+
+<!-- BEGIN: FOOTER -->
+<div id="ja-footerwrap">
+<div id="ja-footer" class="clearfix">
+
+	<div id="ja-footnav">
+		
+	</div>
+
+	<div class="copyright">
+		
+	</div>
+
+	<div class="ja-cert">
+		
+    <a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank" title="Poprawny CSS" style="text-decoration: none;">
+		<img src="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/images/but-css.gif" border="none" alt="Poprawny CSS" />
+		</a>
+		<a href="http://validator.w3.org/check/referer" target="_blank" title="Poprawny XHTML 1.0 Transitional" style="text-decoration: none;">
+		<img src="http://www.iiar.pwr.wroc.pl/iiar/templates/ja_purity/images/but-xhtml10.gif" border="none" alt="Poprawny XHTML 1.0 Transitional" />
+		</a>
+	</div>
+
+	<br />
+</div>
+</div>
+<!-- END: FOOTER -->
+
+</div>
+
+
+
+</body>
+
+</html>
