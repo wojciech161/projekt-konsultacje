@@ -467,9 +467,6 @@ def export_html(request, tutor_id):
 		i = 0
 		for lines in before:
 			html.write(lines)
-			if (i<150):
-				print (lines.count("eeeeee"))
-				i = i+1
 			if (lines.count("eeeeee") == 1):
 				try:
 					tutors_list = Tutor.objects.all()
@@ -542,29 +539,45 @@ def export_html(request, tutor_id):
 				consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
 				
 				check = 1
+				i = 0
 				for con in consultations_data:
 					if (check == 1):
 						check = 2
 					else:
-						html.write("<TR> \n")
+						if (i%2 == 0):
+							html.write("<TR>")
+						else:
+							html.write("<TR style=\"BACKGROUND-COLOR: rgb(238,238,238)\" mce_style=\"background-color: #eeeeee;\">")
+						i = i+1
 					html.write("<TD>")
-					html.write(con.surname)
+					surname = con.surname
+					surname = surname.encode('utf8')
+					html.write(surname)
 					html.write("</TD>")
 					html.write("<TD>")
-					html.write(con.name)
+					name = con.name
+					name = name.encode('utf8')
+					html.write(name)
 					html.write("</TD>")
 					html.write("<TD>")
-					html.write(con.title)
+					title = con.title
+					title = title.encode('utf8')
+					html.write(title)
 					html.write("</TD>")
 					html.write("<TD>")
-					html.write(con.localization)
+					localization = con.localization
+					localization = localization.encode('utf8')
+					html.write(localization)
 					html.write("</TD>")
 					html.write("<TD>")
-					html.write(con.phone)
+					phone = con.phone
+					phone = phone.encode('utf8')
+					html.write(phone)
 					html.write("</TD>")
 					html.write("<TD>")
 					for single_con in con.consultations:
-						html.write(repr(single_con))
+						single_con = single_con.encode('utf8')
+						html.write(single_con)
 						html.write("<br>")
 					html.write("</TD>")
 					html.write("</TR>")
