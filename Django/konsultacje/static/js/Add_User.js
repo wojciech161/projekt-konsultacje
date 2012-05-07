@@ -23,7 +23,7 @@ $(document).ready(function(){
 $('#login').keyup(function(){
     var login=$('#login').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z]{1,20})+\.([A-ZąĄĆćĘęŚśŻżŹźŁła-z]{2,30})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁłŃńa-z]{1,20})+\.([A-ZąĄĆćĘęŚśŻżŹźŁła-z]{2,30})$/;
     if(reg.test(login) == false) {
     $('#login_massage_status').text('Login nie jest w postaci: imie.nazwisko'); 
     button_off();}
@@ -37,7 +37,7 @@ $('#login').focusin(function(){
     $('#login_massage_example').text('');
     var login=$('#login').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z]{1,20})+\.([A-ZąĄĆćĘęŚśŻżŹźŁła-z]{2,30})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŹŃńźŁła-z]{1,20})+\.([A-ZąĄĆćĘęŚśŻżŹźŁła-z]{2,30})$/;
     if(reg.test(login) == false) {
     $('#login_massage_status').text('Login nie jest w postaci: imie.nazwisko'); 
     button_off();}
@@ -50,7 +50,7 @@ $('#login').focusin(function(){
 $('#degree').keyup(function(){
     var degree=$('#degree').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z ]{2,40})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŹŃńźŁła-z. ]{2,40})$/;
     if(reg.test(degree) == false) {
     $('#degree_massage_status').text('Tytul jest niepoprawny'); 
     button_off();}
@@ -63,7 +63,7 @@ $('#degree').focusin(function(){
     $('#degree_massage_example').text('');
     var degree=$('#degree').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z ]{2,40})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŹŃńźŁła-z. ]{2,40})$/;
     if(reg.test(degree) == false) {
     $('#degree_massage_status').text('Tytul jest niepoprawny'); 
     button_off();}
@@ -76,7 +76,7 @@ $('#degree').focusin(function(){
 $('#name').keyup(function(){
     var name=$('#name').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z0-9]{2,20})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŃńŻżŹźŁła-z0-9]{2,20})$/;
     if(reg.test(name) == false) {
     $('#name_massage_status').text('Imię jest niepoprawne'); 
     button_off();}
@@ -89,7 +89,7 @@ $('#name').focusin(function(){
     $('#name_massage_example').text('');
     var name=$('#name').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z0-9]{2,20})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŃńŻżŹźŁła-z0-9]{2,20})$/;
     if(reg.test(name) == false) {
     $('#name_massage_status').text('Imię jest niepoprawne'); 
     button_off();}
@@ -102,7 +102,7 @@ $('#name').focusin(function(){
 $('#surname').keyup(function(){
     var surname=$('#surname').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z0-9]{2,50})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁłŃńa-z0-9]{2,50})$/;
     if(reg.test(surname) == false) {
     $('#surname_massage_status').text('Nazwisko jest niepoprawne'); 
     button_off();}
@@ -115,7 +115,7 @@ $('#surname').focusin(function(){
     $('#surname_massage_example').text('');
     var surname=$('#surname').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z0-9]{2,50})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁłŃńa-z0-9]{2,50})$/;
     if(reg.test(surname) == false) {
     $('#surname_massage_status').text('Nazwisko jest niepoprawne'); 
     button_off();}
@@ -129,7 +129,7 @@ $('#surname').focusin(function(){
 $('#instytute').keyup(function(){
     var instytute=$('#instytute').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z0-9\-]{3,6})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŃńŁła-z0-9\-]{3,6})$/;
     var instytute = $('#instytute').val();
     if(reg.test(instytute) == false) {
     $('#instytute_massage_status').text('Nazwa instytutu jest niepoprawna'); 
@@ -143,7 +143,7 @@ $('#instytute').focusin(function(){
     $('#instytute_massage_example').text('');
     var instytute=$('#instytute').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŁła-z0-9\-]{3,6})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŹźŃńŁła-z0-9\-]{3,6})$/;
     var instytute = $('#instytute').val();
     if(reg.test(instytute) == false) {
     $('#instytute_massage_status').text('Nazwa instytutu jest niepoprawna'); 
@@ -158,7 +158,7 @@ $('#instytute').focusin(function(){
 $('#building').keyup(function(){
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZĄĆĘŚŻŹŁ]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŁŃ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
@@ -171,7 +171,7 @@ $('#building').focusin(function(){
     $('#building_massage_example').text('');
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZĄĆĘŚŻŹŁ]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŁŃ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
@@ -271,7 +271,7 @@ $('#email').focusin(function(){
 $('#www').keyup(function(){
     var www=$('#www').val();
     button_on();
-    var reg = /^([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    var reg = /^([A-Za-z0-9_\-\.])+\.([A-Za-z\/~])$/;
     if($('#www').val()!=''){
     if(reg.test(www) == false) {
     $('#www_massage_status').text('Wprowadzono złą stronę'); 
@@ -286,7 +286,7 @@ $('#www').focusin(function(){
     $('#www_massage_example').text('');
     var www=$('#www').val();
     button_on();
-    var reg = /^([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    var reg = /^([A-Za-z0-9_\-\.])+\.([A-Za-z\/~])$/;
     if($('#www').val()!=''){
     if(reg.test(www) == false) {
     $('#www_massage_status').text('Wprowadzono złą stronę'); 

@@ -58,10 +58,14 @@
 			<td class="line_table_1"> &nbsp;{{ con.title }}</td>
 			<td class="line_table_1"> &nbsp;{{ con.localization }}</td>
 			<td class="line_table_1"> &nbsp;{{ con.phone }}</td>
-			<td class="line_table_1"> &nbsp;
+			<td class="line_table_1">
+			{% if con.consultations %}
 			{% for consult in con.consultations %}
 			 {{ consult }} <br>
 			 {% endfor %}
+			 {% else %}
+				&nbsp;
+			 {% endif %}
 			</td>
 			<td class="line_table_1"> &nbsp;{{ con.info }}</td>
 			<td>&nbsp;</td>

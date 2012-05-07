@@ -1,4 +1,4 @@
-//function
+﻿//function
 function button_off(){
         $('#button').removeAttr('class');
         $('#button').attr('disabled','disabled');
@@ -37,15 +37,19 @@ $(document).ready(function(){
            }
  }
  if($('#start_hour').val()!=0){
-    var list_value = $('#end_hour').val();
+    var list_value = $('#start_hour').val();
     list_value = parseFloat(list_value);
+    var list_value2 = $('#end_hour').val();
+    list_value2 = parseFloat(list_value2);
     if($('#start_hour').val()!=0){
     button_on();
     $('#start_minutes').removeAttr('disabled');
     var select_end_hour = '<select class="selectt" name="end_hour" id="end_hour">\n';
-    for(i=list_value;i<23;i++)
+    for(i=list_value+1;i<23;i++)
     {
-        select_end_hour=select_end_hour+'<option value="'+i+'">'+i+'</option>';
+        select_end_hour=select_end_hour+'<option ';
+        if(i==list_value2) select_end_hour=select_end_hour+'selected="selected" ';
+        select_end_hour=select_end_hour+'value="'+i+'">'+i+'</option>';
     }
     select_end_hour=select_end_hour+'</select>';
     $('#end_hour_span').html(select_end_hour);
@@ -63,7 +67,6 @@ $(document).ready(function(){
  }  
  
  var list_value = $('.end_minut').text();
-
  var temp='<input type="hidden" name="end_minutes" id="end_minutes" value="'+list_value+'" />'+list_value;
   $('#end_minutes').html(temp);    
     
@@ -163,7 +166,7 @@ $('#start_minutes').change(function(){
 $('#building').keyup(function(){
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZACESZZL]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŃŁ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
@@ -176,7 +179,7 @@ $('#building').focusin(function(){
     $('#building_massage_example').text('');
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZACESZZL]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŃŁ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}

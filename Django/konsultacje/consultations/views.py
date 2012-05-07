@@ -146,12 +146,9 @@ def consultation_index(request):
 		raw_consultations = sorted(raw_consultations, cmp=time_cmp)
 		
 		for con in raw_consultations:
-			strcon = "".join("%s %s %s:%s-%s:%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
+			strcon = "".join("%s %s %s:%s-%s:%s %s %s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
+			print strcon
 			if (today>con.expiry_date):
-				strcon = " "
-			else:
-				strcon = " ".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
-			if (strcon ==""):
 				strcon = " "
 			consult.consultations.append(strcon)
 		
@@ -461,11 +458,11 @@ def export_html(request, tutor_id):
 		
 		
 		
-		html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
+		html_dir = '/home/marcin/Desktop/'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
-		before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
-		after_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\po.txt'
+		before_filepath = '/home/marcin/Desktop/przed.txt'
+		after_filepath = '/home/marcin/Desktop/po.txt'
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
 		after = open(after_filepath, "r")

@@ -1,4 +1,4 @@
-//function
+﻿//function
 function button_off(){
         $('#button').removeAttr('class');
         $('#button').attr('disabled','disabled');
@@ -158,7 +158,7 @@ $('#start_minutes').change(function(){
 $('#building').keyup(function(){
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZACESZZL]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŁŃ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
@@ -171,7 +171,7 @@ $('#building').focusin(function(){
     $('#building_massage_example').text('');
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZACESZZL]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŁŃ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
