@@ -268,80 +268,86 @@ def consultations_detail(request, tutor_id):
 
 def edit_consultation(request, tutor_id, consultation_id):
 	if request.user.is_authenticated():
+		try:
+			consultation = Consultation.objects.get(id = consultation_id)
+		except:
+			return HttpResponse("Nie istnieje taka konsultacja")
+		else:
+			localization = consultation.localization_ID
+			start_hour = consultation.start_hour
+			start_minutes = consultation.start_minutes
+			end_hour = consultation.end_hour
+			end_minutes = consultation.end_minutes
+			day = consultation.day
+			week_type = consultation.week_type
+			students_limit = consultation.students_limit
+			building = localization.building
+			room = localization.room
+			new_localization = Localization()
 			try:
-				consultation = Consultation.objects.get(id = consultation_id)
+				expiry_year = consultation.expiry_date.year
+				expiry_month = consultation.expiry_date.month
+				expiry_day = consultation.expiry_date.day
+				expiry_date ="".join("%s/%s/%s")%(expiry_day, expiry_month, expiry_year) 
 			except:
-				return HttpResponse("Nie istnieje taka konsultacja")
-			else:
-				localization = consultation.localization_ID
-				start_hour = consultation.start_hour
-				start_minutes = consultation.start_minutes
-				end_hour = consultation.end_hour
-				end_minutes = consultation.end_minutes
-				day = consultation.day
-				week_type = consultation.week_type
-				students_limit = consultation.students_limit
-				building = localization.building
-				room = localization.room
-				new_localization = Localization()
+				expiry_date = ""
+			
+			
+			if request.POST:
+				start_hour = request.POST.get('start_hour')
+				consultation.start_hour = start_hour
+				
+				start_minutes = request.POST.get('start_minutes')
+				consultation.start_minutes = start_minutes
+				
+				end_hour = request.POST.get('end_hour')
+				consultation.end_hour = end_hour
+				
+				end_minutes = request.POST.get('end_minutes')
+				consultation.end_minutes = end_minutes
+				
+				day = request.POST.get('day')
+				consultation.day = day
+				
+				week_type = request.POST.get('week_type')
+				consultation.week_type = request.POST.get('week_type')
+				
+				students_limit = request.POST.get('students_limit')
+				consultation.students_limit = request.POST.get('students_limit')
+				if (consultation.students_limit == ""):
+					consultation.students_limit = 0
+				
+				building = request.POST.get('building')
+				
+				room = request.POST.get('room')
+				
+				
 				try:
-					expiry_year = consultation.expiry_date.year
-					expiry_month = consultation.expiry_date.month
-					expiry_day = consultation.expiry_date.day
-					expiry_date ="".join("%s/%s/%s")%(expiry_day, expiry_month, expiry_year) 
+					new_localization = Localization.objects.get(room = room, building = building)
+					consultation.localization_ID = new_localization
 				except:
-					expiry_date = ""
-				
-				
-				if request.POST:
-					start_hour = request.POST.get('start_hour')
-					consultation.start_hour = start_hour
+					new_localization.room = room
+					new_localization.building = building
+					new_localization.save()
+					consultation.localization_ID = new_localization
 					
-					start_minutes = request.POST.get('start_minutes')
-					consultation.start_minutes = start_minutes
-					
-					end_hour = request.POST.get('end_hour')
-					consultation.end_hour = end_hour
-					
-					end_minutes = request.POST.get('end_minutes')
-					consultation.end_minutes = end_minutes
-					
-					day = request.POST.get('day')
-					consultation.day = day
-					
-					week_type = request.POST.get('week_type')
-					consultation.week_type = request.POST.get('week_type')
-					
-					students_limit = request.POST.get('students_limit')
-					consultation.students_limit = request.POST.get('students_limit')
-					if (consultation.students_limit == ""):
-						consultation.students_limit = 0
-					
-					building = request.POST.get('building')
-					
-					room = request.POST.get('room')
-					
-					
-					try:
-						new_localization = Localization.objects.get(room = room, building = building)
-						consultation.localization_ID = new_localization
-					except:
-						new_localization.room = room
-						new_localization.building = building
-						new_localization.save()
-						consultation.localization_ID = new_localization
-						
-					expiry_date = request.POST.get('expiry_date')
-					expiry_date_splitted = expiry_date.split("/")
+				expiry_date = request.POST.get('expiry_date')
+				expiry_date_splitted = expiry_date.split("/")
+				try:
 					new_expiry_date = date(	int(expiry_date_splitted[2]), int(expiry_date_splitted[1]), int(expiry_date_splitted[0]))
 					consultation.expiry_date = new_expiry_date
+				except:
+					return HttpResponse("Podano złą datę")
+				
+				try:
 					consultation.save() 
-					
-					data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
-					return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail jeśli udało się zapisać nową konsultację	
-					
-				return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry_date}, context_instance = RequestContext(request))
-					
+				except:
+					return HttpResponse("Nie udało się zapisać zmian - sprawdź poprawność pól")
+				
+				#data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
+				#return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail jeśli udało się zapisać nową konsultację	
+				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(tutor_id,)))
+			return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry_date}, context_instance = RequestContext(request))
 				
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
@@ -424,8 +430,11 @@ def add_consultation(request, tutor_id):
 						consultation.students_limit = new_students_limit
 					except:
 						pass
-				consultation.save()
-				data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
+				try:
+					consultation.save()
+				except:
+					return HttpResponse("Nie udało się dodac konsultacji, sprawdź poprawność pól")
+				
 				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=( tutor_id,)))
 							
 			else:
@@ -434,6 +443,26 @@ def add_consultation(request, tutor_id):
 		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day, 'building' : new_building, 'room' : new_room}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
+		
+def export_html(request, user_id):
+	if request.user.is_authenticated():
+		from django.core.servers.basehttp import FileWrapper
+		
+		
+		backup_dir = '/home/kons/html/'
+		filename = 'konsultacje.html'
+		filepath = os.path.join(backup_dir, filename)
+		
+		os.system("mysqldump %s > %s"%(' '.join(args), filepath))
+		sqlfile = open(filepath, "r")
+		wrapper = FileWrapper(sqlfile)
+		
+		response = HttpResponse(wrapper, mimetype='application/force-download')
+		response['Content-Disposition'] = 'attachment; filename=%s' % filename
+		response['Content-Length'] = os.path.getsize(filepath)
+		return response
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
 def admin_choose_panel(request, user_id):
 	if request.user.is_authenticated():
@@ -805,8 +834,11 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 				consult.expiry_date = expiry_date
 			except:
 				pass
-			consult.save()
-			localization.save()
+			try:
+				consult.save()
+				localization.save()
+			except:
+				return HttpResponse("Nie udało się zmienić konsultacji")
 			
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 			
@@ -882,8 +914,10 @@ def assistant_consultation_add(request, user_id, tutor_id):
 			new_consultation.localization_ID = new_localization
 			
 			data = new_expiry.split('/')
-			
-			new_expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
+			try:
+				new_expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
+			except:
+				return HttpResponse("Podano złą datę")
 			new_consultation.expiry_date = new_expiry_date
 			print new_consultation.expiry_date
 			
@@ -1355,8 +1389,11 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 				consult.expiry_date = expiry_date
 			except:
 				pass
-			consult.save()
-			localization.save()
+			try:
+				consult.save()
+				localization.save()
+			except:
+				return HttpResponse("Nie udało się zmienić konsultacji")
 			
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 			
@@ -1432,12 +1469,16 @@ def admin_consultation_add(request, user_id, tutor_id):
 			new_consultation.localization_ID = new_localization
 			
 			data = new_expiry.split('/')
-			
-			new_expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
+			try:
+				new_expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
+			except:
+				return HttpResponse("Podano błędną datę")
 			new_consultation.expiry_date = new_expiry_date
 		#	print new_consultation.expiry_date
-			
-			new_consultation.save()
+			try:
+				new_consultation.save()
+			except:
+				return HttpResponse("Nie udało się dodać konsultacji")
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 			
 		return render_to_response("admin_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date}, context_instance = RequestContext(request))
