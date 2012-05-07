@@ -148,11 +148,12 @@ def consultation_index(request):
 		for con in raw_consultations:
 			strcon = "".join("%s %s %s:%s-%s:%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
 			if (today>con.expiry_date):
-				strcon = ""
+				strcon = " "
 			else:
-				strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
-			if (strcon != ""):
-				consult.consultations.append(strcon)
+				strcon = " ".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+			if (strcon ==""):
+				strcon = " "
+			consult.consultations.append(strcon)
 		
 		consult.info = tutor_info.message
 		consultations_data.append(consult)
@@ -177,8 +178,11 @@ def tutor_index(request, tutor_id):
 	
 def tutor_detail(request, tutor_id):
 	if request.user.is_authenticated():
+		
 		status = ""
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		user_name = tutor.name
+		user_surname = tutor.surname
 		tutor_id_from_table = tutor.id
 		try:
 			localization = Localization.objects.get(id = tutor.localization_ID_id)
@@ -212,7 +216,7 @@ def tutor_detail(request, tutor_id):
 				status = "Dane zostały zmienione"
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
-		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
@@ -224,6 +228,8 @@ def consultations_detail(request, tutor_id):
 		except:
 			return HttpResponse("Blad krytyczny")
 		tutor_id_from_table = tutor.id
+		user_name = tutor.name
+		user_surname = tutor.surname
 		#pobieramy konsultacje tutora
 		try:
 			consultations = Consultation.objects.filter(tutor_ID = tutor_id_from_table)
@@ -262,7 +268,7 @@ def consultations_detail(request, tutor_id):
 			consultations_data.append(consult)
 			
 		consultations_data = sorted (consultations_data,  cmp=time_cmp)	
-		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))
+		return render_to_response('consultations_detail.html', {'tutor_id':tutor_id, 'tutor_connsultations':consultations_data, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 
@@ -347,7 +353,10 @@ def edit_consultation(request, tutor_id, consultation_id):
 				#data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
 				#return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail jeśli udało się zapisać nową konsultację	
 				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(tutor_id,)))
-			return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry_date}, context_instance = RequestContext(request))
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+			user_name = tutor.name
+			user_surname = tutor.surname
+			return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry_date, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 				
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
@@ -382,7 +391,7 @@ def add_consultation(request, tutor_id):
 		new_expiry_day = ""
 		new_expiry_date = ""
 		
-		print new_room
+		#print new_room
 		
 		if request.POST:
 			
@@ -439,8 +448,10 @@ def add_consultation(request, tutor_id):
 							
 			else:
 				return HttpResponse("Nie mozna dodac konsultacji")
-				
-		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day, 'building' : new_building, 'room' : new_room}, context_instance = RequestContext(request))
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		user_name = tutor.name
+		user_surname = tutor.surname		
+		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day, 'building' : new_building, 'room' : new_room, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -466,7 +477,10 @@ def export_html(request, user_id):
 
 def admin_choose_panel(request, user_id):
 	if request.user.is_authenticated():
-		return render_to_response('admin_choose_panel.html', {'user_id':user_id})
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		user_name = tutor.name
+		user_surname = tutor.surname	
+		return render_to_response('admin_choose_panel.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
@@ -550,13 +564,15 @@ def edit_infoboard(request, tutor_id):
 	if request.user.is_authenticated():
 		status = ""
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		user_name = tutor.name
+		user_surname = tutor.surname	
 		tutor_id_from_table = tutor.id
 		try:
 			infoboard = InfoBoard.objects.get(tutor_id = tutor_id_from_table)
 		except:
 			infoboard = None
 		
-		print infoboard.message
+		#print infoboard.message
 			
 		if request.POST:
 			#zbieramy dane
@@ -568,7 +584,7 @@ def edit_infoboard(request, tutor_id):
 				status = "Dane zostały zmienione"
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
-		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard, 'status':status}, context_instance = RequestContext(request))
+		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -645,14 +661,20 @@ def assistant_index(request, user_id):
 			consult = None
 		consultations_data = sorted (consultations_data,  key=attrgetter('name'))
 		t = loader.get_template('assistant_index.html')
-		c = Context({'user_id' : user_id, 'consultations_data' : consultations_data, })
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		c = Context({'user_id' : user_id, 'consultations_data' : consultations_data, 'user_name':user_name, 'user_surname':user_surname })
 		return HttpResponse(t.render(c))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_consultations_delete_confirm(request, user_id):
 	if request.user.is_authenticated():
-		return render_to_response('assistant_consultations_delete_confirm.html', {'user_id':user_id})
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -662,8 +684,10 @@ def assistant_consultations_delete(request, user_id):
 		consult_list = Consultation.objects.all()
 		for c in consult_list:
 			c.delete()
-		
-		return render_to_response('assistant_index.html', {'user_id':user_id})
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name	
+		return render_to_response('assistant_index.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -704,13 +728,19 @@ def assistant_tutor_edit(request, user_id, tutor_id):
 				return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
-		return render_to_response('assistant_tutor_edit.html', {'user_id':user_id, 'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_tutor_edit.html', {'user_id':user_id, 'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
 def assistant_tutor_delete_confirm(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return render_to_response('assistant_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id})
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -771,8 +801,11 @@ def assistant_consultation_list(request, user_id, tutor_id):
 			else:
 				consult.expiry = "not_expiry"
 			consultations_data.append(consult)
-		consultations_data = sorted (consultations_data,  cmp=time_cmp)		
-		return render_to_response('assistant_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data}, context_instance = RequestContext(request))
+		consultations_data = sorted (consultations_data,  cmp=time_cmp)	
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -841,14 +874,19 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 				return HttpResponse("Nie udało się zmienić konsultacji")
 			
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
-			
-		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry}, context_instance = RequestContext(request))
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name	
+		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_delete_confirm(request, user_id, tutor_id, consultation_id):
 	if request.user.is_authenticated():
-		return render_to_response('assistant_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id})
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -918,19 +956,22 @@ def assistant_consultation_add(request, user_id, tutor_id):
 				new_expiry_date = date(	int(data[2]), int(data[1]), int(data[0]))
 			except:
 				return HttpResponse("Podano złą datę")
-			new_consultation.expiry_date = new_expiry_date
-			print new_consultation.expiry_date
-			
+			new_consultation.expiry_date = new_expiry_date		
 			new_consultation.save()
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
-			
-		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date}, context_instance = RequestContext(request))
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name	
+		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
 def assistant_consultation_deleteall_confirm(request, user_id, tutor_id):
 	if request.user.is_authenticated():
-		return render_to_response('assistant_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id})
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1020,25 +1061,37 @@ def assistant_adduser(request, user_id):
 				status = "Błąd: Nie mogę dodać użytkownika"
 			else:
 				return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
-		return render_to_response('assistant_addtutor.html', {'user_id':user_id, 'user_login':login, 'localization':localization, 'tutor':tutor, 'status':status}, context_instance = RequestContext(request))
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_addtutor.html', {'user_id':user_id, 'user_login':login, 'localization':localization, 'tutor':tutor, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def choose_panel(request, user_id):
 	if request.user.is_authenticated():
-		return render_to_response('choose_panel.html', {'user_id':user_id})
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('choose_panel.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def assistant_export_csv(request, user_id):
 	if request.user.is_authenticated():
-		return render_to_response('assistant_export_csv.html', {'user_id':user_id})
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_export_csv.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
 def assistant_import_csv(request, user_id):
 	if request.user.is_authenticated():
-		return render_to_response('assistant_import_csv.html', {'user_id':user_id})
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_import_csv.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1125,7 +1178,10 @@ def assistant_restore(request, user_id):
 				status = "Pomyślnie przywrócono bazę danych"
 		else:
 			form = uploadfileform.UploadFileForm()
-		return render_to_response('assistant_restore.html', {'user_id':user_id,'form':form, 'status':status}, context_instance = RequestContext(request))
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_restore.html', {'user_id':user_id,'form':form, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
