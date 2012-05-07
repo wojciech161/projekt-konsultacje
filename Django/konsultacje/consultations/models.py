@@ -93,6 +93,7 @@ class Consultation(models.Model):
 	day = models.CharField('Dzien', max_length = 20)
 	week_type = models.CharField('Typ tygodnia', max_length = 1)
 	students_limit = models.IntegerField('Limit', null=True)
+	students_registred = models.IntegerField('Ilosc zarejestrowanych', null = True)
 	localization_ID = models.ForeignKey(Localization)
 	expiry_date = models.DateField()
 	def __unicode__(self):
