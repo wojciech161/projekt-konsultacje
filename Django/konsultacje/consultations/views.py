@@ -595,10 +595,10 @@ def admin_export_html(request, user_id):
 		
 		
 		
-		html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
+		html_dir = '/home/kons/html'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
-		before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
+		before_filepath = '/home/kons/repo/projekt-konsultacje/Django/przed.txt'
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
 		i = 0
