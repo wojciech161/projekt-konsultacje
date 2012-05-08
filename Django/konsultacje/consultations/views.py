@@ -327,8 +327,7 @@ def edit_consultation(request, tutor_id, consultation_id):
 				building = request.POST.get('building')
 				
 				room = request.POST.get('room')
-				
-				
+
 				try:
 					new_localization = Localization.objects.get(room = room, building = building)
 					consultation.localization_ID = new_localization
@@ -462,10 +461,10 @@ def assistant_export_html(request, user_id):
 		
 		
 		
-		html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
+		html_dir = '/home/kons/html'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
-		before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
+		before_filepath = '/home/kons/repo/projekt-konsultacje/Django/przed.txt'
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
 		i = 0
@@ -609,10 +608,10 @@ def admin_export_html(request, user_id):
 		
 		
 		
-		html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
+		html_dir = '/home/kons/html'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
-		before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
+		before_filepath = '/home/kons/repo/projekt-konsultacje/Django/przed.txt'
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
 		i = 0
@@ -731,9 +730,13 @@ def admin_export_html(request, user_id):
 						html.write(single_con)
 						html.write("<br>")
 					html.write("</TD>")
+					html.write("<TD>")
+					infoboard =con.info
+					infoboard = infoboard.encode('utf8')
+					html.write(infoboard)
+					html.write("</TD>")
 					html.write("</TR>")
 			
-		
 		before.close()
 		html.close()
 		filepath = "/home/kons/html/konsultacje.html"

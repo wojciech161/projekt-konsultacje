@@ -132,7 +132,8 @@ var excludeModules='38';
 <TD width="158" align="left"> </TD>
 <TD width="92" align="left"><I>C-3</I></TD>
 <TD width="133" align="left"><I>71-320-</I></TD>
-<TD width="500" align="left"><I>konsultacje</I></TD></TR>
+<TD width="500" align="left"><I>konsultacje</I></TD>
+<TD width="200" align="left"><I>wiadomosc</I></TD></TR>
 <TR style="BACKGROUND-COLOR: rgb(238,238,238)" mce_style="background-color: #eeeeee;">
 
 </TBODY></TABLE>
