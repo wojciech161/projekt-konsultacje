@@ -585,7 +585,16 @@ def assistant_export_html(request, user_id):
 		
 		before.close()
 		html.close()
-		return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
+		filepath = "/home/kons/html/konsultacje.html"
+		htmlfile = open(filepath, "r")
+		filename = "konsultacje.html"
+		wrapper = FileWrapper(htmlfile)
+		
+		response = HttpResponse(wrapper, mimetype='application/force-download')
+		response['Content-Disposition'] = 'attachment; filename=%s' % filename
+		response['Content-Length'] = os.path.getsize(filepath)
+		return response
+		#return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
