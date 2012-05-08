@@ -458,10 +458,10 @@ def assistant_export_html(request, user_id):
 		
 		
 		
-		html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
+		html_dir = '/home/kons/html'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
-		before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
+		before_filepath = '/home/kons/repo/projekt-konsultacje/Django/przed.txt'
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
 		i = 0
@@ -591,6 +591,7 @@ def assistant_export_html(request, user_id):
 		
 def admin_export_html(request, user_id):
 	import codecs
+	from django.core.servers.basehttp import FileWrapper
 	if request.user.is_authenticated():
 		
 		
@@ -722,7 +723,16 @@ def admin_export_html(request, user_id):
 		
 		before.close()
 		html.close()
-		return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
+		filepath = "/home/kons/html/konsultacje.html"
+		htmlfile = open(filepath, "r")
+		filename = "konsultacje.html"
+		wrapper = FileWrapper(htmlfile)
+		
+		response = HttpResponse(wrapper, mimetype='application/force-download')
+		response['Content-Disposition'] = 'attachment; filename=%s' % filename
+		response['Content-Length'] = os.path.getsize(filepath)
+		return response
+		#return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
