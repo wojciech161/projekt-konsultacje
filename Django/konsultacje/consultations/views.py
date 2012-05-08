@@ -147,8 +147,12 @@ def consultation_index(request):
 		raw_consultations = sorted(raw_consultations, cmp=time_cmp)
 		
 		for con in raw_consultations:
-			strcon = "".join("%s %s %s:%s-%s:%s %s %s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
+			strcon = "".join("%s %s %s:%s-%s:%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
 			if (today>con.expiry_date):
+				strcon = " "
+			else:
+				strcon = " ".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+			if (strcon ==""):
 				strcon = " "
 			consult.consultations.append(strcon)
 		
@@ -458,10 +462,10 @@ def assistant_export_html(request, user_id):
 		
 		
 		
-		html_dir = '/home/kons/html'
+		html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
-		before_filepath = '/home/kons/repo/projekt-konsultacje/Django/przed.txt'
+		before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
 		i = 0
@@ -598,17 +602,17 @@ def assistant_export_html(request, user_id):
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
+		
 def admin_export_html(request, user_id):
 	import codecs
-	from django.core.servers.basehttp import FileWrapper
 	if request.user.is_authenticated():
 		
 		
 		
-		html_dir = '/home/kons/html'
+		html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
-		before_filepath = '/home/kons/repo/projekt-konsultacje/Django/przed.txt'
+		before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
 		i = 0
@@ -744,7 +748,6 @@ def admin_export_html(request, user_id):
 		#return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
-
 
 def admin_choose_panel(request, user_id):
 	if request.user.is_authenticated():
@@ -1009,6 +1012,9 @@ def assistant_tutor_edit(request, user_id, tutor_id):
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
 		return render_to_response('assistant_tutor_edit.html', {'user_id':user_id, 'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -1083,7 +1089,10 @@ def assistant_consultation_list(request, user_id, tutor_id):
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name
-		return render_to_response('assistant_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
+		return render_to_response('assistant_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1155,7 +1164,10 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name	
-		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
+		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1164,7 +1176,10 @@ def assistant_consultation_delete_confirm(request, user_id, tutor_id, consultati
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name
-		return render_to_response('assistant_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id, 'user_name':user_name, 'user_surname':user_surname})
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
+		return render_to_response('assistant_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1240,7 +1255,11 @@ def assistant_consultation_add(request, user_id, tutor_id):
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name	
-		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
+		
+		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1249,6 +1268,9 @@ def assistant_consultation_deleteall_confirm(request, user_id, tutor_id):
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
 		return render_to_response('assistant_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -1611,6 +1633,9 @@ def admin_tutor_edit(request, user_id, tutor_id):
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
 		user_surname = admin.surname		
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
 		return render_to_response('admin_tutor_edit.html', {'user_id':user_id, 'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -1685,7 +1710,10 @@ def admin_consultation_list(request, user_id, tutor_id):
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
 		user_surname = admin.surname
-		return render_to_response('admin_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
+		return render_to_response('admin_consultations_list.html', {'user_id':user_id, 'tutor_id':tutor_id, 'tutor_connsultations':consultations_data, 'user_name':user_name, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1756,8 +1784,11 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
-		user_surname = admin.surname	
-		return render_to_response("admin_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+		user_surname = admin.surname
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname	
+		return render_to_response("admin_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname,'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1766,7 +1797,10 @@ def admin_consultation_delete_confirm(request, user_id, tutor_id, consultation_i
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
 		user_surname = admin.surname
-		return render_to_response('admin_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id, 'user_name':user_name, 'user_surname':user_surname})
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
+		return render_to_response('admin_consultation_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'consultation_id':consultation_id, 'user_name':user_name, 'user_surname':user_surname,'tutor_name':tutor_name, 'tutor_surname':tutor_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1845,8 +1879,11 @@ def admin_consultation_add(request, user_id, tutor_id):
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
-		user_surname = admin.surname	
-		return render_to_response("admin_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+		user_surname = admin.surname
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
+		return render_to_response("admin_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1855,7 +1892,10 @@ def admin_consultation_deleteall_confirm(request, user_id, tutor_id):
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
 		user_surname = admin.surname
-		return render_to_response('admin_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname})
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		tutor_name	= tutor.name
+		tutor_surname = tutor.surname
+		return render_to_response('admin_consultation_deleteall_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
