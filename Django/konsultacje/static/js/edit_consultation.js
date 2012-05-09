@@ -6,7 +6,7 @@ function button_off(){
         $('#button').attr('class','button_disabled');
 }
 function button_on(){
-    if($('#building').val()!='' && $('#room').val()!='' && $('#day').val()!=0 && $('#week').val()!=0 && $('#start_hour').val()!=0 && $('#start_minutes').val()!=1 && $('#date').val()!=''){
+    if($('#expiry_massage_status').html()=='<img src="/static/images/change.png">' && $('#students_limit_massage_status').html()=='<img src="/static/images/change.png">' && $('#room_massage_status').html()=='<img src="/static/images/change.png">'  && $('#building_massage_status').html()=='<img src="/static/images/change.png">' && $('#building').val()!='' && $('#room').val()!='' && $('#day').val()!=0 && $('#week').val()!=0 && $('#start_hour').val()!=0 && $('#start_minutes').val()!=1 && $('#date').val()!=''){
         $('#button').removeAttr('class');
         $('#button').removeAttr('disabled');
         $('#button').removeAttr('style');
@@ -31,6 +31,7 @@ $(document).ready(function(){
     if(reg.test(date) == true){
     button_on();
     $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+    button_on();
     } else {
             button_off();
             $('#expiry_massage_status').html('');
@@ -133,6 +134,7 @@ $('#start_hour').change(function(){
     if($('#start_minutes').val()!=1){
         $('#start_hour_check_yes').html('<img src="/static/images/change.png"/>');
         $('#end_hour_check_yes').html('<img src="/static/images/change.png"/>');
+        button_on();
     }
     } else {
              $('#start_minutes').attr('disabled','disabled');
@@ -152,6 +154,7 @@ $('#start_minutes').change(function(){
     var temp='<input type="hidden" name="end_minutes" id="end_minutes" value="'+list_value+'" />'+list_value;
     $('#end_minutes').html(temp);
     $('#end_hour_check_yes').html('<img src="/static/images/change.png"/>');
+    button_on();
     } else {
             $('#end_minutes').html('00');
             $('#start_hour_check_yes').html('');
@@ -166,11 +169,12 @@ $('#start_minutes').change(function(){
 $('#building').keyup(function(){
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZĄĆĘŚŻŹŃŁ]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŃŁÓ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
-    else $('#building_massage_status').html('<img src="/static/images/change.png"/>');
+    else {$('#building_massage_status').html('<img src="/static/images/change.png"/>');
+    button_on();}
 });
 
 $('#building').focusin(function(){
@@ -179,11 +183,11 @@ $('#building').focusin(function(){
     $('#building_massage_example').text('');
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZĄĆĘŚŻŹŃŁ]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŃŁÓ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
-    else $('#building_massage_status').html('<img src="/static/images/change.png"/>');
+    else {$('#building_massage_status').html('<img src="/static/images/change.png"/>'); button_on();}
     
 });
 //end----------------------------------------------
@@ -197,7 +201,7 @@ $('#room').keyup(function(){
     if(reg.test(room) == false) {
     $('#room_massage_status').text('Wpisany nieporawny pokoj'); 
     button_off();}
-    else $('#room_massage_status').html('<img src="/static/images/change.png"/>');
+    else {$('#room_massage_status').html('<img src="/static/images/change.png"/>'); button_on();}
 });
 
 $('#room').focusin(function(){
@@ -210,7 +214,7 @@ $('#room').focusin(function(){
     if(reg.test(room) == false) {
     $('#room_massage_status').text('Wpisany nieporawny pokoj'); 
     button_off();}
-    else $('#room_massage_status').html('<img src="/static/images/change.png"/>');
+    else {$('#room_massage_status').html('<img src="/static/images/change.png"/>'); button_on();}
 });
 
 //end----------------------------------------------
@@ -225,7 +229,7 @@ $('#students_limit').keyup(function(){
     if(reg.test(students_limit) == false) {
     $('#students_limit_massage_status').text('Podano zla liczbe '); 
     button_off();}
-    else $('#students_limit_massage_status').html('<img src="/static/images/change.png"/>');
+    else {$('#students_limit_massage_status').html('<img src="/static/images/change.png"/>'); button_on();}
 });
 
 $('#students_limit').focusin(function(){
@@ -238,7 +242,7 @@ $('#students_limit').focusin(function(){
     if(reg.test(students_limit) == false) {
     $('#students_limit_massage_status').text('Podano zla liczbe '); 
     button_off();}
-    else $('#students_limit_massage_status').html('<img src="/static/images/change.png"/>');
+    else {$('#students_limit_massage_status').html('<img src="/static/images/change.png"/>'); button_on();}
 });
 
 
@@ -258,6 +262,7 @@ $('#date').focusout(function(){
     if(reg.test(date) == true){
     button_on();
     $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+    button_on();
     } else {
             button_off();
             $('#expiry_massage_status').html('');
@@ -269,6 +274,7 @@ $('#date').keyup(function(){
     if(reg.test(date) == true){
     button_on();
     $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+    button_on();
     } else {
             button_off();
             $('#expiry_massage_status').html('');

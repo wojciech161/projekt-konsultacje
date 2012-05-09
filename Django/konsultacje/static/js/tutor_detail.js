@@ -6,7 +6,7 @@ function button_off(){
         $('#button').attr('class','button_disabled');
 }
 function button_on(){
-    if($('#degree_massage_status')!='' && $('#name').val()!='' && $('#surname').val()!='' && $('#degree').val()!='' && $('#building').val()!='' && $('#room').val()!='' && $('#email').val()!=''){
+    if($('.degree_massage_status').text()=='' && $('.name_massage_status').text()=='' && $('.surname_massage_status').text()=='' && $('.building_massage_status').text()=='' && $('.room_massage_status').text()=='' && $('.phone_massage_status').text()=='' && $('.email_massage_status').text()=='' && $('.www_massage_status').text()=='' && $('#name').val()!='' && $('#surname').val()!='' && $('#degree').val()!='' && $('#building').val()!='' && $('#room').val()!='' && $('#email').val()!=''){
         $('#button').removeAttr('class');
         $('#button').removeAttr('disabled');
         $('#button').removeAttr('style');
@@ -27,27 +27,28 @@ if(temp!=''){
 $('#degree').keyup(function(){
     var degree=$('#degree').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z. ]{2,40})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźÓóŁła-z. ]{2,40})$/;
     if(reg.test(degree) == false) {
     $('#degree_massage_status').text('Tytul jest niepoprawny'); 
     button_off();}
-    else $('#degree_massage_status').text('');
+    else {$('#degree_massage_status').text(''); button_on()}
 });
 
 $('#degree').focusin(function(){
    $('#degree_massage_example').text(' wzór: dr inż.');
     var degree=$('#degree').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z. ]{2,40})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźÓóŁła-z. ]{2,40})$/;
     if(reg.test(degree) == false) {
     $('#degree_massage_status').text('Tytul jest niepoprawny'); 
     button_off();}
     else $('#degree_massage_status').text('');
+    
 }).blur(function(){
     $('#degree_massage_example').text('');
     var degree=$('#degree').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z. ]{2,40})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźÓóŁła-z. ]{2,40})$/;
     if(reg.test(degree) == false) {
     $('#degree_massage_status').text('Tytul jest niepoprawny'); 
     button_off();}
@@ -60,18 +61,18 @@ $('#degree').focusin(function(){
 $('#name').keyup(function(){
     var name=$('#name').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z]{2,20})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,20})$/;
     if(reg.test(name) == false) {
     $('#name_massage_status').text('Imię jest niepoprawne'); 
     button_off();}
-    else $('#name_massage_status').text('');
+    else {$('#name_massage_status').text(''); button_on();}
 });
 
 $('#name').focusin(function(){
    $('#name_massage_example').text(' wzór: Michał');
    var name=$('#name').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z]{2,20})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,20})$/;
     if(reg.test(name) == false) {
     $('#name_massage_status').text('Imię jest niepoprawne'); 
     button_off();}
@@ -80,7 +81,7 @@ $('#name').focusin(function(){
     $('#name_massage_example').text('');
     var name=$('#name').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z]{2,20})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,20})$/;
     if(reg.test(name) == false) {
     $('#name_massage_status').text('Imię jest niepoprawne'); 
     button_off();}
@@ -95,18 +96,18 @@ $('#name').focusin(function(){
 $('#surname').keyup(function(){
     var surname=$('#surname').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z]{2,50})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,50})$/;
     if(reg.test(surname) == false) {
     $('#surname_massage_status').text('Nazwisko jest niepoprawne'); 
     button_off();}
-    else $('#surname_massage_status').text('');
+    else {$('#surname_massage_status').text(''); button_on();}
 });
 
 $('#surname').focusin(function(){
    $('#surname_massage_example').text(' wzór: Abacki');
    var surname=$('#surname').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z]{2,50})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,50})$/;
     if(reg.test(surname) == false) {
     $('#surname_massage_status').text('Nazwisko jest niepoprawne'); 
     button_off();}
@@ -115,7 +116,7 @@ $('#surname').focusin(function(){
     $('#surname_massage_example').text('');
     var surname=$('#surname').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńŹźŁła-z]{2,50})$/;
+    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,50})$/;
     if(reg.test(surname) == false) {
     $('#surname_massage_status').text('Nazwisko jest niepoprawne'); 
     button_off();}
@@ -129,11 +130,11 @@ $('#surname').focusin(function(){
 $('#building').keyup(function(){
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZĄĆĘŚŻŹŁŃ]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŁŃÓ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
-    else $('#building_massage_status').text('');
+    else {$('#building_massage_status').text('');button_on();}
 });
 
 $('#building').focusin(function(){
@@ -141,7 +142,7 @@ $('#building').focusin(function(){
    $('#building_massage_example').text('');
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZĄĆĘŚŻŹŁŃ]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŁŃÓ]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
@@ -150,7 +151,7 @@ $('#building').focusin(function(){
     $('#building_massage_example').text('');
     var building=$('#building').val();
     button_on();
-    var reg = /^([A-ZĄĆĘŚŻŹŁŃ]{1,1})+\-([0-9]{1,4})$/;
+    var reg = /^([A-ZĄĆĘŚŻŹŁŃÓs]{1,1})+\-([0-9]{1,4})$/;
     if(reg.test(building) == false) {
     $('#building_massage_status').text('Nazwa budynku jest niepoprawna'); 
     button_off();}
@@ -169,7 +170,7 @@ $('#room').keyup(function(){
     if(reg.test(room) == false) {
     $('#room_massage_status').text('Wprowadzono niepoprawny pokój'); 
     button_off();}
-    else $('#room_massage_status').text('');
+    else {$('#room_massage_status').text(''); button_on();}
 });
 
 $('#room').focusin(function(){
@@ -204,14 +205,13 @@ $('#phone').keyup(function(){
     if(reg.test(phone) == false) {
     $('#phone_massage_status').text('Numer telefonu jest niepoprawny'); 
     button_off();}
-    else $('#phone_massage_status').text('');
+    else {$('#phone_massage_status').text(''); button_on();}
     }
     else $('#phone_massage_status').text('');
 });
 
 $('#phone').focusin(function(){
    $('#phone_massage_example').text(' wzór: (+48 71)320-22-79');
-   $('#phone_massage_example').text('');
     var phone=$('#phone').val();
     button_on();
     if(phone!=''){
@@ -219,7 +219,7 @@ $('#phone').focusin(function(){
     if(reg.test(phone) == false) {
     $('#phone_massage_status').text('Numer telefonu jest niepoprawny'); 
     button_off();}
-    else $('#phone_massage_status').text('');
+    else {$('#phone_massage_status').text(''); button_on();}
     }
 }).blur(function(){
     $('#phone_massage_example').text('');
@@ -257,7 +257,7 @@ $('#email').focusin(function(){
     if(reg.test(email) == false) {
     $('#email_massage_status').text('Wprowadzony zły adres'); 
     button_off();}
-    else $('#email_massage_status').text('');   
+    else {$('#email_massage_status').text(''); button_on();}  
 }).blur(function(){
     $('#email_massage_example').text('');
     var email=$('#email').val();
@@ -281,7 +281,7 @@ $('#www').keyup(function(){
     if(reg.test(www) == false) {
     $('#www_massage_status').text('Wprowadzono złą stronę'); 
     button_off();}
-    else $('#www_massage_status').text('');
+    else {$('#www_massage_status').text(''); button_on();}
     }
     else $('#www_massage_status').text('');
 });

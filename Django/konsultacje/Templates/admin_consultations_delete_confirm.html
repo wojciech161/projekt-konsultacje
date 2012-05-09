@@ -49,10 +49,10 @@
 <p align="center">Zostaną usunięte konsultacje wszystkich prowadzących. Jesteś pewien?</p>
 <p align="center">Wpisz TAK(dużymi literami), jeśli chcesz potwierdzić usunięcie</p>
 {% csrf_token %}
-<form action="/assistant/{{ user_id }}/consultations_delete_confirm/" name="formedit" method="POST">{% csrf_token %}
+<form action="/admin/{{ user_id }}/consultations_delete_confirm/" name="formedit" method="POST">{% csrf_token %}
 <div align="center"></div><input style="padding-left: 0px;" id="name" name="potwierdzenie" type="text" class="okienko" /></div>
 <a style="padding-left:5px;"><input class="button" id="button" type="submit" name="usun" value="Usuń" /></a>
-<div align="center" style="padding-left: 0px;" id="buttons_hr"> <a href="/assistant/{{ user_id }}/" >Anuluj</a></div>
+<div align="center" style="padding-left: 0px;" id="buttons_hr"> <a href="/admin/{{ user_id }}/" >Anuluj</a></div>
 </form>
 <p>{{ status }}</p>
 <p>&nbsp;</p></td>

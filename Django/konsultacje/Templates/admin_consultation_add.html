@@ -48,7 +48,8 @@
             <td>Dzień:</td>
             <td> 
         		<select class="selectt" name="day" id="day">
-        			<option {% if day == "Poniedziałek" %} selected="selected"  {% endif %} value="Poniedziałek">Poniedzialek</option>
+        			<option value="0">Wybierz</option>
+                    <option {% if day == "Poniedziałek" %} selected="selected"  {% endif %} value="Poniedziałek">Poniedziałek</option>
         			<option {% if day == "Wtorek" %} selected="selected"  {% endif %} value="Wtorek">Wtorek</option>
         			<option {% if day == "Środa" %} selected="selected"  {% endif %} value="Środa">Środa</option>
         			<option {% if day == "Czwartek" %} selected="selected"  {% endif %} value="Czwartek">Czwartek</option>
@@ -64,9 +65,10 @@
             <td>Tydzień:</td>
             <td>
                 <select id="week" class="selectt" name="week_type" id="week">
+                    <option value="0">Wybierz</option>
         			<option {% if week_type == "P" %} selected="selected"  {% endif %} value="P">Parzysty</option>
         			<option {% if week_type == "N" %} selected="selected"  {% endif %} value="N">Nieparzysty</option>
-        			<option {% if week_type == "A" %} selected="selected"  {% endif %} value="A">Co Tydzień</option>
+        			<option {% if week_type == "A" %} selected="selected"  {% endif %} value="A">Każdy</option>
         		</select>
             </td>
         <td><span id="week_check_yes"></span></td>
@@ -76,6 +78,7 @@
             <td>Godzina rozpoczęcia:</td>
             <td> 
         		<select id="start_hour" class="selectt" name="start_hour">
+                    <option value="0">wybierz</option>
         			<option {% if start_hour == 07 %} selected="selected"  {% endif %} value="07">07</option>
         			<option {% if start_hour == 08 %} selected="selected"  {% endif %} value="08">08</option>
         			<option {% if start_hour == 09 %} selected="selected"  {% endif %} value="09">09</option>
@@ -94,7 +97,8 @@
         			<option {% if start_hour == 22 %} selected="selected"  {% endif %} value="22">22</option>	
         		</select> 
         		<select disabled="disabled" id="start_minutes" class="selectt" name="start_minutes">
-        			<option {% if start_minutes == "0" %} selected="selected"  {% endif %} value="0">00</option>
+        			<option value="1">wybierz</option>
+                    <option {% if start_minutes == "0" %} selected="selected"  {% endif %} value="00">00</option>
                     <option {% if start_minutes == "15" %} selected="selected"  {% endif %} value="15">15</option>
         			<option {% if start_minutes == "30" %} selected="selected"  {% endif %} value="30">30</option>
         			<option {% if start_minutes == "45" %} selected="selected"  {% endif %} value="45">45</option>
@@ -110,8 +114,9 @@
                 <select disabled="disabled">
                     <option>07</option>
                 </select></span>
-                <span>
-                    <input id="end_minutes" type="text" size="2" name="end_minutes" />
+                <span style="padding-left: 30px;"></span>
+                <span style="border: 1px solid black; padding-left: 2px; padding-right: 2px;" id="end_minutes">
+                    00
                 </span>
             <td><span id="end_hour_check_yes"></span></td>
             </td>
@@ -137,8 +142,8 @@
         <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
         <tr>
             <td>Data Wygaśnięcia:</td>
-            <td><input style="border: solid 1px; border-bottom-color: #993300;" id="date" name="expiry_date" size="8" type="text" value="{{ expiry_date }}" /></td>
-            <td></td>
+            <td><input style="border: solid 1px; border-bottom-color: #993300;" name="expiry_date" id="date" size="8" type="text" value="{{ expiry_date }}" /></td>
+            <td><span id="expiry_massage_status"></span><span id="expiry_massage_example"></span></td>
         </tr>
         <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
         <tr>
@@ -147,7 +152,7 @@
             <td></td>
         </tr>
         
-       </table>
+       </table>	
     </form>
 		
 		

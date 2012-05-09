@@ -31,7 +31,6 @@
 <a href="/assistant/{{ user_id }}/csvexport/">Eksport do CSV</a>
 <a href="/assistant/{{ user_id }}/backup/">Kopia Bazy Danych</a>
 <a href="/assistant/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
-<a href="/assistant/{{ user_id }}/html_save/">Uaktualnij Konsultacje</a>
 </div>
 <p></p>
 <div id="coolmenu">
@@ -40,9 +39,10 @@
 </form>
 <p></p>
 <div id="coolmenu">
-<a href="/logout/"><div align="center">Wyloguj</div></a></div>
+<a href="/logout/">Wyloguj</a></div>
 <div style="background-color: #9C301A; color: #FFFFFF; " align = "center">Zalogowany użytkownik :<br>
 {{ user_name }} {{ user_surname }} <br></div>
+</div>
 <p>&nbsp;</p></td>
 
 <td style="background-color:#FFF; padding-right: 8px;" valign="top">
@@ -56,8 +56,8 @@
 <div style="padding-left:8px;">
 <table style="width: 100%;" class="call_border" border="0" cellspacing="0" cellpadding="0">
   <tr>
+    <td align="center" class="table_header">Nazwisko </td>
     <td align="center" class="table_header">Imię </td>
-    <td align="center" class="table_header">Nazwisko</td>
     <td align="center" class="table_header">Konsultacje</td>
     <td align="center" class="table_header">Edycja</td>
     <td align="center" class="table_header">Status</td>
@@ -68,8 +68,8 @@
   <ul>
   	{% for con in consultations_data %}
 		<tr>
-			<td class="line_table_1"> {{ con.name }}</td>
 			<td class="line_table_1"> {{ con.surname }}</td>
+			<td class="line_table_1"> {{ con.name }}</td>
 			<td class="line_table_1">
 			{% for consult in con.consultations %}
 			{{ consult }} <br>

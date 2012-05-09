@@ -147,11 +147,7 @@ def consultation_index(request):
 		raw_consultations = sorted(raw_consultations, cmp=time_cmp)
 		
 		for con in raw_consultations:
-			strcon = "".join("%s %s %s:%s-%s:%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
-			if (today>con.expiry_date):
-				strcon = " "
-			else:
-				strcon = " ".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+			strcon = "".join("%s %s %s:%s-%s:%s %s %s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
 			if (strcon ==""):
 				strcon = " "
 			consult.consultations.append(strcon)
@@ -457,6 +453,7 @@ def add_consultation(request, tutor_id):
 		
 def assistant_export_html(request, user_id):
 	import codecs
+	from django.core.servers.basehttp import FileWrapper
 	if request.user.is_authenticated():
 		
 		
@@ -604,6 +601,7 @@ def assistant_export_html(request, user_id):
 		
 def admin_export_html(request, user_id):
 	import codecs
+	from django.core.servers.basehttp import FileWrapper
 	if request.user.is_authenticated():
 		
 		
