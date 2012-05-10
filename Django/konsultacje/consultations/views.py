@@ -2217,3 +2217,23 @@ def admin_admin_delete(request, user_id, admin_id):
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
+def download_instruction(request, tutor_id):
+	if request.user.is_authenticated():
+		from django.core.servers.basehttp import FileWrapper
+		filepath = "/home/kons/instrukcja/instrukcja.pdf"
+		filename = "instrukcja.pdf"
+		sqlfile = open(filepath, "r")
+		wrapper = FileWrapper(sqlfile)
+		
+		response = HttpResponse(wrapper, mimetype='application/force-download')
+		response['Content-Disposition'] = 'attachment; filename=%s' % filename
+		response['Content-Length'] = os.path.getsize(filepath)
+		return response
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+def add_error(request, tutor_id):
+	if request.user.is_authenticated():
+		return HttpResponse("W budowie")
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
