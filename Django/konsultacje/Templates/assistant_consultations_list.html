@@ -39,7 +39,7 @@
 {{ user_name }} {{ user_surname }} <br></div>
 <p>&nbsp;</p></td>
     <td style="background-color:#f8f3ec" valign="top">
-	<p></p>
+	<p align="center">Konsultacje użytkownika {{ tutor_name }} {{ tutor_surname }}</p>
 	<form name="add_consultations" method="POST" action="/assistant/({{ user_id }}/consultation/({{ tutor_id }}/list/">{% csrf_token %}
 		<table align="center" border="0"  cellpadding="0" cellspacing="0" class="call_border">
 			<tr class="line_table_2">

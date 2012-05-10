@@ -1025,7 +1025,8 @@ def assistant_tutor_delete_confirm(request, user_id, tutor_id):
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name
-		return render_to_response('assistant_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname})
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		return render_to_response('assistant_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname, 'tutor':tutor})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -1646,7 +1647,8 @@ def admin_tutor_delete_confirm(request, user_id, tutor_id):
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
 		user_surname = admin.surname
-		return render_to_response('admin_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname})
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		return render_to_response('admin_tutor_delete_confirm.html', {'user_id':user_id, 'tutor_id':tutor_id, 'user_name':user_name, 'user_surname':user_surname, 'tutor':tutor})
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
