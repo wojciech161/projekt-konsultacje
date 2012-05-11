@@ -153,6 +153,11 @@ def consultation_index(request):
 			consult.consultations.append(strcon)
 		
 		consult.info = tutor_info.message
+		if (len(consult.info) > 100):
+			consult.info_short = consult.info[:70] + u"... Najedź by wyświetlić całość"
+		else:
+			consult.info_short = consult.info
+		
 		consultations_data.append(consult)
 		consult = None
 	consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
@@ -534,6 +539,10 @@ def assistant_export_html(request, user_id):
 						consult.consultations.append(strcon)
 					
 					consult.info = tutor_info.message
+					if (len(consult.info) > 100):
+						consult.info_short = consult.info[:70] + u"... Najedź by wyświetlić całość"
+					else:
+						consult.info_short = consult.info
 					consultations_data.append(consult)
 					consult = None
 				consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
@@ -571,6 +580,7 @@ def assistant_export_html(request, user_id):
 					html.write("</TD>")
 					html.write("<TD>")
 					phone = con.phone
+					phone = phone[8:]
 					phone = phone.encode('utf8')
 					html.write(phone)
 					html.write("</TD>")
@@ -579,6 +589,15 @@ def assistant_export_html(request, user_id):
 						single_con = single_con.encode('utf8')
 						html.write(single_con)
 						html.write("<br>")
+					html.write("</TD>")
+					html.write("<TD title = \" ")
+					info = con.info
+					info = info.encode('utf8')
+					html.write(info)
+					html.write(" \" >")
+					info_short = con.info_short
+					info_short = info_short.encode('utf8')
+					html.write(info_short)
 					html.write("</TD>")
 					html.write("</TR>")
 			
@@ -682,6 +701,10 @@ def admin_export_html(request, user_id):
 						consult.consultations.append(strcon)
 					
 					consult.info = tutor_info.message
+					if (len(consult.info) > 100):
+						consult.info_short = consult.info[:70] + u"... Najedź by wyświetlić całość"
+					else:
+						consult.info_short = consult.info
 					consultations_data.append(consult)
 					consult = None
 				consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
@@ -732,6 +755,15 @@ def admin_export_html(request, user_id):
 					infoboard =con.info
 					infoboard = infoboard.encode('utf8')
 					html.write(infoboard)
+					html.write("</TD>")
+					html.write("<TD title = \" ")
+					info = con.info
+					info = info.encode('utf8')
+					html.write(info)
+					html.write(" \" >")
+					info_short = con.info_short
+					info_short = info_short.encode('utf8')
+					html.write(info_short)
 					html.write("</TD>")
 					html.write("</TR>")
 			
@@ -844,22 +876,31 @@ def edit_infoboard(request, tutor_id):
 		tutor_id_from_table = tutor.id
 		try:
 			infoboard = InfoBoard.objects.get(tutor_id = tutor_id_from_table)
+			
 		except:
 			infoboard = None
-		
+		if (len(infoboard.message) > 100):
+			infoboard_short = infoboard.message[:70] + u"... Najedź by wyświetlić całość"
+		else:
+			infoboard_short = infoboard.message
 		#print infoboard.message
-			
+		print infoboard_short	
 		if request.POST:
 			#zbieramy dane
 			try:
 				info = request.POST.get('Informacja')
 				#zapisujemy zmiany w bazie
 				infoboard.message = info
+				
 				infoboard.save()
+				infoboard_short = infoboard.message
+				if (len(infoboard.message) > 100):
+					infoboard_short = infoboard.message[:70] + u"... Najedź by wyświetlić całość"
+					
 				status = "Dane zostały zmienione"
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
-		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard, 'infoboard_short' : infoboard_short, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		

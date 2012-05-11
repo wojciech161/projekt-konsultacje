@@ -37,7 +37,7 @@
     <table style="width: 95%;" border="0" align="center" cellpadding="0" cellspacing="0">
 	  <tr>
         <td>&nbsp;</td>
-        <td align="center" class="table_header">Nazwisko</td>
+        <td align="center" class="table_header" title = "cos tam" >Nazwisko</td>
         <td align="center" class="table_header">Imię</td>
         <td align="center" class="table_header">Tytuł</td>
         <td align="center" class="table_header">Lokalizacja</td>
@@ -67,8 +67,8 @@
 				&nbsp;
 			 {% endif %}
 			</td>
-			<td class="line_table_1"> &nbsp;{{ con.info }}</td>
-			<td>&nbsp;</td>
+			<td width = "300" class="line_table_1" title = "{{ con.info }}"> &nbsp  {{ con.info_short }} </a></td>
+			
 			</tr>
 		{% endfor %}
         </table>
