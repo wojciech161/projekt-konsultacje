@@ -64,6 +64,7 @@ urlpatterns = patterns('',
 	url(r'^admin/(?P<user_id>\d+)/admin/add/$', 'consultations.views.admin_admin_add'),
 	url(r'^admin/(?P<user_id>\d+)/admin/(?P<admin_id>\d+)/delete/confirm/$', 'consultations.views.admin_admin_delete_confirm'),
 	url(r'^admin/(?P<user_id>\d+)/admin/(?P<admin_id>\d+)/delete/$', 'consultations.views.admin_admin_delete'),
+	url(r'^admin/(?P<user_id>\d+)/errorcheck/$', 'consultations.views.admin_errorcheck'),
 	url(r'^logout/$', 'consultations.views.logout'),
 	
     url(r'^admin/', include(admin.site.urls)),

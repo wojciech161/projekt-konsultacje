@@ -2464,3 +2464,18 @@ def add_error(request, tutor_id):
 		return render_to_response('add_error.html', {'tutor_id':tutor_id, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		
+def admin_errorcheck(request, user_id):
+	if request.user.is_authenticated():
+		from django.core.servers.basehttp import FileWrapper
+		filepath = "/home/kons/logs/errors"
+		filename = "errors.txt"
+		sqlfile = open(filepath, "r")
+		wrapper = FileWrapper(sqlfile)
+		
+		response = HttpResponse(wrapper, mimetype='application/force-download')
+		response['Content-Disposition'] = 'attachment; filename=%s' % filename
+		response['Content-Length'] = os.path.getsize(filepath)
+		return response
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
