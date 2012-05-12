@@ -105,6 +105,23 @@ def error_file_append(user, error_info):
 		errorfile.close()
 		return "Błąd został dodany"
 		
+def log_file_append(user, log):
+	reload(sys)
+	sys.setdefaultencoding('utf8')
+	try:
+		errorfile = open("/home/kons/logs/logs", "a+")
+	except:
+		pass
+	else:
+		current_date = str(date.today())
+		errorfile.write(current_date)
+		errorfile.write(" Użytkownik: ")
+		errorfile.write(user)
+		errorfile.write(" ")
+		errorfile.write(log)
+		errorfile.write("\n")
+		errorfile.close()
+		
 ##############KONIEC FUNKCJI POMOCNICZYCH
 
 def consultation_index(request):
@@ -197,6 +214,9 @@ def tutor_index(request, tutor_id):
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 	
 def tutor_detail(request, tutor_id):
+	reload(sys)
+	sys.setdefaultencoding('utf8')
+	
 	if request.user.is_authenticated():
 		
 		status = ""
@@ -234,6 +254,11 @@ def tutor_detail(request, tutor_id):
 				localization.building = building
 				localization.save()
 				status = "Dane zostały zmienione"
+				try:
+					log_file_append(tutor.tutor_ID.login, "zmienił swoje dane")
+				except:
+					pass
+				
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
 		return render_to_response('tutor_detail.html', {'tutor_id':tutor_id, 'localization':localization, 'tutor':tutor, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
@@ -294,6 +319,14 @@ def consultations_detail(request, tutor_id):
 
 def edit_consultation(request, tutor_id, consultation_id):
 	if request.user.is_authenticated():
+		try:
+			tutor = Tutor.objects.get(tutor_ID = tutor_id)
+			user_name = tutor.name
+			user_surname = tutor.surname
+		except:
+			user_name = ""
+			user_surname = ""
+		
 		try:
 			consultation = Consultation.objects.get(id = consultation_id)
 		except:
@@ -369,18 +402,26 @@ def edit_consultation(request, tutor_id, consultation_id):
 				except:
 					return HttpResponse("Nie udało się zapisać zmian - sprawdź poprawność pól")
 				
+				try:
+					log_file_append(tutor.tutor_ID.login, "edytował swoje konsultacje")
+				except:
+					pass
+				
 				#data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
 				#return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail jeśli udało się zapisać nową konsultację	
 				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(tutor_id,)))
-			tutor = Tutor.objects.get(tutor_ID = tutor_id)
-			user_name = tutor.name
-			user_surname = tutor.surname
 			return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry_date, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 				
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 
 def delete_consultation(request, tutor_id, consultation_id):
+	try:
+		tutor = Tutor.objects.get(tutor_ID = tutor_id)
+		log_file_append(tutor.tutor_ID.login, "usunął swoją konsultację")
+	except:
+		pass
+	
 	try:
 		consultation = Consultation.objects.get(id = consultation_id)
 		consultation.delete()
@@ -462,6 +503,11 @@ def add_consultation(request, tutor_id):
 					consultation.save()
 				except:
 					return HttpResponse("Nie udało się dodac konsultacji, sprawdź poprawność pól")
+				
+				try:
+					log_file_append(tutor.tutor_ID.login, "dodał konsultację")
+				except:
+					pass
 				
 				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=( tutor_id,)))
 							
@@ -1076,6 +1122,11 @@ def edit_infoboard(request, tutor_id):
 					infoboard_short = infoboard.message[:70] + u"... Najedź by wyświetlić całość"
 					
 				status = "Dane zostały zmienione"
+				try:
+					log_file_append(tutor.tutor_ID.login, "zmienił swoją informację")
+				except:
+					pass
+				
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
 		return render_to_response('infoboard_edit.html', {'tutor_id':tutor_id, 'infoboard':infoboard, 'infoboard_short' : infoboard_short, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
@@ -1172,6 +1223,11 @@ def assistant_consultations_delete_confirm(request, user_id):
 			confirmation = request.POST.get("potwierdzenie")
 			if(confirmation == "TAK"):
 				status = "Pomyślnie usunięto konsultacje z bazy."
+				try:
+					log_file_append(assistant.assistant_ID.login, "usunął wszystkie konsultacje")
+				except:
+					pass
+				
 				return HttpResponseRedirect(reverse('consultations.views.assistant_consultations_delete', args=(user_id,)))
 			else:
 				status = "Nie udało się usunąć konsultacji."
@@ -1194,6 +1250,7 @@ def assistant_consultations_delete(request, user_id):
 		
 def assistant_tutor_edit(request, user_id, tutor_id):
 	if request.user.is_authenticated():
+		assistant = Assistant.objects.get(assistant_ID = user_id)
 		status = ""
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		tutor_id_from_table = tutor.id
@@ -1226,10 +1283,14 @@ def assistant_tutor_edit(request, user_id, tutor_id):
 				localization.building = building
 				localization.save()
 				status = "Dane zostały zmienione"
+				try:
+					log_file_append(assistant.assistant_ID.login, "zmienił dane prowadzącego jako asystent")
+				except:
+					pass
+				
 				return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
-		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
@@ -1258,6 +1319,11 @@ def assistant_tutor_delete(request, user_id, tutor_id):
 		tutor.delete()
 		user.delete()
 		localization.delete()
+		try:
+			assistant = Assistant.objects.get(assistant_ID = user_id)
+			log_file_append(assistant.assistant_ID.login, "usunął wszystkie konsultacje")
+		except:
+			pass
 		
 		return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 	else:
@@ -1319,6 +1385,7 @@ def assistant_consultation_list(request, user_id, tutor_id):
 		
 def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 	if request.user.is_authenticated():
+		assistant = Assistant.objects.get(assistant_ID = user_id)
 		try:
 			tutor = Tutor.objects.get(tutor_ID = tutor_id)
 			consult = Consultation.objects.get(id = consultation_id)
@@ -1380,9 +1447,13 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 				localization.save()
 			except:
 				return HttpResponse("Nie udało się zmienić konsultacji")
+				
+			try:
+				log_file_append(assistant.assistant_ID.login, "zmienił konsultację użytkownika jako asystent")
+			except:
+				pass
 			
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
-		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
 		user_name = assistant.name	
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
@@ -1411,6 +1482,12 @@ def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
 		localization = consult.localization_ID
 		consult.delete()
 		localization.delete()
+		try:
+			assistant = Assistant.objects.get(assistant_ID = user_id)
+			log_file_append(assistant.assistant_ID.login, "usunął konsultację użytkownika jako asystent")
+		except:
+			pass
+		
 		return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 	
 	else:
@@ -1472,6 +1549,13 @@ def assistant_consultation_add(request, user_id, tutor_id):
 				return HttpResponse("Podano złą datę")
 			new_consultation.expiry_date = new_expiry_date		
 			new_consultation.save()
+			
+			try:
+				assistant = Assistant.objects.get(assistant_ID = user_id)
+				log_file_append(assistant.assistant_ID.login, "dodał konsultację jako asystent")
+			except:
+				pass
+				
 			return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
@@ -1507,6 +1591,12 @@ def assistant_consultation_deleteall(request, user_id, tutor_id):
 		consults = Consultation.objects.filter(tutor_ID_id = tutor_id_from_table)
 		for con in consults:
 			con.delete()
+		
+		try:
+			assistant = Assistant.objects.get(assistant_ID = user_id)
+			log_file_append(assistant.assistant_ID.login, "usunął wszystkie konsultacje użytkownia jako asystent")
+		except:
+			pass
 		
 		return HttpResponseRedirect(reverse('consultations.views.assistant_consultation_list', args=(user_id, tutor_id,)))
 	else:
@@ -1578,6 +1668,12 @@ def assistant_adduser(request, user_id):
 				iboard.save()
 
 				status = "Dodano użytkownika"
+				
+				try:
+					assistant = Assistant.objects.get(assistant_ID = user_id)
+					log_file_append(assistant.assistant_ID.login, "dodał użytkownika")
+				except:
+					pass
 			except:
 				status = "Błąd: Nie mogę dodać użytkownika"
 			else:
@@ -1697,6 +1793,11 @@ def assistant_restore(request, user_id):
 				os.system("mysql --verbose %s < %s"%(' '.join(args), filepath))
 				
 				status = "Pomyślnie przywrócono bazę danych"
+				try:
+					assistant = Assistant.objects.get(assistant_ID = user_id)
+					log_file_append(assistant.assistant_ID.login, "wykonał operację na bazie danych")
+				except:
+					pass
 		else:
 			form = uploadfileform.UploadFileForm()
 		assistant = Assistant.objects.get(assistant_ID = user_id)
@@ -1810,6 +1911,13 @@ def admin_consultations_delete(request, user_id):
 		consult_list = Consultation.objects.all()
 		for c in consult_list:
 			c.delete()
+		
+		try:
+			admin = Administrator.objects.get(administrator_ID = user_id)
+			log_file_append(admin.administrator_ID.login, "usunął wszystkie konsultacje")
+		except:
+			pass	
+		
 		return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -1848,6 +1956,12 @@ def admin_tutor_edit(request, user_id, tutor_id):
 				localization.building = building
 				localization.save()
 				status = "Dane zostały zmienione"
+				try:
+					admin = Administrator.objects.get(administrator_ID = user_id)
+					log_file_append(admin.administrator_ID.login, "edytował dane użytkownika jako administrator")
+				except:
+					pass
+				
 				return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
 			except:
 				status = "Błąd: Nie mogę zmienić danych"
@@ -1880,6 +1994,12 @@ def admin_tutor_delete(request, user_id, tutor_id):
 		tutor.delete()
 		user.delete()
 		localization.delete()
+		
+		try:
+			admin = Administrator.objects.get(administrator_ID = user_id)
+			log_file_append(admin.administrator_ID.login, "usunął użytkownika jako administrator")
+		except:
+			pass
 		
 		return HttpResponseRedirect(reverse('consultations.views.admin_index', args=(user_id,)))
 	else:
@@ -2002,6 +2122,12 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 				localization.save()
 			except:
 				return HttpResponse("Nie udało się zmienić konsultacji")
+				
+			try:
+				admin = Administrator.objects.get(administrator_ID = user_id)
+				log_file_append(admin.administrator_ID.login, "edytował konsultację użytkownika jako administrator")
+			except:
+				pass
 			
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 		admin = Administrator.objects.get(administrator_ID = user_id)
@@ -2033,6 +2159,13 @@ def admin_consultation_delete(request, user_id, tutor_id, consultation_id):
 		localization = consult.localization_ID
 		consult.delete()
 		localization.delete()
+		
+		try:
+			admin = Administrator.objects.get(administrator_ID = user_id)
+			log_file_append(admin.administrator_ID.login, "usunął konsultację użytkownika jako administrator")
+		except:
+			pass
+					
 		return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 	
 	else:
@@ -2098,6 +2231,13 @@ def admin_consultation_add(request, user_id, tutor_id):
 				new_consultation.save()
 			except:
 				return HttpResponse("Nie udało się dodać konsultacji")
+				
+			try:
+				admin = Administrator.objects.get(administrator_ID = user_id)
+				log_file_append(admin.administrator_ID.login, "dodał konsultację jako administrator")
+			except:
+				pass
+			
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
@@ -2132,6 +2272,12 @@ def admin_consultation_deleteall(request, user_id, tutor_id):
 		consults = Consultation.objects.filter(tutor_ID_id = tutor_id_from_table)
 		for con in consults:
 			con.delete()
+		
+		try:
+			admin = Administrator.objects.get(administrator_ID = user_id)
+			log_file_append(admin.administrator_ID.login, "usunął konsultacje użytkownika jako administrator")
+		except:
+			pass
 		
 		return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 	else:
@@ -2201,7 +2347,13 @@ def admin_adduser(request, user_id):
 				iboard.message = ""
 				iboard.tutor_id = tutor
 				iboard.save()
-
+				
+				try:
+					admin = Administrator.objects.get(administrator_ID = user_id)
+					log_file_append(admin.administrator_ID.login, "dodał użytkownika jako administrator")
+				except:
+					pass
+				
 				status = "Dodano użytkownika"
 			except:
 				status = "Błąd: Nie mogę dodać użytkownika"
@@ -2313,6 +2465,11 @@ def admin_restore(request, user_id):
 				os.system("mysql --verbose %s < %s"%(' '.join(args), filepath))
 				
 				status = "Pomyślnie przywrócono bazę danych"
+				try:
+					admin = Administrator.objects.get(administrator_ID = user_id)
+					log_file_append(admin.administrator_ID.login, "wykonał operację na bazie danych")
+				except:
+					pass
 		else:
 			form = uploadfileform.UploadFileForm()
 			
@@ -2355,6 +2512,13 @@ def admin_assistant_add(request, user_id):
 			na.name = na_name
 			na.surname = na_surname
 			na.save()
+			
+			try:
+				admin = Administrator.objects.get(administrator_ID = user_id)
+				log_file_append(admin.administrator_ID.login, "dodał asystenta")
+			except:
+				pass
+			
 			return HttpResponseRedirect(reverse('consultations.views.admin_assistant_list', args=(user_id,)))
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
@@ -2376,6 +2540,13 @@ def admin_assistant_delete(request, user_id, assistant_id):
 	if request.user.is_authenticated():
 		assistant = Assistant.objects.get(assistant_ID_id = assistant_id)
 		assistant.delete()
+		
+		try:
+			admin = Administrator.objects.get(administrator_ID = user_id)
+			log_file_append(admin.administrator_ID.login, "odebrał prawa asystenta")
+		except:
+			pass
+		
 		return HttpResponseRedirect(reverse('consultations.views.admin_assistant_list', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -2411,6 +2582,13 @@ def admin_admin_add(request, user_id):
 			na.name = na_name
 			na.surname = na_surname
 			na.save()
+			
+			try:
+				admin = Administrator.objects.get(administrator_ID = user_id)
+				log_file_append(admin.administrator_ID.login, "dodał administratora")
+			except:
+				pass
+			
 			return HttpResponseRedirect(reverse('consultations.views.admin_admin_list', args=(user_id,)))
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
@@ -2432,6 +2610,13 @@ def admin_admin_delete(request, user_id, admin_id):
 	if request.user.is_authenticated():
 		admin = Administrator.objects.get(administrator_ID = admin_id)
 		admin.delete()
+		
+		try:
+			admin = Administrator.objects.get(administrator_ID = user_id)
+			log_file_append(admin.administrator_ID.login, "odebrał prawa administratora")
+		except:
+			pass
+		
 		return HttpResponseRedirect(reverse('consultations.views.admin_admin_list', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
