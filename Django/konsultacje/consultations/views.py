@@ -2664,3 +2664,18 @@ def admin_errorcheck(request, user_id):
 		return response
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+
+def admin_logcheck(request, user_id):
+	if request.user.is_authenticated():
+		from django.core.servers.basehttp import FileWrapper
+		filepath = "/home/kons/logs/logs"
+		filename = "log.txt"
+		sqlfile = open(filepath, "r")
+		wrapper = FileWrapper(sqlfile)
+		
+		response = HttpResponse(wrapper, mimetype='application/force-download')
+		response['Content-Disposition'] = 'attachment; filename=%s' % filename
+		response['Content-Length'] = os.path.getsize(filepath)
+		return response
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
