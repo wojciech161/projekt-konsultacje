@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title>Dane Osobowe</title>
+<title>Dodawanie błędu</title>
 <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .left #coolmenu a {
@@ -31,13 +31,14 @@
 <span style="height: 2px"></span>
 <div id="coolmenu">
 <a href="/tutor/{{ tutor_id }}/edit/" align="center">Dane Osobowe</a>
-<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/" align="center">Zapisani studenci</a>
+<a href="/tutor/{{ tutor_id }}/" align="center">Zapisani studenci</a>
+
 </div>	
 
 <p></p>
 <div id="coolmenu">
 <a href="/tutor/{{ tutor_id }}/instruction/"><div align="center">Instrukcja</div></a>
-<a href="/tutor/{{ tutor_id }}/adderror/"><div align="center">Zgłaszanie błędów</div></a></div>
+<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/adderror/"><div align="center">Zgłaszanie błędów</div></a></div>
 
 <p></p>
 <div id="coolmenu">
@@ -45,41 +46,26 @@
 <div style="background-color: #9C301A; color: #FFFFFF; " align = "center">Zalogowany użytkownik :<br>
 {{ user_name }} {{ user_surname }} <br></div>
 <p>&nbsp;</p></td>
-    <td style="background-color:#FFF" valign="top">
-   <select name="termin">
-   <option value="1">wybierz</option>
-   <option value="2">pt/n 11:00-13:00</option>
-   <option value="3">cz/p 13:00-15:00</option>
-   </select>
-<div style="padding-left:8px;">
-	<table class="call_border" border="0" cellspacing="0" cellpadding="0">
+    <td style="background-color:#f8f3ec; padding-left: 6px;" valign="top">
+ {% csrf_token %}
+<form action="/tutor/{{ tutor_id }}/adderror/" name="formedit" method="POST">{% csrf_token %}
+<table border="0" cellspacing="0" cellpadding="0">
+	<p>Proszę podać informację na temat błędu:</p>
   <tr>
-  	<td align="center" class="table_header">Dzień</td>
-    <td align="center" class="table_header">Godzina</td>
-    <td align="center" class="table_header">Imie </td>
-    <td align="center" class="table_header">Nazwisko</td>
-    <td align="center" class="table_header">Indeks</td>
-    <td align="center" class="table_header">Przedmiot</td>
-  </tr>
-  <tr>
-    <td align="center" class="line_table_1">pt/n</td>
-    <td align="center" class="line_table_1">11:00-11:30</td>
-    <td align="center" class="line_table_1">Tomek</td>
-    <td align="center" class="line_table_1">Adamik</td>
-    <td align="center" class="line_table_1">154684</td>
-    <td align="center" class="line_table_1">Architektura</td>
-  </tr>
-  <tr>
-    <td align="center" class="line_table_2">pt/n</td>
-    <td align="center" class="line_table_2">12:15-12:45</td>
-    <td align="center" class="line_table_2">Andrzej</td>
-    <td align="center" class="line_table_2">Cilińsko</td>
-    <td align="center" class="line_table_2">167867</td>
-    <td align="center" class="line_table_2">Projekt Zespolowy</td>
-  </tr>
+    <td width="143" style="padding-left:5px; font-weight: bold;">
+    <p><a>Informacja: </a></p>
+    </td>
+    <td width="183" style="style="padding-left:5px">
+    <p><input style="width:300px;" tabindex="10" rows="4" name="blad" class="okienko" ></input></p>
+   <!-- <p><input name="Informacja" type="text" class="okienko" value="{{ infoboard.message }}" /></p> -->
+    </td>
+	
 </table>
-	</div>
-    
+  <input style="width: 100px;" class="button3" type="submit" name="zmien" value="Dodaj błąd" />
+	{% if status != '' %}
+		<p>{{ status }}</p>
+	{% endif %}
+</form>
     </td>
   </tr>
 </table>

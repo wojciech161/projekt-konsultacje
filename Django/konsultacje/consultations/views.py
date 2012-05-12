@@ -86,6 +86,24 @@ def count_consultation_hours(tutor_id):
 		hours = con.end_hour - con.start_hour
 		total_consultation_hours += hours
 	return total_consultation_hours
+	
+def error_file_append(user, error_info):
+	reload(sys)
+	sys.setdefaultencoding('utf8')
+	try:
+		errorfile = open("/home/kons/logs/errors", "a+")
+	except:
+		return "Nie mogę dodać błędu!"
+	else:
+		current_date = str(date.today())
+		errorfile.write(current_date)
+		errorfile.write(" Użytkownik: ")
+		errorfile.write(user)
+		errorfile.write(" Błąd: ")
+		errorfile.write(error_info)
+		errorfile.write("\n")
+		errorfile.close()
+		return "Błąd został dodany"
 		
 ##############KONIEC FUNKCJI POMOCNICZYCH
 
@@ -2436,6 +2454,14 @@ def download_instruction(request, tutor_id):
 
 def add_error(request, tutor_id):
 	if request.user.is_authenticated():
-		return HttpResponse("W budowie")
+		status = ""
+		user = User.objects.get(id = tutor_id)
+		tutor = Tutor.objects.get(tutor_ID = user)
+		user_name = tutor.name
+		user_surname = tutor.surname
+		if request.POST:
+			error = request.POST.get("blad")
+			status = error_file_append(user.login, error)
+		return render_to_response('add_error.html', {'tutor_id':tutor_id, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
