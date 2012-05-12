@@ -93,7 +93,7 @@ def error_file_append(user, error_info):
 	try:
 		errorfile = open("/home/kons/logs/errors", "a+")
 	except:
-		return "Nie mogę dodać błędu!"
+		return "Nie mogę didać błędu!"
 	else:
 		current_date = str(date.today())
 		errorfile.write(current_date)
