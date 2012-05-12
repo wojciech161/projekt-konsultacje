@@ -1063,7 +1063,6 @@ def edit_infoboard(request, tutor_id):
 		else:
 			infoboard_short = infoboard.message
 		#print infoboard.message
-		print infoboard_short	
 		if request.POST:
 			#zbieramy dane
 			try:
