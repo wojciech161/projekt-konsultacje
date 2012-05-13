@@ -520,7 +520,7 @@ def add_consultation(request, tutor_id):
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
-def tutor_export_html(request, user_id):
+def tutor_export_html(request, tutor_id):
 	import codecs
 	from django.core.servers.basehttp import FileWrapper
 	if request.user.is_authenticated():
@@ -604,7 +604,7 @@ def tutor_export_html(request, user_id):
 					
 					consult.info = tutor_info.message
 					if (len(consult.info) > 100):
-						consult.info_short = consult.info[:70] + u"... Najedź by wyświetlić całość"
+						consult.info_short = consult.info[:70]
 					else:
 						consult.info_short = consult.info
 					consultations_data.append(consult)
@@ -677,7 +677,7 @@ def tutor_export_html(request, user_id):
 		response['Content-Disposition'] = 'attachment; filename=%s' % filename
 		response['Content-Length'] = os.path.getsize(filepath)
 		return response
-		#return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
+		#return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(tutor_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
@@ -765,7 +765,7 @@ def assistant_export_html(request, user_id):
 					
 					consult.info = tutor_info.message
 					if (len(consult.info) > 100):
-						consult.info_short = consult.info[:70] + u"... Najedź by wyświetlić całość"
+						consult.info_short = consult.info[:70]
 					else:
 						consult.info_short = consult.info
 					consultations_data.append(consult)
@@ -849,11 +849,11 @@ def admin_export_html(request, user_id):
 	if request.user.is_authenticated():
 		
 		
-		
 		html_dir = '/home/kons/html'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
 		before_filepath = '/home/kons/repo/projekt-konsultacje/Django/przed.txt'
+		
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
 		i = 0
@@ -927,7 +927,7 @@ def admin_export_html(request, user_id):
 					
 					consult.info = tutor_info.message
 					if (len(consult.info) > 100):
-						consult.info_short = consult.info[:70] + u"... Najedź by wyświetlić całość"
+						consult.info_short = consult.info[:70] 
 					else:
 						consult.info_short = consult.info
 					consultations_data.append(consult)
@@ -967,6 +967,7 @@ def admin_export_html(request, user_id):
 					html.write("</TD>")
 					html.write("<TD>")
 					phone = con.phone
+					phone = phone[8:]
 					phone = phone.encode('utf8')
 					html.write(phone)
 					html.write("</TD>")
@@ -975,11 +976,6 @@ def admin_export_html(request, user_id):
 						single_con = single_con.encode('utf8')
 						html.write(single_con)
 						html.write("<br>")
-					html.write("</TD>")
-					html.write("<TD>")
-					infoboard =con.info
-					infoboard = infoboard.encode('utf8')
-					html.write(infoboard)
 					html.write("</TD>")
 					html.write("<TD title = \" ")
 					info = con.info
