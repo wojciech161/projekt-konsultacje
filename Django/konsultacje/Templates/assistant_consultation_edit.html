@@ -5,6 +5,7 @@
 
 <title>Edycja konsultacji prowadzącego</title>
 <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/jquery-ui-1.8.19.custom.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .left #coolmenu a {
 	font-size: 12px;
@@ -111,9 +112,15 @@
                 <select disabled="disabled" id="end_hour">
                     <option>{{ end_hour }}</option>
                 </select></span>
-                <span style="padding-left: 30px;"></span>
-                <span class="end_minut" style="border: 1px solid black; padding-left: 2px; padding-right: 2px;" id="end_minutes">
-                    {{ end_minutes }}
+                <span style="padding-left: 31px;"></span>
+                <span id="end_minutes">
+                    <select class="selectt" name="end_minutes">
+            			<option value="1">wybierz</option>
+                        <option {% if end_minutes == "00" %} selected="selected"  {% endif %} value="00">00</option>
+                        <option {% if end_minutes == "15" %} selected="selected"  {% endif %} value="15">15</option>
+            			<option {% if end_minutes == "30" %} selected="selected"  {% endif %} value="30">30</option>
+            			<option {% if end_minutes == "45" %} selected="selected"  {% endif %} value="45">45</option>	
+            		</select>
                 </span>
             <td><span id="end_hour_check_yes"></span></td>
             </td>

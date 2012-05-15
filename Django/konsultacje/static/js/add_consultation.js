@@ -142,12 +142,23 @@ $('#start_minutes').change(function(){
     if($('#start_minutes').val()!=1){
     button_on(); 
     var list_value = $('#start_minutes').val();
-    $('#start_hour_check_yes').html('<img src="/static/images/change.png"/>');
-    var temp='<input type="hidden" name="end_minutes" id="end_minutes" value="'+list_value+'" />'+list_value;
+    list_value = parseFloat(list_value);
+    $('#start_hour_check_yes').html('<img src="/static/images/change.png"/>');                
+    var temp='<select id="end_minutes" name="end_minutes"><option';
+    if(list_value==0) temp=temp+' selected="selected"';
+    temp=temp+' value="00">00</option><option';
+    if(list_value==15) temp=temp+' selected="selected"';
+    temp=temp+' value="15">15</option><option';
+    if(list_value==30) temp=temp+' selected="selected"';
+    temp=temp+' value="30">30</option><option';
+    if(list_value==45) temp=temp+' selected="selected"';
+    temp=temp+' value="45">45</option>';
+    temp=temp+'</select>';
     $('#end_minutes').html(temp);
     $('#end_hour_check_yes').html('<img src="/static/images/change.png"/>');
     } else {
-            $('#end_minutes').html('00');
+    var temp='<select disabled="disabled"><option>00</option></select>';
+            $('#end_minutes').html(temp);
             $('#start_hour_check_yes').html('');
             $('#end_hour_check_yes').html('');
             button_off();   
@@ -235,16 +246,14 @@ $('#students_limit').focusin(function(){
     else {$('#students_limit_massage_status').html('<img src="/static/images/change.png"/>');button_on();}
 });
 
-
-$('#jeden').keyup(function(){
-    var test = $('#jeden').val();
-    test=test.length();
-    $('#dwa').attr('value',test);
-});
 //end----------------------------------------------
 
 
-$('#date').datepicker({ minDate: '0d', dateFormat: 'dd/mm/yy', onClose: function(){
+$('#date').datepicker({ minDate: '0d', dateFormat: 'dd/mm/yy',
+    showOn: 'button', 
+    buttonImage: '/static/images/kalendarz.jpg', 
+    buttonImageOnly: true,
+    onClose: function(){
     
     var date=$('#date').val();
     var reg = /^([0-9]{1,2})+\/([0-9]{1,2})+\/([0-9]{1,4})$/;
@@ -272,3 +281,19 @@ $('#date').keyup(function(){
             $('#expiry_massage_status').html('');
            }
 });
+
+$('#date').focusin(function(){
+   $('#expiry_massage_example').text('wzor: dd/mm/rrrr (30/12/2012)');
+}).blur(function(){
+    $('#expiry_massage_example').text('');
+    var expiry=$('#expiry').val();
+    button_on();
+    var reg = /^([0-9]{1,2})+\/([0-9]{1,2})+\/([0-9]{1,4})$/;
+    if(reg.test(expiry) == false) {
+    $('#expiry_massage_status').text('wpisano złą datę '); 
+    button_off();}
+    else {$('#expiry_massage_status').html('<img src="/static/images/change.png"/>');button_on();}
+});
+
+
+
