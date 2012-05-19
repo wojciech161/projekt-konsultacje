@@ -1223,7 +1223,66 @@ def assistant_index(request, user_id):
 		return HttpResponse(t.render(c))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
-		
+	
+def assistant_change_dates(request, user_id):
+	if request.user.is_authenticated():
+		reload(sys)
+		sys.setdefaultencoding('utf8')
+		assistant = Assistant.objects.get(assistant_ID = user_id)
+		status = ""
+		date_used = []
+		empty_date = ""
+		date_dir = "E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django"
+		date_filename = "date.txt"
+		filepath = os.path.join(date_dir, date_filename)
+		dates_read = open(filepath, "rb")
+		for lines in dates_read:
+			date_used.append(lines)
+		dates_read.close()
+		while (len(date_used)<6):
+			date_used.append(empty_date)
+		#print infoboard.message
+		if request.POST:
+			#zbieramy dane
+			try:
+				date_used[0] = request.POST.get('date_name1')
+				date_used[1] = request.POST.get('date_value1')
+				date_used[2] = request.POST.get('date_name1')
+				date_used[3] = request.POST.get('date_value1')
+				date_used[4] = request.POST.get('date_name1')
+				date_used[5] = request.POST.get('date_value1')
+				
+				dates_write = open(filepath, "w")
+				dates_write.write(date_used[0])
+				dates_write.write("\n")
+				dates_write.write(date_used[1])
+				dates_write.write("\n")
+				dates_write.write(date_used[2])
+				dates_write.write("\n")
+				dates_write.write(date_used[3])
+				dates_write.write("\n")
+				dates_write.write(date_used[4])
+				dates_write.write("\n")
+				dates_write.write(date_used[5])
+				dates_write.write("\n")
+				
+				status = "Dane zostały zmienione"
+				try:
+					log_file_append(assistans.user_id.login, "zmienił ustalone daty")
+				except:
+					pass
+			except:
+				status = "Błąd: Nie mogę zmienić danych"
+
+		user_surname = assistant.surname
+		user_name = assistant.name
+		return render_to_response('assistant_date.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname, 'status':status, 'date_name1':date_used[0], 'date_name2':date_used[2], 'date_name3':date_used[4], 'date_value1':date_used[1], 'date_value2':date_used[3], 'date_value3':date_used[5]}, context_instance = RequestContext(request))
+	else:
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+	
+	
+	
+	
 def assistant_consultations_delete_confirm(request, user_id):
 	if request.user.is_authenticated():
 		assistant = Assistant.objects.get(assistant_ID = user_id)

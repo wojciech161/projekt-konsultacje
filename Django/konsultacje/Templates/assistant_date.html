@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Lista prowadzących</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.left #coolmenu a {
+	font-size: 12px;
+}
+</style>
+</head>
+
+<body class="site_background">
+<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
+  </tr>
+</table>
+<p class="site_background">&nbsp;</p>
+<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
+      <p></p>
+      <p align="center" class="title">Menu</p>
+<form name="menu" action="" method="POST" />
+<input type="hidden" name="username" value="{{ username }}" />
+<div id="coolmenu">
+<a href="/assistant/{{ user_id }}/">Lista Prowadzących</a>
+<a href="/assistant/{{ user_id }}/csvexport/">Eksport do CSV</a>
+<a href="/assistant/{{ user_id }}/backup/">Kopia Bazy Danych</a>
+<a href="/assistant/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
+<a href="/assistant/{{ user_id }}/html_save/">Uaktualnij Konsultacje</a>
+<a href="/assistant/{{ user_id }}/date_change/">Zmień daty</a>
+</div>
+<p></p>
+<div id="coolmenu">
+<a href="/assistant/{{ user_id }}/consultations_delete_confirm/">Usuń wszystkie konsultacje</a>
+</div>	
+</form>
+<p></p>
+<div id="coolmenu">
+<a href="/logout/">Wyloguj</a></div>
+<div style="background-color: #9C301A; color: #FFFFFF; " align = "center">Zalogowany użytkownik :<br>
+{{ user_name }} {{ user_surname }} <br></div>
+</div>
+<p>&nbsp;</p></td>
+
+<td style="background-color:#f8f3ec; padding-left: 6px;" valign="top">
+ {% csrf_token %}
+<form action="/tutor/{{ tutor_id }}/infoboard/" name="formedit" method="POST">{% csrf_token %}
+<table border="0" cellspacing="0" cellpadding="0">
+	<p>W tym dziale można wprowadzić trzy daty wraz z opisami które będą pojawiać się przy wyborze daty ważności konsultacji jako przyciski szybkiego wyboru.</p>
+  <tr>
+    <td width="143" style="padding-left:5px; font-weight: bold;">
+    <p><a>&nbsp </a></p>
+    </td>
+	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	<p><a>nazwa </a></p>
+	</td>
+	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	<a>data </a>
+	</td>
+
+	
+  </tr>
+  <tr>
+  <td width="143" style="padding-left:5px; font-weight: bold;">
+    <p><a>Data1:  </a></p>
+    </td>
+	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	<input id="login" name="login" type="text" class="okienko" value="{{ date_name1 }}" />
+	</td>
+	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	<input id="login" name="login" type="text" class="okienko" value="{{ date_value1 }}" />
+	</td>
+  </tr>
+    </tr>
+	
+	
+  <tr>
+  <td width="143" style="padding-left:5px; font-weight: bold;">
+    <p><a>Data2:  </a></p>
+    </td>
+	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	<input id="login" name="login" type="text" class="okienko" value="{{ date_name2 }}" />
+	</td>
+	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	<input id="login" name="login" type="text" class="okienko" value="{{ date_value2 }}" />
+	</td>
+  </tr>
+    </tr>
+  <tr>
+  
+  
+  <td width="143" style="padding-left:5px; font-weight: bold;">
+    <p><a>Data3:  </a></p>
+    </td>
+	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	<input id="login" name="login" type="text" class="okienko" value="{{ date_name3 }}" />
+	</td>
+	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	<input id="login" name="login" type="text" class="okienko" value="{{ date_value3 }}" />
+	</td>
+  </tr>
+  
+  
+ <tr><td>  <input style="width: 100px;" class="button3" type="button" name="zmien" value="Zmień dane" onclick="submitform(this.form);" />
+	{% if status != '' %}
+		<p>{{ status }}</p>
+	{% endif %}
+</td></tr>
+</form>
+</div>
+
+
+    <p>&nbsp;</p></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
