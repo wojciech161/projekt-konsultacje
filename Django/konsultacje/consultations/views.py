@@ -1367,6 +1367,7 @@ def assistant_consultation_list(request, user_id, tutor_id):
 				consult.expiry = "expiry"
 			else:
 				consult.expiry = "not_expiry"
+				consult.expiry_date = consultation.expiry_date
 			consultations_data.append(consult)
 		consultations_data = sorted (consultations_data,  cmp=time_cmp)	
 		assistant = Assistant.objects.get(assistant_ID = user_id)
@@ -2043,6 +2044,7 @@ def admin_consultation_list(request, user_id, tutor_id):
 				consult.expiry = "expiry"
 			else:
 				consult.expiry = "not_expiry"
+			consult.expiry_date = consultation.expiry_date
 			consultations_data.append(consult)
 		consultations_data = sorted (consultations_data,  cmp=time_cmp)	
 		admin = Administrator.objects.get(administrator_ID = user_id)
@@ -2113,6 +2115,7 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 				consult.expiry_date = expiry_date
 			except:
 				pass
+				
 			try:
 				consult.save()
 				localization.save()
