@@ -11,8 +11,8 @@ from django.contrib import auth
 from consultations import consultationdata
 from consultations import singleconsultationdata
 from consultations import uploadfileform
-from datetime import date
-from operator import itemgetter, attrgetter
+from datetime import date 
+from operator import itemgetter, attrgetter 
 import string
 
 import cStringIO as StringIO
@@ -662,6 +662,8 @@ def tutor_export_html(request, tutor_id):
 					info_short = con.info_short
 					info_short = info_short.encode('utf8')
 					html.write(info_short)
+					if (info_short != info):
+						html.write("<span style =\"color:blue;text-decoration:underline\"> ... </span>")
 					html.write("</TD>")
 					html.write("</TR>")
 			
@@ -819,10 +821,12 @@ def assistant_export_html(request, user_id):
 					info = con.info
 					info = info.encode('utf8')
 					html.write(info)
-					html.write(" \" >")
+					html.write(" \" >s")
 					info_short = con.info_short
 					info_short = info_short.encode('utf8')
 					html.write(info_short)
+					if (info_short != info):
+						html.write("<span style =\"color:blue;text-decoration:underline\"> ... </span>")
 					html.write("</TD>")
 					html.write("</TR>")
 			
@@ -850,9 +854,11 @@ def admin_export_html(request, user_id):
 		
 		
 		html_dir = '/home/kons/html'
+		#html_dir = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django'
 		filename = 'konsultacje.html'
 		filepath = os.path.join(html_dir, filename)
 		before_filepath = '/home/kons/repo/projekt-konsultacje/Django/przed.txt'
+		#before_filepath = 'E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django\przed.txt'
 		
 		html = open(filepath, "w")
 		before = open(before_filepath, "r")
@@ -979,12 +985,14 @@ def admin_export_html(request, user_id):
 					html.write("</TD>")
 					html.write("<TD title = \" ")
 					info = con.info
-					info = info.encode('utf8')
+					info = info.encode('utf8') 
 					html.write(info)
 					html.write(" \" >")
 					info_short = con.info_short
 					info_short = info_short.encode('utf8')
 					html.write(info_short)
+					if (info_short != info):
+						html.write("<span style =\"color:blue;text-decoration:underline\"> ... </span>")
 					html.write("</TD>")
 					html.write("</TR>")
 			
@@ -1100,10 +1108,14 @@ def edit_infoboard(request, tutor_id):
 			
 		except:
 			infoboard = None
+		
 		if (len(infoboard.message) > 100):
 			infoboard_short = infoboard.message[:70] + u"... Najedź by wyświetlić całość"
 		else:
 			infoboard_short = infoboard.message
+		if (infoboard != None):
+			if (infoboard.message == ""):
+				infoboard.message ="\nDodano:" +  date.today().isoformat()
 		#print infoboard.message
 		if request.POST:
 			#zbieramy dane
@@ -1116,7 +1128,9 @@ def edit_infoboard(request, tutor_id):
 				infoboard_short = infoboard.message
 				if (len(infoboard.message) > 100):
 					infoboard_short = infoboard.message[:70] + u"... Najedź by wyświetlić całość"
-					
+				if (infoboard != None):
+					if (infoboard.message == ""):
+						infoboard.message ="\nDodano:" +  date.today().isoformat()	
 				status = "Dane zostały zmienione"
 				try:
 					log_file_append(tutor.tutor_ID.login, "zmienił swoją informację")
