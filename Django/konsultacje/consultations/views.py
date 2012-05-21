@@ -420,6 +420,10 @@ def tutor_detail(request, tutor_id):
 				localization.save()
 				status = "Dane zostały zmienione"
 				try:
+					generate_table()
+				except:
+					pass
+				try:
 					log_file_append(tutor.tutor_ID.login, "zmienił swoje dane")
 				except:
 					pass
@@ -568,6 +572,11 @@ def edit_consultation(request, tutor_id, consultation_id):
 					return HttpResponse("Nie udało się zapisać zmian - sprawdź poprawność pól")
 				
 				try:
+					generate_table()
+				except:
+					pass
+				
+				try:
 					log_file_append(tutor.tutor_ID.login, "edytował swoje konsultacje")
 				except:
 					pass
@@ -668,6 +677,11 @@ def add_consultation(request, tutor_id):
 					consultation.save()
 				except:
 					return HttpResponse("Nie udało się dodac konsultacji, sprawdź poprawność pól")
+				
+				try:
+					generate_table()
+				except:
+					pass
 				
 				try:
 					log_file_append(tutor.tutor_ID.login, "dodał konsultację")
@@ -1295,6 +1309,12 @@ def edit_infoboard(request, tutor_id):
 					if (infoboard.message == ""):
 						infoboard.message ="\nDodano:" +  date.today().isoformat()	
 				status = "Dane zostały zmienione"
+				
+				try:
+					generate_table()
+				except:
+					pass
+				
 				try:
 					log_file_append(tutor.tutor_ID.login, "zmienił swoją informację")
 				except:
@@ -1429,6 +1449,11 @@ def assistant_change_dates(request, user_id):
 				dates_write.write(date_used[5])
 				dates_write.write("\n")
 				
+				try:
+					generate_table()
+				except:
+					pass
+				
 				status = "Dane zostały zmienione"
 				try:
 					log_file_append(assistans.user_id.login, "zmienił ustalone daty")
@@ -1455,6 +1480,7 @@ def assistant_consultations_delete_confirm(request, user_id):
 			confirmation = request.POST.get("potwierdzenie")
 			if(confirmation == "TAK"):
 				status = "Pomyślnie usunięto konsultacje z bazy."
+				
 				try:
 					log_file_append(assistant.assistant_ID.login, "usunął wszystkie konsultacje")
 				except:
@@ -1476,6 +1502,12 @@ def assistant_consultations_delete(request, user_id):
 		consult_list = Consultation.objects.all()
 		for c in consult_list:
 			c.delete()
+			
+		try:
+			generate_table()
+		except:
+			pass
+		
 		return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -1519,6 +1551,11 @@ def assistant_tutor_edit(request, user_id, tutor_id):
 					log_file_append(assistant.assistant_ID.login, "zmienił dane prowadzącego jako asystent")
 				except:
 					pass
+					
+				try:
+					generate_table()
+				except:
+					pass
 				
 				return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 			except:
@@ -1554,6 +1591,11 @@ def assistant_tutor_delete(request, user_id, tutor_id):
 		try:
 			assistant = Assistant.objects.get(assistant_ID = user_id)
 			log_file_append(assistant.assistant_ID.login, "usunął wszystkie konsultacje")
+		except:
+			pass
+			
+		try:
+			generate_table()
 		except:
 			pass
 		
@@ -1680,7 +1722,12 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 				localization.save()
 			except:
 				return HttpResponse("Nie udało się zmienić konsultacji")
-				
+			
+			try:
+				generate_table()
+			except:
+				pass
+			
 			try:
 				log_file_append(assistant.assistant_ID.login, "zmienił konsultację użytkownika jako asystent")
 			except:
@@ -1715,6 +1762,12 @@ def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
 		localization = consult.localization_ID
 		consult.delete()
 		localization.delete()
+		
+		try:
+			generate_table()
+		except:
+			pass
+		
 		try:
 			assistant = Assistant.objects.get(assistant_ID = user_id)
 			log_file_append(assistant.assistant_ID.login, "usunął konsultację użytkownika jako asystent")
@@ -1784,6 +1837,11 @@ def assistant_consultation_add(request, user_id, tutor_id):
 			new_consultation.save()
 			
 			try:
+				generate_table()
+			except:
+				pass
+			
+			try:
 				assistant = Assistant.objects.get(assistant_ID = user_id)
 				log_file_append(assistant.assistant_ID.login, "dodał konsultację jako asystent")
 			except:
@@ -1824,6 +1882,11 @@ def assistant_consultation_deleteall(request, user_id, tutor_id):
 		consults = Consultation.objects.filter(tutor_ID_id = tutor_id_from_table)
 		for con in consults:
 			con.delete()
+		
+		try:
+			generate_table()
+		except:
+			pass
 		
 		try:
 			assistant = Assistant.objects.get(assistant_ID = user_id)
@@ -1899,7 +1962,12 @@ def assistant_adduser(request, user_id):
 				iboard.message = ""
 				iboard.tutor_id = tutor
 				iboard.save()
-
+				
+				try:
+					generate_table()
+				except:
+					pass
+				
 				status = "Dodano użytkownika"
 				
 				try:
@@ -1952,7 +2020,7 @@ def export_csv(request, user_id):
 		response = HttpResponse(mimetype='text/csv')
 		response['Content-Disposition'] = 'attachment; filename=konsultacje.csv'
 		writer = csv.writer(response)
-		writer.writerow(['Login, Tytuł, Imię, Nazwisko, Instytut, Telefon, E-mail, WWW, Lokalizacja(Pokój, Budynek), Konsultacje(Termin, Tydzień, Limit, Lokalizacja)'])
+		writer.writerow(['Login; Tytuł; Imię; Nazwisko; Instytut; Telefon; E-mail; WWW; Lokalizacja(Pokój, Budynek); Konsultacje(Termin, Tydzień, Limit, Lokalizacja);'])
 		
 		#Pobieramy tutorow i konsultacje
 		tutors = Tutor.objects.all()
@@ -1964,7 +2032,7 @@ def export_csv(request, user_id):
 			for con in consultations:
 				loc = con.localization_ID
 				consultations_string += ''.join(['%s %s %s:%s-%s:%s %s %s %s;' %(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con.students_limit, loc.building, loc.room)])
-			writer.writerow(['%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s' %(tutor_user.login, tutor.degree, tutor.name, tutor.surname, tutor.institute, tutor.phone, tutor.email, tutor.www, tutor_loc.room, tutor_loc.building, consultations_string)])
+			writer.writerow(['%s; %s; %s; %s; %s; %s; %s; %s; %s; %s; %s;' %(tutor_user.login, tutor.degree, tutor.name, tutor.surname, tutor.institute, tutor.phone, tutor.email, tutor.www, tutor_loc.room, tutor_loc.building, consultations_string)])
 		return response
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -2026,6 +2094,12 @@ def assistant_restore(request, user_id):
 				os.system("mysql --verbose %s < %s"%(' '.join(args), filepath))
 				
 				status = "Pomyślnie przywrócono bazę danych"
+				
+				try:
+					generate_table()
+				except:
+					pass
+				
 				try:
 					assistant = Assistant.objects.get(assistant_ID = user_id)
 					log_file_append(assistant.assistant_ID.login, "wykonał operację na bazie danych")
@@ -2146,6 +2220,11 @@ def admin_consultations_delete(request, user_id):
 			c.delete()
 		
 		try:
+			generate_table()
+		except:
+			pass
+		
+		try:
 			admin = Administrator.objects.get(administrator_ID = user_id)
 			log_file_append(admin.administrator_ID.login, "usunął wszystkie konsultacje")
 		except:
@@ -2189,6 +2268,12 @@ def admin_tutor_edit(request, user_id, tutor_id):
 				localization.building = building
 				localization.save()
 				status = "Dane zostały zmienione"
+				
+				try:
+					generate_table()
+				except:
+					pass
+				
 				try:
 					admin = Administrator.objects.get(administrator_ID = user_id)
 					log_file_append(admin.administrator_ID.login, "edytował dane użytkownika jako administrator")
@@ -2227,6 +2312,11 @@ def admin_tutor_delete(request, user_id, tutor_id):
 		tutor.delete()
 		user.delete()
 		localization.delete()
+		
+		try:
+			generate_table()
+		except:
+			pass
 		
 		try:
 			admin = Administrator.objects.get(administrator_ID = user_id)
@@ -2357,7 +2447,12 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 				localization.save()
 			except:
 				return HttpResponse("Nie udało się zmienić konsultacji")
-				
+			
+			try:
+				generate_table()
+			except:
+				pass
+			
 			try:
 				admin = Administrator.objects.get(administrator_ID = user_id)
 				log_file_append(admin.administrator_ID.login, "edytował konsultację użytkownika jako administrator")
@@ -2398,6 +2493,11 @@ def admin_consultation_delete(request, user_id, tutor_id, consultation_id):
 		try:
 			admin = Administrator.objects.get(administrator_ID = user_id)
 			log_file_append(admin.administrator_ID.login, "usunął konsultację użytkownika jako administrator")
+		except:
+			pass
+			
+		try:
+			generate_table()
 		except:
 			pass
 					
@@ -2472,6 +2572,11 @@ def admin_consultation_add(request, user_id, tutor_id):
 				log_file_append(admin.administrator_ID.login, "dodał konsultację jako administrator")
 			except:
 				pass
+				
+			try:
+				generate_table()
+			except:
+				pass
 			
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 		admin = Administrator.objects.get(administrator_ID = user_id)
@@ -2511,6 +2616,11 @@ def admin_consultation_deleteall(request, user_id, tutor_id):
 		try:
 			admin = Administrator.objects.get(administrator_ID = user_id)
 			log_file_append(admin.administrator_ID.login, "usunął konsultacje użytkownika jako administrator")
+		except:
+			pass
+		
+		try:
+			generate_table()
 		except:
 			pass
 		
@@ -2588,6 +2698,11 @@ def admin_adduser(request, user_id):
 					log_file_append(admin.administrator_ID.login, "dodał użytkownika jako administrator")
 				except:
 					pass
+					
+				try:
+					generate_table()
+				except:
+					pass
 				
 				status = "Dodano użytkownika"
 			except:
@@ -2626,7 +2741,7 @@ def admin_export_csv(request, user_id):
 		response = HttpResponse(mimetype='text/csv')
 		response['Content-Disposition'] = 'attachment; filename=konsultacje.csv'
 		writer = csv.writer(response)
-		writer.writerow(['Login, Tytuł, Imię, Nazwisko, Instytut, Telefon, E-mail, WWW, Lokalizacja(Pokój, Budynek), Konsultacje(Termin, Tydzień, Limit, Lokalizacja)'])
+		writer.writerow(['Login; Tytuł; Imię; Nazwisko; Instytut; Telefon; E-mail; WWW; Lokalizacja(Pokój, Budynek); Konsultacje(Termin, Tydzień, Limit, Lokalizacja);'])
 		
 		#Pobieramy tutorow i konsultacje
 		tutors = Tutor.objects.all()
@@ -2638,7 +2753,7 @@ def admin_export_csv(request, user_id):
 			for con in consultations:
 				loc = con.localization_ID
 				consultations_string += ''.join(['%s %s %s:%s-%s:%s %s %s %s;' %(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con.students_limit, loc.building, loc.room)])
-			writer.writerow(['%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s' %(tutor_user.login, tutor.degree, tutor.name, tutor.surname, tutor.institute, tutor.phone, tutor.email, tutor.www, tutor_loc.room, tutor_loc.building, consultations_string)])
+			writer.writerow(['%s; %s; %s; %s; %s; %s; %s; %s; %s; %s; %s;' %(tutor_user.login, tutor.degree, tutor.name, tutor.surname, tutor.institute, tutor.phone, tutor.email, tutor.www, tutor_loc.room, tutor_loc.building, consultations_string)])
 		return response
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
@@ -2700,6 +2815,12 @@ def admin_restore(request, user_id):
 				os.system("mysql --verbose %s < %s"%(' '.join(args), filepath))
 				
 				status = "Pomyślnie przywrócono bazę danych"
+				
+				try:
+					generate_table()
+				except:
+					pass
+				
 				try:
 					admin = Administrator.objects.get(administrator_ID = user_id)
 					log_file_append(admin.administrator_ID.login, "wykonał operację na bazie danych")
