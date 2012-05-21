@@ -27,7 +27,7 @@
 <div id="coolmenu">
 <a href="/tutor/{{ tutor_id }}/consultations_detail/" align="center">Edycja konsultacji</a>
 <a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/infoboard/" align="center">Informacja dla studentów</a>
-<a href="/tutor/{{ tutor_id }}/html_save/">Uaktualnij Konsultacje</a>
+<a href="/tutor/{{ tutor_id }}/html_save/">Podgląd Konsultacji</a>
 </div>	
 <span style="height: 2px"></span>
 <div id="coolmenu">
@@ -64,22 +64,28 @@
     </td>
 	
   </tr>
+ <tr><td>  <input style="width: 100px;" class="button3" type="button" name="zmien" value="Zmień dane" onclick="submitform(this.form);" />
+	{% if status != '' %}
+		<p>{{ status }}</p>
+	{% endif %}
+</td></tr>
+{% if infoboard_short != "" %}
   <tr>
   <td colspan = "2"> <p>Podgląd: tak będzie się wyświetlało na stronie:</p> </td>
   <tr>
 	<td  title = " {{ infoboard.message }}" colspan = "2"  >
+	
 		<table border="1" cellspacing="0" cellpadding="0">
 		<tr style = "background-color: #c0c0c0;"><td width = "300">		
 		{{ infoboard_short }}
-        
+    
 		</td></tr>
 	</td>
   </tr>
-</table>
-  <input style="width: 100px;" class="button3" type="button" name="zmien" value="Zmień dane" onclick="submitform(this.form);" />
-	{% if status != '' %}
-		<p>{{ status }}</p>
-	{% endif %}
+ </table>
+   {% endif %}   
+
+ 
 </form>
     </td>
   </tr>
