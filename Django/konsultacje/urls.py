@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'consultations.views.consultation_index'),
+    url(r'^table/$', 'consultations.views.get_table'),
 	url(r'^authorization/$', 'consultations.views.authorization'),
 	url(r'^choosepanel/(?P<user_id>\d+)/$', 'consultations.views.choose_panel'),
     url(r'^tutor/(?P<tutor_id>\d+)/$', 'consultations.views.tutor_index'),

@@ -142,7 +142,7 @@ var excludeModules='38';
 </div>
 
 	<span class="modifydate">
-		Poprawiony: środa, 04 kwietnia 2012 14:23	</span>
+		Poprawiony: środa, 04 kwietnia 2012 14:23 </span>
 
 <span class="article_separator">&nbsp;</span>
 
