@@ -157,7 +157,7 @@ def consultation_index(request):
 			consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
 		except:
 			pass
-		consult.phone = tutor.phone
+		consult.phone = tutor.phone[8:]
 		today = date.today()
 		consult.consultations = []
 		raw_consultations = []
@@ -597,7 +597,7 @@ def tutor_export_html(request, tutor_id):
 						if (today>con.expiry_date):
 							strcon = ""
 						else:
-							strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+							strcon = "".join("%s %s %s.%s-%s.%s [%s %s] ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
 						if (strcon ==""):
 							strcon = ""
 						consult.consultations.append(strcon)
@@ -760,7 +760,7 @@ def assistant_export_html(request, user_id):
 						if (today>con.expiry_date):
 							strcon = ""
 						else:
-							strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+							strcon = "".join("%s %s %s.%s-%s.%s [%s %s] ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
 						if (strcon ==""):
 							strcon = ""
 						consult.consultations.append(strcon)
@@ -926,7 +926,7 @@ def admin_export_html(request, user_id):
 						if (today>con.expiry_date):
 							strcon = ""
 						else:
-							strcon = "".join("%s %s %s.%s-%s.%s %s %s ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
+							strcon = "".join("%s %s %s.%s-%s.%s [%s %s] ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
 						if (strcon ==""):
 							strcon = ""
 						consult.consultations.append(strcon)
