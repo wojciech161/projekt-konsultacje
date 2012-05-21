@@ -2919,7 +2919,7 @@ def get_table(request):
 	import codecs
 	from django.core.servers.basehttp import FileWrapper
 	generate_table()
-	filepath = "/home/kons/table.html"
+	filepath = "/home/kons/html/table.html"
 	htmlfile = open(filepath, "r")
 	filename = "table.html"
 	wrapper = FileWrapper(htmlfile)
