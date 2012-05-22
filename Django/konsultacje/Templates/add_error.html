@@ -13,41 +13,7 @@
 </head>
 
 <body class="site_background">
-<table class="call_border" width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
-    <td  height="90" ><img src="/static/images/tytul.PNG" width="1000" height="105" /></td>
-  </tr>
-</table>
 <p class="site_background">&nbsp;</p>
-<table align="center" class="call_border" width="1000" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td height="350" width="196" valign="top" class="call_background_menu"><p></p>
-      <p></p>
-      <p align="center" class="title">Menu</p>
-<div id="coolmenu">
-<a href="/tutor/{{ tutor_id }}/consultations_detail/" align="center">Edycja konsultacji</a>
-<a href="/tutor/{{ tutor_id }}/infoboard/" align="center">Informacja dla studentów</a>
-<a href="/tutor/{{ tutor_id }}/html_save/">Podgląd Konsultacji</a>
-</div>	
-<span style="height: 2px"></span>
-<div id="coolmenu">
-<a href="/tutor/{{ tutor_id }}/edit/" align="center">Dane Osobowe</a>
-<a href="/tutor/{{ tutor_id }}/" align="center">Zapisani studenci</a>
-
-</div>	
-
-<p></p>
-<div id="coolmenu">
-<a href="/tutor/{{ tutor_id }}/instruction/"><div align="center">Instrukcja</div></a>
-<a style="background-color: #F8D7B8;" href="/tutor/{{ tutor_id }}/adderror/"><div align="center">Zgłaszanie błędów</div></a></div>
-
-<p></p>
-<div id="coolmenu">
-<a href="/logout/"><div align="center">Wyloguj</div></a></div>
-<div style="background-color: #9C301A; color: #FFFFFF; " align = "center">Zalogowany użytkownik :<br>
-{{ user_name }} {{ user_surname }} <br></div>
-<p>&nbsp;</p></td>
-    <td style="background-color:#f8f3ec; padding-left: 6px;" valign="top">
  {% csrf_token %}
 <form action="/tutor/{{ tutor_id }}/adderror/" name="formedit" method="POST">{% csrf_token %}
 <table border="0" cellspacing="0" cellpadding="0">
@@ -57,8 +23,7 @@
     <p><a>Informacja: </a></p>
     </td>
     <td width="183" style="style="padding-left:5px">
-    <p><input style="width:300px;" tabindex="10" rows="4" name="blad" class="okienko" ></input></p>
-   <!-- <p><input name="Informacja" type="text" class="okienko" value="{{ infoboard.message }}" /></p> -->
+	<p><textarea name="blad" id="area_blad" class="okienko" style="width: 300px;" tabindex="10" rows="4"></textarea></p>
     </td>
 	
 </table>
@@ -67,9 +32,6 @@
 		<p>{{ status }}</p>
 	{% endif %}
 </form>
-    </td>
-  </tr>
-</table>
 <p>&nbsp;</p>
 </body>
 </html>
