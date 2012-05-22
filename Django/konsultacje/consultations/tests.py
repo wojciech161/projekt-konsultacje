@@ -128,7 +128,7 @@ class SimpleTest(TestCase):
 		
 	def test_time_cmp(self):
 		"""
-        Testuje porównywanie czasu, czyli dni i godzin.
+        Testuje porÃ³wnywanie czasu, czyli dni i godzin.
 		Np. wtorek 15.00 jest przed wtorek 17.00
 		a wtorek 13.00 jest przed czwartek 9.00.
         """
@@ -218,7 +218,7 @@ class SimpleTest(TestCase):
 		- zapytania typu POST (wlasciwego), i odpowiedniego dla niego przejscia na stronie
 		- poprawnosci wprowadzenia konsultacji do bazy danych
 		- zapytania typu GET (niewlasciwego), i odpowiedniego dla niego przejscia na stronie
-		- podania z³ej daty przy wprowadzeniu konsultacji i zachowania systemu w tym przypadku
+		- podania zÂ³ej daty przy wprowadzeniu konsultacji i zachowania systemu w tym przypadku
 		"""
 		rf = RequestFactory()
 		post_request = rf.post('/submit/', {'start_hour': 13, 'start_minutes': '00', 'end_hour': 15, 'end_minutes': '00',
@@ -271,7 +271,7 @@ class SimpleTest(TestCase):
 		- zapytania typu POST (wlasciwego), i odpowiedniego dla niego przejscia na stronie
 		- poprawnosci wprowadzenia konsultacji do bazy danych
 		- zapytania typu GET (niewlasciwego), i odpowiedniego dla niego przejscia na stronie
-		- podania z³ej daty przy wprowadzeniu konsultacji i zachowania systemu w tym przypadku
+		- podania zÂ³ej daty przy wprowadzeniu konsultacji i zachowania systemu w tym przypadku
 		"""
 		rf = RequestFactory()
 		post_request = rf.post('/submit/', {'start_hour': 13, 'start_minutes': '00', 'end_hour': 15, 'end_minutes': '00',
@@ -558,7 +558,7 @@ class SimpleTest(TestCase):
 			setattr(post_request, 'user', testUser)
 		
 		result = tutor_detail(post_request, 8003)
-		self.assertContains(result, "Dane zostaly zmienione")
+		self.assertContains(result, "Dane zostaÅ‚y zmienione")
 		
 	def test_consultations_detail(self):
 		"""
@@ -734,7 +734,7 @@ class SimpleTest(TestCase):
 			setattr(post_request, 'user', testUser)
 		
 		result = assistant_consultations_delete_confirm(post_request, 8001)
-		self.assertContains(result, "Nie udalo sie usunac konsultacji.")
+		self.assertContains(result, "Nie udaÅ‚o siÄ™ usunÄ…Ä‡ konsultacji.")
 		self.assertTemplateUsed(result, 'assistant_consultations_delete_confirm.html')
 		
 	def test_assistant_consultations_delete(self):
@@ -1138,9 +1138,9 @@ class SimpleTest(TestCase):
 			setattr(post_request, 'user', testUser)
 		
 		result = admin_consultations_delete_confirm(post_request, 8002)
-		#reload(sys) 
-		#sys.setdefaultencoding('utf8')
-		self.assertContains(result, "Nie uda³o siê usun¹æ konsultacji.")
+		reload(sys) 
+		sys.setdefaultencoding('utf8')
+		self.assertContains(result, "Nie udaÅ‚o siÄ™ usunÄ…Ä‡ konsultacji.")
 		self.assertTemplateUsed(result, 'admin_consultations_delete_confirm.html')
 		
 	def test_admin_consultations_delete(self):
@@ -1350,7 +1350,7 @@ class SimpleTest(TestCase):
 		- zapytania typu POST (wlasciwego), i odpowiedniego dla niego przejscia na stronie
 		- poprawnosci wprowadzenia konsultacji do bazy danych
 		- zapytania typu GET (niewlasciwego), i odpowiedniego dla niego przejscia na stronie
-		- podania z³ej daty przy wprowadzeniu konsultacji i zachowania systemu w tym przypadku
+		- podania zÂ³ej daty przy wprowadzeniu konsultacji i zachowania systemu w tym przypadku
 		"""
 		rf = RequestFactory()
 		post_request = rf.post('/submit/', {'start_hour': 13, 'start_minutes': '00', 'end_hour': 15, 'end_minutes': '00',
