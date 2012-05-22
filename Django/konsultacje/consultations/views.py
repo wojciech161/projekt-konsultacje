@@ -2207,7 +2207,6 @@ def admin_consultations_delete_confirm(request, user_id):
 				return HttpResponseRedirect(reverse('consultations.views.admin_consultations_delete', args=(user_id,)))
 			else:
 				status = "Nie udało się usunąć konsultacji."
-		
 		return render_to_response('admin_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname, 'status':status}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))

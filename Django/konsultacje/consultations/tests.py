@@ -666,7 +666,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 			
-		result = admin_choose_panel(post_request, None)
+		result = admin_choose_panel(post_request, 8002)
 		self.assertTemplateUsed(result, 'admin_choose_panel.html')
 	
 	def test_edit_infoboard(self):
@@ -788,7 +788,7 @@ class SimpleTest(TestCase):
 		old_name = tutor.name
 		new_name = 'NOWE_IMIE'
 		
-		result = assistant_tutor_edit(post_request, 7778, user)
+		result = assistant_tutor_edit(post_request, 8001, user)
 		expected = HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(7778,)))
 		self.assertEqual(result._get_content(), expected._get_content())
 		self.assertNotEqual(old_name, new_name)
@@ -809,7 +809,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 		
-		result = assistant_tutor_delete_confirm(post_request, 8001, None)
+		result = assistant_tutor_delete_confirm(post_request, 8001, 8003)
 		self.assertTemplateUsed(result, 'assistant_tutor_delete_confirm.html')
 		
 	def test_assistant_tutor_delete(self):
@@ -918,7 +918,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 			
-		result = assistant_consultation_delete_confirm(post_request, 8001, None, None)
+		result = assistant_consultation_delete_confirm(post_request, 8001, 8003, None)
 		self.assertTemplateUsed(result, 'assistant_consultation_delete_confirm.html')
 		
 	def test_assistant_consultation_delete(self):
@@ -1009,7 +1009,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 			
-		result = assistant_consultation_deleteall_confirm(post_request, 8001, None)
+		result = assistant_consultation_deleteall_confirm(post_request, 8001, 8003)
 		self.assertTemplateUsed(result, 'assistant_consultation_deleteall_confirm.html')
 		
 	def test_assistant_consultation_deleteall(self):
@@ -1138,7 +1138,9 @@ class SimpleTest(TestCase):
 			setattr(post_request, 'user', testUser)
 		
 		result = admin_consultations_delete_confirm(post_request, 8002)
-		self.assertContains(result, "Nie udalo sie usunac konsultacji.")
+		#reload(sys) 
+		#sys.setdefaultencoding('utf8')
+		self.assertContains(result, "Nie uda³o siê usun¹æ konsultacji.")
 		self.assertTemplateUsed(result, 'admin_consultations_delete_confirm.html')
 		
 	def test_admin_consultations_delete(self):
@@ -1211,7 +1213,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 			
-		result = admin_tutor_delete_confirm(post_request, 8002, None)
+		result = admin_tutor_delete_confirm(post_request, 8002, 8003)
 		self.assertTemplateUsed(result, 'admin_tutor_delete_confirm.html')
 		
 	def test_admin_tutor_delete(self):
@@ -1320,7 +1322,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 			
-		result = admin_consultation_delete_confirm(post_request, 8002, None, None)
+		result = admin_consultation_delete_confirm(post_request, 8002, 8003, None)
 		self.assertTemplateUsed(result, 'admin_consultation_delete_confirm.html')
 		
 	def test_admin_consultation_delete(self):
@@ -1337,7 +1339,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 			
-		result = admin_consultation_delete_confirm(post_request, 8002, None, None)
+		result = admin_consultation_delete_confirm(post_request, 8002, 8003, None)
 		self.assertTemplateUsed(result, 'admin_consultation_delete_confirm.html')
 		
 	def test_admin_consultation_add(self):
@@ -1389,7 +1391,7 @@ class SimpleTest(TestCase):
 		
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
-		expected = HttpResponse('Podano z\xc5\x82\xc4\x85 dat\xc4\x99')
+		expected = HttpResponse('Podano b\xc5\x82\xc4\x99dn\xc4\x85 dat\xc4\x99')
 		result = admin_consultation_add(post_request, 8003, 8003)
 		self.assertEqual(result._get_content(), expected._get_content())
 		
@@ -1406,7 +1408,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 			
-		result = admin_consultation_deleteall_confirm(post_request, 8002, None)
+		result = admin_consultation_deleteall_confirm(post_request, 8002, 8003)
 		self.assertTemplateUsed(result, 'admin_consultation_deleteall_confirm.html')
 		
 	def test_admin_consultation_deleteall(self):
@@ -1422,7 +1424,7 @@ class SimpleTest(TestCase):
 		if not hasattr(post_request, 'user'):
 			setattr(post_request, 'user', testUser)
 			
-		result = admin_consultation_deleteall_confirm(post_request, 8002, None)
+		result = admin_consultation_deleteall_confirm(post_request, 8002, 8003)
 		self.assertTemplateUsed(result, 'admin_consultation_deleteall_confirm.html')
 		
 	def test_admin_adduser(self):
