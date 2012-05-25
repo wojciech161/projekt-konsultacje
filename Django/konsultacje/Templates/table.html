@@ -21,7 +21,11 @@
 		<TR style="BACKGROUND-COLOR: rgb(238,238,238)" mce_style="background-color: #eeeeee;">
 	{% endif %}
 		<td class="line_table_1">
-			<a href="{{ con.www }}">{{ con.surname }}</a>
+			{% if con.www %}
+			<a href="{{ con.www }}"><font color="black">{{ con.surname }}</font></a>
+			{% else %}
+				{{ con.surname }}
+			{% endif %}
 		</td>
 		<td class="line_table_1">{{ con.name }}</td>
 		<td class="line_table_1">{{ con.title }}</td>
