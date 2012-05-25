@@ -122,171 +122,6 @@ def log_file_append(user, log):
 		errorfile.write("\n")
 		errorfile.close()
 		
-def generate_table():
-	reload(sys)
-	sys.setdefaultencoding('utf8')
-	import codecs
-	from django.core.servers.basehttp import FileWrapper
-	html_dir = '/home/kons/html'
-	filename = 'table.html'
-	filepath = os.path.join(html_dir, filename)
-	
-	html = open(filepath, "w")
-	i = 0
-	try:
-		tutors_list = Tutor.objects.all()
-	except:
-		tutor_list = None
-	
-		
-	consultations_data = []
-	for tutor in tutors_list:
-		t_id = tutor.id
-		try:
-			tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
-		except:
-			tutor_consultations = None
-		try:
-			tutor_localizations = Localization.objects.get(id = tutor.localization_ID_id)
-		except:
-			tutor_localizations = None
-		try:
-			tutor_info = InfoBoard.objects.get(tutor_id = t_id)
-		except:
-			tutor_info = InfoBoard()
-			tutor_info.message = ""
-		consult = consultationdata.ConsultationsData()
-		consult.name = tutor.name
-		consult.surname = tutor.surname
-		consult.www = "\"http://" + tutor.www + "\""
-		consult.title = tutor.degree
-		try:
-			consult.localization = "".join("%s, %s")%(tutor_localizations.building, tutor_localizations.room)
-		except:
-			pass
-		consult.phone = tutor.phone
-		today = date.today()
-		consult.consultations = []
-		raw_consultations = []
-		for con in tutor_consultations:
-			try:
-				con_localization = Localization.objects.get(id = con.localization_ID_id)
-			except:
-				pass
-			single_con = singleconsultationdata.SingleConsultationsData()
-			single_con.day = con.day
-			single_con.start_hour = con.start_hour
-			single_con.week_type = con.week_type
-			if (single_con.week_type == 'A'):
-				single_con.week_type = " "
-			single_con.end_hour = con.end_hour
-			single_con.expiry_date = con.expiry_date
-			single_con.start_minutes = con.start_minutes
-			single_con.end_minutes = con.end_minutes
-			single_con.building = con_localization.building
-			single_con.room = con_localization.room
-			raw_consultations.append(single_con)
-		raw_consultations = sorted(raw_consultations, cmp=time_cmp)
-		
-		for con in raw_consultations:
-			strcon = "".join("%s %s %s.%s-%s.%s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes )
-			if (today>con.expiry_date):
-				strcon = ""
-			else:
-				strcon = "".join("%s %s %s.%s-%s.%s [%s %s] ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
-			if (strcon ==""):
-				strcon = ""
-			consult.consultations.append(strcon)
-		
-		consult.info = tutor_info.message
-		if (len(consult.info) > 100):
-			consult.info_short = consult.info[:70] 
-		else:
-			consult.info_short = consult.info
-		consultations_data.append(consult)
-		consult = None
-	consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
-	
-	check = 1
-	i = 0
-	html.write("<h2 class=\"contentheading\"> Kontakty 2011/12 (lato) </h2>\n")
-	html.write("<div class=\"article-content\">\n")
-	html.write("<TABLE class=\"style=WIDTH: 647px mceItemTable\" border=\"0\" cellSpacing=\"0\">\n")
-	html.write("<TBODY>\n")
-	html.write("<TR style=\"BACKGROUND-COLOR: rgb(192,192,192)\" mce_style=\"background-color: #c0c0c0;\">\n")
-	html.write("<TD width=\"195\" align=\"left\"><I>nazwisko/www</I></TD>\n")
-	html.write("<TD width=\"129\" align=\"left\"> </TD>\n")
-	html.write("<TD width=\"158\" align=\"left\"> </TD>\n")
-	html.write("<TD width=\"92\" align=\"left\"><I>C-3</I></TD>\n")
-	html.write("<TD width=\"133\" align=\"left\"><I>71-</I></TD>\n")
-	html.write("<TD width=\"500\" align=\"left\"><I>konsultacje</I></TD>\n")
-	html.write("<TD width=\"200\" align=\"left\"><I>Wiadomość</I></TD></TR>\n")
-	html.write("<TR style=\"BACKGROUND-COLOR: rgb(238,238,238)\" mce_style=\"background-color: #eeeeee;\">\n")
-	for con in consultations_data:
-		if (check == 1):
-			check = 2
-		else:
-			if (i%2 == 0):
-				html.write("<TR>")
-			else:
-				html.write("<TR style=\"BACKGROUND-COLOR: rgb(238,238,238)\" mce_style=\"background-color: #eeeeee;\">")
-			i = i+1
-		html.write("<TD>")
-		surname = con.surname
-		surname = surname.encode('utf8')
-		html.write(surname)
-		html.write("</TD>")
-		html.write("<TD>")
-		name = con.name
-		name = name.encode('utf8')
-		html.write(name)
-		html.write("</TD>")
-		html.write("<TD>")
-		title = con.title
-		title = title.encode('utf8')
-		html.write(title)
-		html.write("</TD>")
-		html.write("<TD>")
-		localization = con.localization
-		localization = localization.encode('utf8')
-		html.write(localization)
-		html.write("</TD>")
-		html.write("<TD>")
-		phone = con.phone
-		phone = phone[8:]
-		phone = phone.encode('utf8')
-		html.write(phone)
-		html.write("</TD>")
-		html.write("<TD>")
-		for single_con in con.consultations:
-			single_con = single_con.encode('utf8')
-			html.write(single_con)
-			html.write("<br>")
-		html.write("</TD>")
-		html.write("<TD title = \" ")
-		info = con.info
-		info = info.encode('utf8') 
-		html.write(info)
-		html.write(" \" >")
-		info_short = con.info_short
-		info_short = info_short.encode('utf8')
-		html.write(info_short)
-		if (info_short != info):
-			html.write("<span style =\"color:blue;text-decoration:underline\"> ... </span>")
-		html.write("</TD>")
-		html.write("</TR>")
-		html.write("\n")
-		
-	html.write("</TBODY></TABLE>\n")
-	html.write("<P> </P>\n")
-	html.write("</div>")
-	html.write("<span class=\"modifydate\">")
-	html.write("Poprawiony:	")
-	html.write(str(date.today()))
-	html.write("</span>")
-		
-	html.close()
-		
 ##############KONIEC FUNKCJI POMOCNICZYCH
 
 def consultation_index(request):
@@ -419,10 +254,6 @@ def tutor_detail(request, tutor_id):
 				localization.building = building
 				localization.save()
 				status = "Dane zostały zmienione"
-				try:
-					generate_table()
-				except:
-					pass
 				try:
 					log_file_append(tutor.tutor_ID.login, "zmienił swoje dane")
 				except:
@@ -572,11 +403,6 @@ def edit_consultation(request, tutor_id, consultation_id):
 					return HttpResponse("Nie udało się zapisać zmian - sprawdź poprawność pól")
 				
 				try:
-					generate_table()
-				except:
-					pass
-				
-				try:
 					log_file_append(tutor.tutor_ID.login, "edytował swoje konsultacje")
 				except:
 					pass
@@ -677,11 +503,6 @@ def add_consultation(request, tutor_id):
 					consultation.save()
 				except:
 					return HttpResponse("Nie udało się dodac konsultacji, sprawdź poprawność pól")
-				
-				try:
-					generate_table()
-				except:
-					pass
 				
 				try:
 					log_file_append(tutor.tutor_ID.login, "dodał konsultację")
@@ -1311,11 +1132,6 @@ def edit_infoboard(request, tutor_id):
 				status = "Dane zostały zmienione"
 				
 				try:
-					generate_table()
-				except:
-					pass
-				
-				try:
 					log_file_append(tutor.tutor_ID.login, "zmienił swoją informację")
 				except:
 					pass
@@ -1449,11 +1265,6 @@ def assistant_change_dates(request, user_id):
 				dates_write.write(date_used[5])
 				dates_write.write("\n")
 				
-				try:
-					generate_table()
-				except:
-					pass
-				
 				status = "Dane zostały zmienione"
 				try:
 					log_file_append(assistans.user_id.login, "zmienił ustalone daty")
@@ -1502,11 +1313,6 @@ def assistant_consultations_delete(request, user_id):
 		consult_list = Consultation.objects.all()
 		for c in consult_list:
 			c.delete()
-			
-		try:
-			generate_table()
-		except:
-			pass
 		
 		return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 	else:
@@ -1551,11 +1357,6 @@ def assistant_tutor_edit(request, user_id, tutor_id):
 					log_file_append(assistant.assistant_ID.login, "zmienił dane prowadzącego jako asystent")
 				except:
 					pass
-					
-				try:
-					generate_table()
-				except:
-					pass
 				
 				return HttpResponseRedirect(reverse('consultations.views.assistant_index', args=(user_id,)))
 			except:
@@ -1591,11 +1392,6 @@ def assistant_tutor_delete(request, user_id, tutor_id):
 		try:
 			assistant = Assistant.objects.get(assistant_ID = user_id)
 			log_file_append(assistant.assistant_ID.login, "usunął wszystkie konsultacje")
-		except:
-			pass
-			
-		try:
-			generate_table()
 		except:
 			pass
 		
@@ -1724,11 +1520,6 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 				return HttpResponse("Nie udało się zmienić konsultacji")
 			
 			try:
-				generate_table()
-			except:
-				pass
-			
-			try:
 				log_file_append(assistant.assistant_ID.login, "zmienił konsultację użytkownika jako asystent")
 			except:
 				pass
@@ -1762,11 +1553,6 @@ def assistant_consultation_delete(request, user_id, tutor_id, consultation_id):
 		localization = consult.localization_ID
 		consult.delete()
 		localization.delete()
-		
-		try:
-			generate_table()
-		except:
-			pass
 		
 		try:
 			assistant = Assistant.objects.get(assistant_ID = user_id)
@@ -1837,11 +1623,6 @@ def assistant_consultation_add(request, user_id, tutor_id):
 			new_consultation.save()
 			
 			try:
-				generate_table()
-			except:
-				pass
-			
-			try:
 				assistant = Assistant.objects.get(assistant_ID = user_id)
 				log_file_append(assistant.assistant_ID.login, "dodał konsultację jako asystent")
 			except:
@@ -1882,11 +1663,6 @@ def assistant_consultation_deleteall(request, user_id, tutor_id):
 		consults = Consultation.objects.filter(tutor_ID_id = tutor_id_from_table)
 		for con in consults:
 			con.delete()
-		
-		try:
-			generate_table()
-		except:
-			pass
 		
 		try:
 			assistant = Assistant.objects.get(assistant_ID = user_id)
@@ -1962,11 +1738,6 @@ def assistant_adduser(request, user_id):
 				iboard.message = ""
 				iboard.tutor_id = tutor
 				iboard.save()
-				
-				try:
-					generate_table()
-				except:
-					pass
 				
 				status = "Dodano użytkownika"
 				
@@ -2096,11 +1867,6 @@ def assistant_restore(request, user_id):
 				status = "Pomyślnie przywrócono bazę danych"
 				
 				try:
-					generate_table()
-				except:
-					pass
-				
-				try:
 					assistant = Assistant.objects.get(assistant_ID = user_id)
 					log_file_append(assistant.assistant_ID.login, "wykonał operację na bazie danych")
 				except:
@@ -2219,11 +1985,6 @@ def admin_consultations_delete(request, user_id):
 			c.delete()
 		
 		try:
-			generate_table()
-		except:
-			pass
-		
-		try:
 			admin = Administrator.objects.get(administrator_ID = user_id)
 			log_file_append(admin.administrator_ID.login, "usunął wszystkie konsultacje")
 		except:
@@ -2269,11 +2030,6 @@ def admin_tutor_edit(request, user_id, tutor_id):
 				status = "Dane zostały zmienione"
 				
 				try:
-					generate_table()
-				except:
-					pass
-				
-				try:
 					admin = Administrator.objects.get(administrator_ID = user_id)
 					log_file_append(admin.administrator_ID.login, "edytował dane użytkownika jako administrator")
 				except:
@@ -2311,11 +2067,6 @@ def admin_tutor_delete(request, user_id, tutor_id):
 		tutor.delete()
 		user.delete()
 		localization.delete()
-		
-		try:
-			generate_table()
-		except:
-			pass
 		
 		try:
 			admin = Administrator.objects.get(administrator_ID = user_id)
@@ -2448,11 +2199,6 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 				return HttpResponse("Nie udało się zmienić konsultacji")
 			
 			try:
-				generate_table()
-			except:
-				pass
-			
-			try:
 				admin = Administrator.objects.get(administrator_ID = user_id)
 				log_file_append(admin.administrator_ID.login, "edytował konsultację użytkownika jako administrator")
 			except:
@@ -2492,11 +2238,6 @@ def admin_consultation_delete(request, user_id, tutor_id, consultation_id):
 		try:
 			admin = Administrator.objects.get(administrator_ID = user_id)
 			log_file_append(admin.administrator_ID.login, "usunął konsultację użytkownika jako administrator")
-		except:
-			pass
-			
-		try:
-			generate_table()
 		except:
 			pass
 					
@@ -2571,11 +2312,6 @@ def admin_consultation_add(request, user_id, tutor_id):
 				log_file_append(admin.administrator_ID.login, "dodał konsultację jako administrator")
 			except:
 				pass
-				
-			try:
-				generate_table()
-			except:
-				pass
 			
 			return HttpResponseRedirect(reverse('consultations.views.admin_consultation_list', args=(user_id, tutor_id,)))
 		admin = Administrator.objects.get(administrator_ID = user_id)
@@ -2615,11 +2351,6 @@ def admin_consultation_deleteall(request, user_id, tutor_id):
 		try:
 			admin = Administrator.objects.get(administrator_ID = user_id)
 			log_file_append(admin.administrator_ID.login, "usunął konsultacje użytkownika jako administrator")
-		except:
-			pass
-		
-		try:
-			generate_table()
 		except:
 			pass
 		
@@ -2695,11 +2426,6 @@ def admin_adduser(request, user_id):
 				try:
 					admin = Administrator.objects.get(administrator_ID = user_id)
 					log_file_append(admin.administrator_ID.login, "dodał użytkownika jako administrator")
-				except:
-					pass
-					
-				try:
-					generate_table()
 				except:
 					pass
 				
@@ -2814,11 +2540,6 @@ def admin_restore(request, user_id):
 				os.system("mysql --verbose %s < %s"%(' '.join(args), filepath))
 				
 				status = "Pomyślnie przywrócono bazę danych"
-				
-				try:
-					generate_table()
-				except:
-					pass
 				
 				try:
 					admin = Administrator.objects.get(administrator_ID = user_id)
@@ -3036,15 +2757,84 @@ def admin_logcheck(request, user_id):
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
 def get_table(request):
-	import codecs
-	from django.core.servers.basehttp import FileWrapper
-	generate_table()
-	filepath = "/home/kons/html/table.html"
-	htmlfile = open(filepath, "r")
-	filename = "table.html"
-	wrapper = FileWrapper(htmlfile)
+	colour = 0
 	
-	response = HttpResponse(wrapper, mimetype='application/force-download')
-	response['Content-Disposition'] = 'attachment; filename=%s' % filename
-	response['Content-Length'] = os.path.getsize(filepath)
-	return response
+	try:
+		tutors_list = Tutor.objects.all()
+	except:
+		tutor_list = None
+	
+		
+	consultations_data = []
+	for tutor in tutors_list:
+		t_id = tutor.id
+		try:
+			tutor_consultations = Consultation.objects.filter(tutor_ID = t_id)
+		except:
+			tutor_consultations = None
+		try:
+			tutor_localizations = Localization.objects.get(id = tutor.localization_ID_id)
+		except:
+			tutor_localizations = None
+		try:
+			tutor_info = InfoBoard.objects.get(tutor_id = t_id)
+		except:
+			tutor_info = InfoBoard()
+			tutor_info.message = ""
+		consult = consultationdata.ConsultationsData()
+		consult.name = tutor.name
+		consult.surname = tutor.surname
+		consult.www = tutor.www
+		consult.title = tutor.degree
+		try:
+			consult.localization = tutor_localizations.room
+		except:
+			pass
+		consult.phone = tutor.phone[8:]
+		today = date.today()
+		consult.consultations = []
+		raw_consultations = []
+		for con in tutor_consultations:
+			try:
+				con_localization = Localization.objects.get(id = con.localization_ID_id)
+			except:
+				pass
+			single_con = singleconsultationdata.SingleConsultationsData()
+			single_con.day = con.day
+			single_con.start_hour = con.start_hour
+			single_con.week_type = con.week_type
+			if (single_con.week_type == 'A'):
+				single_con.week_type = " "
+			single_con.end_hour = con.end_hour
+			single_con.expiry_date = con.expiry_date
+			single_con.start_minutes = con.start_minutes
+			single_con.end_minutes = con.end_minutes
+			single_con.building = con_localization.building
+			single_con.room = con_localization.room
+			raw_consultations.append(single_con)
+		raw_consultations = sorted(raw_consultations, cmp=time_cmp)
+		
+		for con in raw_consultations:
+			strcon = "".join("%s %s %s:%s-%s:%s [%s %s]")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
+			if (strcon ==""):
+				strcon = " "
+			consult.consultations.append(strcon)
+		
+		consult.info = tutor_info.message
+		if (len(consult.info) > 100):
+			consult.info_short = consult.info[:70] + u"... Najedź by wyświetlić całość"
+		else:
+			consult.info_short = consult.info
+		
+		consultations_data.append(consult)
+		consult = None
+	consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
+	for cons in consultations_data:
+		cons.color_number = colour
+		if colour:
+			colour = False
+		else:
+			colour = True
+	t = loader.get_template('table.html')
+	c = Context({'consultations_data' : consultations_data, })
+	return HttpResponse(t.render(c))

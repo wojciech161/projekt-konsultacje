@@ -1,0 +1,49 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<TABLE class="style=WIDTH: 647px mceItemTable" border="0" cellSpacing="0">
+<TBODY>
+<TR style="BACKGROUND-COLOR: rgb(192,192,192)" mce_style="background-color: #c0c0c0;">
+<TD width="195" align="left"><I>nazwisko/www</I></TD>
+<TD width="129" align="left"> </TD>
+<TD width="158" align="left"> </TD>
+<TD width="92" align="left"><I>C-3</I></TD>
+<TD width="133" align="left"><I>71-</I></TD>
+<TD width="500" align="left"><I>konsultacje</I></TD>
+<TD width="200" align="left"><I>Wiadomość</I></TD></TR>
+
+{% if consultations_data %}
+	{% for con in consultations_data %}
+	{% if con.color_number %}
+		<TR>
+	{% else %}
+		<TR style="BACKGROUND-COLOR: rgb(238,238,238)" mce_style="background-color: #eeeeee;">
+	{% endif %}
+		<td class="line_table_1">
+			<a href="{{ con.www }}">{{ con.surname }}</a>
+		</td>
+		<td class="line_table_1">{{ con.name }}</td>
+		<td class="line_table_1">{{ con.title }}</td>
+		<td class="line_table_1">{{ con.localization }}</td>
+		<td class="line_table_1">{{ con.phone }}</td>
+		<td class="line_table_1">
+		{% if con.consultations %}
+		{% for consult in con.consultations %}
+		 {{ consult }} <br />
+		 {% endfor %}
+		 {% else %}
+			&nbsp;
+		 {% endif %}
+		</td>
+		<td width = "200" class="line_table_1" title = "{{ con.info }}"> &nbsp  {{ con.info_short }} </a></td>
+	</TR>
+	{% endfor %}
+	
+{% else %}
+	&nbsp;
+{% endif %}
+
+</TBODY></TABLE>
+<P> </P>
+</html>
