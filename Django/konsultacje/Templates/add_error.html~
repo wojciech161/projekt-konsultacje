@@ -15,7 +15,7 @@
 <body class="site_background">
 <p class="site_background">&nbsp;</p>
  {% csrf_token %}
-<form action="/tutor/{{ tutor_id }}/adderror/{{ place }}/" name="formedit" method="POST">{% csrf_token %}
+<form action="/tutor/{{ tutor_id }}/adderror/" name="formedit" method="POST">{% csrf_token %}
 <table border="0" cellspacing="0" cellpadding="0">
 	<p>Proszę podać informację na temat błędu:</p>
   <tr>

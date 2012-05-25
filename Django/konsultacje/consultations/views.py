@@ -87,7 +87,7 @@ def count_consultation_hours(tutor_id):
 		total_consultation_hours += hours
 	return total_consultation_hours
 	
-def error_file_append(user, error_info):
+def error_file_append(user, error_info, error_place):
 	reload(sys)
 	sys.setdefaultencoding('utf8')
 	try:
@@ -99,6 +99,8 @@ def error_file_append(user, error_info):
 		errorfile.write(current_date)
 		errorfile.write(" Użytkownik: ")
 		errorfile.write(user)
+		errorfile.write(" Zgłoszone z miejsca: ")
+		errorfile.write(error_place)
 		errorfile.write(" Błąd: ")
 		errorfile.write(error_info)
 		errorfile.write("\n")
@@ -2712,17 +2714,34 @@ def download_instruction(request, tutor_id):
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 
-def add_error(request, tutor_id):
+def add_error(request, tutor_id, place):
 	if request.user.is_authenticated():
 		status = ""
+		place_string = ""
 		user = User.objects.get(id = tutor_id)
 		tutor = Tutor.objects.get(tutor_ID = user)
 		user_name = tutor.name
 		user_surname = tutor.surname
+		
+		if place == "1":
+			place_string = "tutor_index"
+		elif place == "2":
+			place_string = "tutor_edit"
+		elif place == "3":
+			place_string = "tutor_consult_list"
+		elif place == "4":
+			place_string = "tutor_info_edit"
+		elif place == "5":
+			place_string = "tutor_consult_edit"
+		elif place == "6":
+			place_string = "tutor_consult_detail"
+		elif place == "7":
+			place_string = "tutor_add_consult"
+		
 		if request.POST:
 			error = request.POST.get("blad")
-			status = error_file_append(user.login, error)
-		return render_to_response('add_error.html', {'tutor_id':tutor_id, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+			status = error_file_append(user.login, error, place_string)
+		return render_to_response('add_error.html', {'tutor_id':tutor_id, 'status':status, 'user_name':user_name, 'user_surname':user_surname, 'place':place}, context_instance = RequestContext(request))
 	else:
 		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
