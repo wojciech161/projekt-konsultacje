@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*--
+﻿#-*- coding: utf-8 -*--
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render_to_response
@@ -123,6 +123,53 @@ def log_file_append(user, log):
 		errorfile.write(log)
 		errorfile.write("\n")
 		errorfile.close()
+
+def insert(L_tutor, list, next_letter, slot):
+	place = 0
+	list.pop(slot)
+	for tutor in list:
+		if (tutor.surname[:1] >= next_letter and tutor.surname[:1] != 'Ą' and tutor.surname[:1] != 'Ę' and tutor.surname[:1] != 'Ć' and tutor.surname[:1] != 'Ł' and tutor.surname[:1] != 'Ń' and tutor.surname[:1] != 'Ó' and tutor.surname[:1] != 'Ś'):
+			list.insert(place, L_tutor)
+			
+			break
+		place = place + 1	
+	
+	return list
+	
+
+			
+def sort_tutors(tutor_list):
+	reload(sys)
+	sys.setdefaultencoding('utf8')
+	list = sorted (tutor_list,  key=attrgetter('surname'))
+	i = len(list)
+	i = i-1
+	while (i >= 0 and list[i].surname[:1] >= 'Z'):
+		if (list[i].surname[:1] == 'Ą'):
+			list = insert(list[i], list, 'B', i)
+		else:	
+			if (list[i].surname[:1] == 'Ę'):
+				list = insert(list[i], list, 'F', i)
+			else:	
+				if (list[i].surname[:1] == 'Ć'):
+					list = insert(list[i], list, 'D', i)
+				else:	
+					if (list[i].surname[:1] == 'Ł'):
+						list = insert(list[i], list, 'M', i)
+					else:	
+						if (list[i].surname[:1] == 'Ń'):
+							list = insert(list[i], list, 'O', i)
+						else:	
+							if (list[i].surname[:1] == 'Ó'):
+								list = insert(list[i], list, 'P', i)
+							else:	
+								if (list[i].surname[:1] == 'Ś'):
+									list = insert(list[i], list, 'T', i)
+								else:
+									break
+		
+		
+	return list
 		
 ##############KONIEC FUNKCJI POMOCNICZYCH
 
@@ -197,7 +244,7 @@ def consultation_index(request):
 		
 		consultations_data.append(consult)
 		consult = None
-	consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
+	consultations_data = sort_tutors(consultations_data)
 	t = loader.get_template('index.html')
 	c = Context({'consultations_data' : consultations_data, })
 	return HttpResponse(t.render(c))
@@ -1215,7 +1262,7 @@ def assistant_index(request, user_id):
 				consult.consultation_status = "OK"
 			consultations_data.append(consult)
 			consult = None
-		consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
+		consultations_data = sort_tutors(consultations_data)
 		t = loader.get_template('assistant_index.html')
 		assistant = Assistant.objects.get(assistant_ID = user_id)
 		user_surname = assistant.surname
@@ -1951,7 +1998,7 @@ def admin_index(request, user_id):
 				consult.consultation_status = "OK"
 			consultations_data.append(consult)
 			consult = None
-		consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
+		consultations_data = sort_tutors(consultations_data)
 		t = loader.get_template('admin_index.html')
 		admin = Administrator.objects.get(administrator_ID = user_id)
 		user_name = admin.name
