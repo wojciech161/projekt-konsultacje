@@ -49,45 +49,49 @@
 
 <td style="background-color:#f8f3ec; padding-left: 6px;" valign="top">
  {% csrf_token %}
-<form action="/tutor/{{ tutor_id }}/infoboard/" name="formedit" method="POST">{% csrf_token %}
+
+<form action="" method="POST">{% csrf_token %}
+
+
 <table border="0" cellspacing="0" cellpadding="0">
 	<p>W tym dziale można wprowadzić trzy daty wraz z opisami które będą pojawiać się przy wyborze daty ważności konsultacji jako przyciski szybkiego wyboru.</p>
   <tr>
-    <td width="143" style="padding-left:5px; font-weight: bold;">
+    <td width="20%" style="padding-left:5px; font-weight: bold;">
     <p><a>&nbsp </a></p>
     </td>
-	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	 <td width="40%" style="padding-left:5px; font-weight: bold;">
 	<p><a>nazwa </a></p>
 	</td>
-	 <td width="243" style="padding-left:5px; font-weight: bold;">
+	 <td width="40%" style="padding-left:5px; font-weight: bold;">
 	<a>data </a>
 	</td>
 
 	
   </tr>
-  <td width="143" style="padding-left:5px; font-weight: bold;">
+  
   <tr>
+	<td width="20%" style="padding-left:5px; font-weight: bold;">
     <p><a>Data1:  </a></p>
     </td>
-	 <td width="243" style="padding-left:5px; font-weight: bold;">
-	<input id="login" name="login" type="text" class="okienko" value="{{ date_name1 }}" />
+	 <td width="40%" style="padding-left:5px; font-weight: bold;">
+	<input  name="date_name1" type="text" class="okienko" value="{{ date_name1 }}" />
 	</td>
-	 <td width="243" style="padding-left:5px; font-weight: bold;">
-	<input id="login" name="login" type="text" class="okienko" value="{{ date_value1 }}" />
+	 <td width="40%" style="padding-left:5px; font-weight: bold;">
+	<input  name="date_value1" type="text" class="okienko" value="{{ date_value1 }}" />
 	</td>
   </tr>
     </tr>
 	
 	
   <tr>
-  <td width="143" style="padding-left:5px; font-weight: bold;">
+  <td width="20%" style="padding-left:5px; font-weight: bold;">
     <p><a>Data2:  </a></p>
     </td>
-	 <td width="243" style="padding-left:5px; font-weight: bold;">
-	<input id="login" name="login" type="text" class="okienko" value="{{ date_name2 }}" />
+	 <td width="40%" style="padding-left:5px; font-weight: bold;">
+	<input  name="date_name2" type="text" class="okienko" value="{{ date_name2 }}" />
 	</td>
-	 <td width="243" style="padding-left:5px; font-weight: bold;">
-	<input id="login" name="login" type="text" class="okienko" value="{{ date_value2 }}" />
+	 <td width="40%" style="padding-left:5px; font-weight: bold;">
+	<input  name="date_value2" type="text" class="okienko" value="{{ date_value2 }}" />
 	</td>
   </tr>
     </tr>
@@ -98,15 +102,15 @@
     <p><a>Data3:  </a></p>
     </td>
 	 <td width="243" style="padding-left:5px; font-weight: bold;">
-	<input id="login" name="login" type="text" class="okienko" value="{{ date_name3 }}" />
+	<input  name="date_name3" type="text" class="okienko" value="{{ date_name3 }}" />
 	</td>
 	 <td width="243" style="padding-left:5px; font-weight: bold;">
-	<input id="login" name="login" type="text" class="okienko" value="{{ date_value3 }}" />
+	<input  name="date_value3" type="text" class="okienko" value="{{ date_value3 }}" />
 	</td>
   </tr>
   
   
- <tr><td>  <input style="width: 100px;" class="button3" type="button" name="zmien" value="Zmień dane" onclick="submitform(this.form);" />
+ <tr><td> 　　<input type="submit" value="Zmień" />
 	{% if status != '' %}
 		<p>{{ status }}</p>
 	{% endif %}

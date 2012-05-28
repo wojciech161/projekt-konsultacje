@@ -1352,9 +1352,9 @@ def assistant_consultations_delete_confirm(request, user_id):
 		
 		user_surname = assistant.surname
 		user_name = assistant.name
-		return render_to_response('assistant_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname, 'status':status}, context_instance = RequestContext(request))
+		return render_to_response('assistant_consultations_delete_confirm.html', {'user_id':user_id, 'user_name':user_name, 'user_surname':user_surname, 'status':status}, context_instance = RequestContext(request) )
 	else:
-		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		return HttpResponseRedirect(reverse('consultations.views.authorization') )
 		
 def assistant_consultations_delete(request, user_id):
 	if request.user.is_authenticated():
