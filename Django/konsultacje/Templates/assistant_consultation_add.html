@@ -63,10 +63,9 @@
             <td>Tydzień:</td>
             <td>
                 <select id="week" class="selectt" name="week_type" id="week">
-                    <option value="0">Wybierz</option>
+                    <option {% if week_type == "A" %} selected="selected"  {% endif %} value="A">Każdy</option>
         			<option {% if week_type == "P" %} selected="selected"  {% endif %} value="P">Parzysty</option>
         			<option {% if week_type == "N" %} selected="selected"  {% endif %} value="N">Nieparzysty</option>
-        			<option {% if week_type == "A" %} selected="selected"  {% endif %} value="A">Każdy</option>
         		</select>
             </td>
         <td><span id="week_check_yes"></span></td>
