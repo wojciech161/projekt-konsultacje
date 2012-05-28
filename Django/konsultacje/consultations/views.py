@@ -459,7 +459,23 @@ def edit_consultation(request, tutor_id, consultation_id):
 				#data = get_data_for_consultations_detail(tutor_id)#pobranie danych do obsługi strony consultations_detail
 				#return render_to_response('consultations_detail.html', data, context_instance = RequestContext(request))#wyświetlenie consultations_detail jeśli udało się zapisać nową konsultację	
 				return HttpResponseRedirect(reverse('consultations.views.consultations_detail', args=(tutor_id,)))
-			return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry_date, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+				
+		
+		
+			date_used = []
+			empty_date = ""
+			date_dir = "E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django"
+			date_filename = "date.txt"
+			filepath = os.path.join(date_dir, date_filename)
+			dates_read = open(filepath, "rb")
+			for lines in dates_read:
+				date_used.append(lines)
+			dates_read.close()
+			while (len(date_used)<6):
+				date_used.append(empty_date)
+			
+			
+			return render_to_response("edit_consultation.html", {'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry_date, 'user_name':user_name, 'user_surname':user_surname, 'date_name1':date_used[0], 'date_value1':date_used[1], 'date_name1':date_used[2], 'date_value1':date_used[3], 'date_name1':date_used[4], 'date_value1':date_used[5] }, context_instance = RequestContext(request))
 				
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
@@ -564,8 +580,21 @@ def add_consultation(request, tutor_id):
 				return HttpResponse("Nie mozna dodac konsultacji")
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		user_name = tutor.name
-		user_surname = tutor.surname		
-		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day, 'building' : new_building, 'room' : new_room, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
+		user_surname = tutor.surname
+		
+		date_used = []
+		empty_date = ""
+		date_dir = "E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django"
+		date_filename = "date.txt"
+		filepath = os.path.join(date_dir, date_filename)
+		dates_read = open(filepath, "rb")
+		for lines in dates_read:
+			date_used.append(lines)
+		dates_read.close()
+		while (len(date_used)<6):
+			date_used.append(empty_date)
+			
+		return render_to_response("add_consultation.html", { 'user_id':tutor_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'expiry_year' : new_expiry_year, 'expiry_month' : new_expiry_month, 'expiry_day' : new_expiry_day, 'building' : new_building, 'room' : new_room, 'user_name':user_name, 'user_surname':user_surname, 'date_name1':date_used[0], 'date_value1':date_used[1], 'date_name1':date_used[2], 'date_value1':date_used[3], 'date_name1':date_used[4], 'date_value1':date_used[5]}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1579,7 +1608,20 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		tutor_name	= tutor.name
 		tutor_surname = tutor.surname
-		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
+		
+		date_used = []
+		empty_date = ""
+		date_dir = "E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django"
+		date_filename = "date.txt"
+		filepath = os.path.join(date_dir, date_filename)
+		dates_read = open(filepath, "rb")
+		for lines in dates_read:
+			date_used.append(lines)
+		dates_read.close()
+		while (len(date_used)<6):
+			date_used.append(empty_date)
+		
+		return render_to_response("assistant_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname, 'date_name1':date_used[0], 'date_value1':date_used[1], 'date_name1':date_used[2], 'date_value1':date_used[3], 'date_name1':date_used[4], 'date_value1':date_used[5]}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -1685,7 +1727,19 @@ def assistant_consultation_add(request, user_id, tutor_id):
 		tutor_name	= tutor.name
 		tutor_surname = tutor.surname
 		
-		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
+		date_used = []
+		empty_date = ""
+		date_dir = "E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django"
+		date_filename = "date.txt"
+		filepath = os.path.join(date_dir, date_filename)
+		dates_read = open(filepath, "rb")
+		for lines in dates_read:
+			date_used.append(lines)
+		dates_read.close()
+		while (len(date_used)<6):
+			date_used.append(empty_date)
+		
+		return render_to_response("assistant_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname, 'date_name1':date_used[0], 'date_value1':date_used[1], 'date_name1':date_used[2], 'date_value1':date_used[3], 'date_name1':date_used[4], 'date_value1':date_used[5]}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -2260,7 +2314,20 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		tutor_name	= tutor.name
 		tutor_surname = tutor.surname	
-		return render_to_response("admin_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname,'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
+		
+		date_used = []
+		empty_date = ""
+		date_dir = "E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django"
+		date_filename = "date.txt"
+		filepath = os.path.join(date_dir, date_filename)
+		dates_read = open(filepath, "rb")
+		for lines in dates_read:
+			date_used.append(lines)
+		dates_read.close()
+		while (len(date_used)<6):
+			date_used.append(empty_date)
+			
+		return render_to_response("admin_consultation_edit.html", {'user_id':user_id, 'consultation_id' : consultation_id, 'tutor_id' : tutor_id, 'start_hour' : start_hour,'start_minutes' : start_minutes, 'end_hour' : end_hour, 'end_minutes' : end_minutes, 'day' : day, 'week_type' : week_type, 'students_limit' : students_limit, 'building' : building, 'room' : room, 'expiry_date' : expiry, 'user_name':user_name, 'user_surname':user_surname,'tutor_name':tutor_name, 'tutor_surname':tutor_surname, 'date_name1':date_used[0], 'date_value1':date_used[1], 'date_name1':date_used[2], 'date_value1':date_used[3], 'date_name1':date_used[4], 'date_value1':date_used[5]}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
@@ -2369,7 +2436,20 @@ def admin_consultation_add(request, user_id, tutor_id):
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
 		tutor_name	= tutor.name
 		tutor_surname = tutor.surname
-		return render_to_response("admin_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname}, context_instance = RequestContext(request))
+		
+		date_used = []
+		empty_date = ""
+		date_dir = "E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django"
+		date_filename = "date.txt"
+		filepath = os.path.join(date_dir, date_filename)
+		dates_read = open(filepath, "rb")
+		for lines in dates_read:
+			date_used.append(lines)
+		dates_read.close()
+		while (len(date_used)<6):
+			date_used.append(empty_date)
+			
+		return render_to_response("admin_consultation_add.html", { 'user_id':user_id, 'tutor_id' : tutor_id, 'start_hour' : new_start_hour, 'start_minutes' : new_start_minutes,  'end_hour' : new_end_hour, 'end_minutes' : new_end_minutes, 'day' : new_day, 'week_type' : new_week_type, 'students_limit' : new_students_limit, 'room' : new_room, 'building' : new_building, 'expiry_date' : new_expiry_date, 'user_name':user_name, 'user_surname':user_surname, 'tutor_name':tutor_name, 'tutor_surname':tutor_surname, 'date_name1':date_used[0], 'date_value1':date_used[1], 'date_name1':date_used[2], 'date_value1':date_used[3], 'date_name1':date_used[4], 'date_value1':date_used[5]}, context_instance = RequestContext(request))
 	else:
 		return render_to_response(reverse('consultations.views.authorization'))
 		
