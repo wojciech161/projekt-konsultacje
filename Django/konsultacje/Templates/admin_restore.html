@@ -29,7 +29,7 @@
 <a href="/admin/{{ user_id }}/">Lista Prowadzących</a>
 <a href="/admin/{{ user_id }}/csvexport/">Eksport do CSV</a>
 <a href="/admin/{{ user_id }}/backup/">Kopia Bazy Danych</a>
-<a href="/admin/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
+<a style="background-color: #F8D7B8;" href="/admin/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
 <a href="/admin/{{ user_id }}/html_save/">Podgląd Konsultacji</a>
 <a href="/admin/{{ user_id }}/assistants/">Lista asystentów</a>
 <a href="/admin/{{ user_id }}/admins/">Lista administratorów</a>
@@ -47,11 +47,11 @@
 {{ user_name }} {{ user_surname }} <br></div>
 <p>&nbsp;</p></td>
 
-<td style="background-color:#FFF" valign="top">
+<td style="background-color:#FFF; padding-left: 4px;" valign="top">
 <p align="center">Proszę podać plik SQL</p>
 <form action="/admin/{{ user_id }}/restore/" method="POST" enctype="multipart/form-data">{% csrf_token %}
 {{ form.as_p }}
-<input type="submit" value="OK" />
+<input class="button" type="submit" value="OK" />
 <p align="center">{{ status }}</p>
 </form>
 <p>&nbsp;</p></td>

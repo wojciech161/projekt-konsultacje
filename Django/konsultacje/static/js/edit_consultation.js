@@ -122,9 +122,12 @@ $('#start_hour').change(function(){
     button_on();
     $('#start_minutes').removeAttr('disabled');
     var select_end_hour = '<select class="selectt" name="end_hour" id="end_hour">\n';
+    
     for(i=list_value+1;i<23;i++)
     {
-        select_end_hour=select_end_hour+'<option value="'+i+'">'+i+'</option>';
+        select_end_hour=select_end_hour+'<option';
+        if($('#end_hour').val()==i) select_end_hour=select_end_hour+' selected="selected"';
+        select_end_hour=select_end_hour+' value="'+i+'">'+i+'</option>';
     }
     select_end_hour=select_end_hour+'</select>';
     $('#end_hour_span').html(select_end_hour);
@@ -146,19 +149,23 @@ $('#start_hour').change(function(){
 $('#start_minutes').change(function(){
     if($('#start_minutes').val()!=1){
     button_on(); 
-    var list_value = $('#start_minutes').val();
-    $('#start_hour_check_yes').html('<img src="/static/images/change.png"/>');
+    var add_selected=' selected="selected"';
     var list_value = $('#start_minutes').val();
     list_value = parseFloat(list_value);
+    if($('#start_hour_check_yes').html()!='')
+    {
+       list_value = $('#end_minutess').val();
+       list_value = parseFloat(list_value);    
+    }
     $('#start_hour_check_yes').html('<img src="/static/images/change.png"/>');                
-    var temp='<select id="end_minutes" name="end_minutes"><option';
-    if(list_value==0) temp=temp+' selected="selected"';
+    var temp='<select id="end_minutess" name="end_minutes"><option';
+    if(list_value==0) temp=temp+add_selected;
     temp=temp+' value="00">00</option><option';
-    if(list_value==15) temp=temp+' selected="selected"';
+    if(list_value==15) temp=temp+add_selected;
     temp=temp+' value="15">15</option><option';
-    if(list_value==30) temp=temp+' selected="selected"';
+    if(list_value==30) temp=temp+add_selected;
     temp=temp+' value="30">30</option><option';
-    if(list_value==45) temp=temp+' selected="selected"';
+    if(list_value==45) temp=temp+add_selected;
     temp=temp+' value="45">45</option>';
     temp=temp+'</select>';
     $('#end_minutes').html(temp);
@@ -295,7 +302,7 @@ $('#date').focusin(function(){
    $('#expiry_massage_example').text('wzor: dd/mm/rrrr (30/12/2012)');
 }).blur(function(){
     $('#expiry_massage_example').text('');
-    var expiry=$('#expiry').val();
+    var expiry=$('#date').val();
     button_on();
     var reg = /^([0-9]{1,2})+\/([0-9]{1,2})+\/([0-9]{1,4})$/;
     if(reg.test(expiry) == false) {
