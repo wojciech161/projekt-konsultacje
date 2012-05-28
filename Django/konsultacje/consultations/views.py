@@ -1295,10 +1295,10 @@ def assistant_change_dates(request, user_id):
 			try:
 				date_used[0] = request.POST.get('date_name1')
 				date_used[1] = request.POST.get('date_value1')
-				date_used[2] = request.POST.get('date_name1')
-				date_used[3] = request.POST.get('date_value1')
-				date_used[4] = request.POST.get('date_name1')
-				date_used[5] = request.POST.get('date_value1')
+				date_used[2] = request.POST.get('date_name2')
+				date_used[3] = request.POST.get('date_value2')
+				date_used[4] = request.POST.get('date_name3')
+				date_used[5] = request.POST.get('date_value3')
 				
 				dates_write = open(filepath, "w")
 				dates_write.write(date_used[0])
