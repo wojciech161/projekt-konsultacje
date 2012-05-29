@@ -584,7 +584,7 @@ def add_consultation(request, tutor_id):
 		
 		date_used = []
 		empty_date = ""
-		date_dir = "E:\Lukasz\polibuda\projekt_zespolowy\django_projekt\projekt-konsultacje\Django"
+		date_dir = "\home\kons\data"
 		date_filename = "date.txt"
 		filepath = os.path.join(date_dir, date_filename)
 		dates_read = open(filepath, "rb")
@@ -2730,7 +2730,7 @@ def admin_assistant_add(request, user_id):
 		user_surname = admin.surname
 		return render_to_response('admin_addassistant.html', {'user_id':user_id, 'status':status, 'user_name':user_name, 'user_surname':user_surname}, context_instance = RequestContext(request))
 	else:
-		return HttpResponseRedirect(reverse('consultations.views.authorization'))
+		return HttpResponseRedirect(reverse('consultations.views.authorization'))
 		
 def admin_assistant_delete_confirm(request, user_id, assistant_id):
 	if request.user.is_authenticated():
