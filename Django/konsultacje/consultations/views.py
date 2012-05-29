@@ -584,7 +584,7 @@ def add_consultation(request, tutor_id):
 		
 		date_used = []
 		empty_date = ""
-		date_dir = "\home\kons\data"
+		date_dir = "/home/kons/data"
 		date_filename = "date.txt"
 		filepath = os.path.join(date_dir, date_filename)
 		dates_read = open(filepath, "rb")
@@ -1309,7 +1309,7 @@ def assistant_change_dates(request, user_id):
 		status = ""
 		date_used = []
 		empty_date = ""
-		date_dir = "\home\kons\data"
+		date_dir = "/home/kons/data"
 		date_filename = "date.txt"
 		filepath = os.path.join(date_dir, date_filename)
 		dates_read = open(filepath, "rb")
@@ -1611,7 +1611,7 @@ def assistant_consultation_edit(request, user_id, tutor_id, consultation_id):
 		
 		date_used = []
 		empty_date = ""
-		date_dir = "\home\kons\data"
+		date_dir = "/home/kons/data"
 		date_filename = "date.txt"
 		filepath = os.path.join(date_dir, date_filename)
 		dates_read = open(filepath, "rb")
@@ -1729,7 +1729,7 @@ def assistant_consultation_add(request, user_id, tutor_id):
 		
 		date_used = []
 		empty_date = ""
-		date_dir = "\home\kons\data"
+		date_dir = "/home/kons/data"
 		date_filename = "date.txt"
 		filepath = os.path.join(date_dir, date_filename)
 		dates_read = open(filepath, "rb")
@@ -2317,7 +2317,7 @@ def admin_consultation_edit(request, user_id, tutor_id, consultation_id):
 		
 		date_used = []
 		empty_date = ""
-		date_dir = "\home\kons\data"
+		date_dir = "/home/kons/data"
 		date_filename = "date.txt"
 		filepath = os.path.join(date_dir, date_filename)
 		dates_read = open(filepath, "rb")
@@ -2439,7 +2439,7 @@ def admin_consultation_add(request, user_id, tutor_id):
 		
 		date_used = []
 		empty_date = ""
-		date_dir = "\home\kons\data"
+		date_dir = "/home/kons/data"
 		date_filename = "date.txt"
 		filepath = os.path.join(date_dir, date_filename)
 		dates_read = open(filepath, "rb")
