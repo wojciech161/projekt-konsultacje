@@ -31,7 +31,6 @@
 <a href="/assistant/{{ user_id }}/backup/">Kopia Bazy Danych</a>
 <a href="/assistant/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
 <a href="/assistant/{{ user_id }}/html_save/">Podgląd Konsultacji</a>
-<a href="/assistant/{{ user_id }}/date_change/">Zmień daty</a>
 </div>	
 <p></p>
 <div id="coolmenu">
@@ -149,6 +148,10 @@
             <td>Data Wygaśnięcia:</td>
             <td><input style="border: solid 1px; border-bottom-color: #993300;" name="expiry_date" id="date" size="8" type="text" value="{{ expiry_date }}" /></td>
             <td><span id="expiry_massage_status"></span><span id="expiry_massage_example"></span></td>
+            <td><input id="date1" style="width: auto;" class="button" type="button" value="{{ date_name1 }}" /><input id="date1b" type="hidden" value="{{ date_value1 }}" /></td>
+            <td><input id="date2" style="width: auto;" class="button" type="button" value="{{ date_name2 }}" /><input id="date2b" type="hidden" value="{{ date_value2 }}" /></td>
+            <td><input id="date3" style="width: auto;" class="button" type="button" value="{{ date_name3 }}" /><input id="date3b" type="hidden" value="{{ date_value3 }}" /></td>
+            
         </tr>
         <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
         <tr>

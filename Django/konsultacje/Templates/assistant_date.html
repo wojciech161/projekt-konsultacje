@@ -5,6 +5,7 @@
 
 <title>Zmiana dat</title>
 <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/jquery-ui-1.8.19.custom.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .left #coolmenu a {
 	font-size: 12px;
@@ -32,7 +33,7 @@
 <a href="/assistant/{{ user_id }}/backup/">Kopia Bazy Danych</a>
 <a href="/assistant/{{ user_id }}/restore/">Odzyskaj Bazę Danych</a>
 <a href="/assistant/{{ user_id }}/html_save/">Podgląd Konsultacji</a>
-<a href="/assistant/{{ user_id }}/date_change/">Zmień daty</a>
+<a style="background-color: #F8D7B8;" href="/assistant/{{ user_id }}/date_change/">Zmień daty</a>
 </div>
 <p></p>
 <div id="coolmenu">
@@ -47,84 +48,61 @@
 </div>
 <p>&nbsp;</p></td>
 
-<td style="background-color:#f8f3ec; padding-left: 6px;" valign="top">
+<td  style="background-color:#f8f3ec; padding-left:5px;" valign="top">
  {% csrf_token %}
-
+<p>W tym dziale mozna wprowadzic trzy daty wraz z opisami ktore beda pojawiac sie przy wyborze daty waznosci konsultacji jako przyciski szybkiego wyboru.</p>
 <form action="" method="POST">{% csrf_token %}
-
-
 <table border="0" cellspacing="0" cellpadding="0">
-	<p>W tym dziale można wprowadzić trzy daty wraz z opisami które będą pojawiać się przy wyborze daty ważności konsultacji jako przyciski szybkiego wyboru.</p>
-  <tr>
-    <td width="20%" style="padding-left:5px; font-weight: bold;">
-    <p><a>&nbsp </a></p>
-    </td>
-	 <td width="40%" style="padding-left:5px; font-weight: bold;">
-	<p><a>nazwa </a></p>
-	</td>
-	 <td width="40%" style="padding-left:5px; font-weight: bold;">
-	<a>data </a>
-	</td>
 
-	
-  </tr>
-  
-  <tr>
-	<td width="20%" style="padding-left:5px; font-weight: bold;">
-    <p><a>Data1:  </a></p>
-    </td>
-	 <td width="40%" style="padding-left:5px; font-weight: bold;">
-	<input  name="date_name1" type="text" class="okienko" value="{{ date_name1 }}" />
-	</td>
-	 <td width="40%" style="padding-left:5px; font-weight: bold;">
-	<input  name="date_value1" type="text" class="okienko" value="{{ date_value1 }}" />
-	</td>
-  </tr>
-    </tr>
-	
-	
-  <tr>
-  <td width="20%" style="padding-left:5px; font-weight: bold;">
-    <p><a>Data2:  </a></p>
-    </td>
-	 <td width="40%" style="padding-left:5px; font-weight: bold;">
-	<input  name="date_name2" type="text" class="okienko" value="{{ date_name2 }}" />
-	</td>
-	 <td width="40%" style="padding-left:5px; font-weight: bold;">
-	<input  name="date_value2" type="text" class="okienko" value="{{ date_value2 }}" />
-	</td>
-  </tr>
-    </tr>
-  <tr>
-  
-  
-  <td width="143" style="padding-left:5px; font-weight: bold;">
-    <p><a>Data3:  </a></p>
-    </td>
-	 <td width="243" style="padding-left:5px; font-weight: bold;">
-	<input  name="date_name3" type="text" class="okienko" value="{{ date_name3 }}" />
-	</td>
-	 <td width="243" style="padding-left:5px; font-weight: bold;">
-	<input  name="date_value3" type="text" class="okienko" value="{{ date_value3 }}" />
-	</td>
-  </tr>
-  
-  
- <tr><td> 　　<input type="submit" value="Zmień" />
-	{% if status != '' %}
-		<p>{{ status }}</p>
-	{% endif %}
-</td></tr>
-</form>
-</div>
+        <tr>
+            <td></td>
+            <td style="font-weight: bold;">Nazwa Daty</td>
+            <td style="width: 90px;"></td>
+            <td style="font-weight: bold;">Data</td>
+            <td></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr>
+            <td style="font-weight: bold;">Data1:</td>
+            <td><input id="date_name1" name="date_name1" type="text" class="okienko" value="{{ date_name1 }}" /></td>
+            <td style="width: 90px;"><span style="padding-left: 4px;" id="date_name1_status"></span></td>
+            <td><input id="date_value1"  name="date_value1" type="text" class="okienko" value="{{ date_value1 }}" /></td>
+            <td><span id="date_value1_status"></span><span id="date_value1_example"></span></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        
+        <tr>
+            <td style="font-weight: bold;">Data2:</td>
+            <td><input id="date_name2" name="date_name2" type="text" class="okienko" value="{{ date_name2 }}" /></td>
+            <td style="width: 90px;"><span style="padding-left: 4px;" id="date_name2_status"></span></td>
+            <td><input id="date_value2"  name="date_value2" type="text" class="okienko" value="{{ date_value2 }}" /></td>
+            <td><span id="date_value2_status"></span><span id="date_value2_example"></span></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        
+        <tr>
+            <td style="font-weight: bold;">Data3:</td>
+            <td><input id="date_name3" name="date_name3" type="text" class="okienko" value="{{ date_name3 }}" /></td>
+            <td style="width: 90px;"><span style="padding-left: 4px;" id="date_name3_status"></span></td>
+            <td><input id="date_value3"  name="date_value3" type="text" class="okienko" value="{{ date_value3 }}" /></td>
+            <td><span id="date_value3_status"></span><span id="date_value3_example"></span></td>
+        </tr>
+        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        
+        <tr>
+            <td><input id="button" disabled="disabled" style="color:#777777;" class="button_disabled" type="submit" name="zmien" value="Zmień" /></td>
+            <td></td>
+            <td></td>
+        </tr>
 
-
-    <p>&nbsp;</p></td>
-  </tr>
 </table>
+</form>
+
+
 <p>&nbsp;</p>
-
-
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/assistant_date.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.19.custom.min.js"></script>
 </body>
 </html>
 

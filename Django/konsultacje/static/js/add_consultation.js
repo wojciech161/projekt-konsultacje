@@ -17,6 +17,10 @@ function button_on(){
 
 $(document).ready(function(){
   
+if($('#date1').val()=='\n') $('#date1').hide();
+if($('#date2').val()=='\n') $('#date2').hide();
+if($('#date3').val()=='\n') $('#date3').hide();
+
  if($('#day').val()!=0){
     $('#day_check_yes').html('<img src="/static/images/change.png"/>');
     button_on();  
@@ -304,6 +308,16 @@ $('#date').focusin(function(){
     else {$('#expiry_massage_status').html('<img src="/static/images/change.png"/>');button_on();}
 });
 
+$('#date1').click(function(){
+ $('#date').val($('#date1b').val());
+});
 
+$('#date2').click(function(){
+ $('#date').val($('#date2b').val());
+});
+
+$('#date3').click(function(){
+ $('#date').val($('#date3b').val());
+});
 
 
