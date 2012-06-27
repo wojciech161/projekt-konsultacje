@@ -328,13 +328,7 @@ $('#www').keyup(function(){
     var www=$('#www').val();
     button_on();
     if(www!=''){
-    var reg = /^([A-Za-z0-9_\-\.])+\.([A-Za-z\/~]){1,}$/;
-    if(reg.test(www) == false) {
-    $('#www_massage_status').text('Wprowadzono złą stronę'); 
-    button_off();}
-    else {$('#www_massage_status').text(''); button_on();}
-    }
-    else $('#www_massage_status').text('');
+    button_on(); }
 });
 
 $('#www').focusin(function(){
@@ -342,25 +336,13 @@ $('#www').focusin(function(){
     var www=$('#www').val();
     button_on();
     if(www!=''){
-    var reg = /^([A-Za-z0-9_\-\.])+\.([A-Za-z\/~]){1,}$/;
-    if(reg.test(www) == false) {
-    $('#www_massage_status').text('Wprowadzono złą stronę'); 
-    button_off();}
-    else $('#www_massage_status').text('');
-    }
-    else $('#www_massage_status').text('');
+    button_on(); }
 }).blur(function(){
     $('#www_massage_example').text('');
     var www=$('#www').val();
     button_on();
     if(www!=''){
-    var reg = /^([A-Za-z0-9_\-\.])+\.([A-Za-z\/~]){1,}$/;
-    if(reg.test(www) == false) {
-    $('#www_massage_status').text('Wprowadzono złą stronę'); 
-    button_off();}
-    else $('#www_massage_status').text('');
-    }
-    else $('#www_massage_status').text('');
+    button_on(); }
 });
 //end----------------------------------------------
 
