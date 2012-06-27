@@ -217,7 +217,7 @@ $('#building').focusin(function(){
 $('#room').keyup(function(){
     var room=$('#room').val();
     button_on();
-    var reg = /^([0-9A-Z]{1,4})$/;
+    var reg = /^([0-9A-Za-z]{1,4})$/;
     if(reg.test(room) == false) {
     $('#room_massage_status').text('Wprowadzono niepoprawny pokój'); 
     button_off();}
@@ -228,7 +228,7 @@ $('#room').focusin(function(){
    $('#room_massage_example').text(' wzór: 123');
     var room=$('#room').val();
     button_on();
-    var reg = /^([0-9A-Z]{1,4})$/;
+    var reg = /^([0-9A-Za-z]{1,4})$/;
     if(reg.test(room) == false) {
     $('#room_massage_status').text('Wprowadzono niepoprawny pokój'); 
     button_off();}
