@@ -319,12 +319,21 @@ $('#date').focusin(function(){
 
 $('#date1').click(function(){
  $('#date').val($('#date1b').val());
+ button_on();
+ $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+ button_on();
 });
 
 $('#date2').click(function(){
  $('#date').val($('#date2b').val());
+ button_on();
+ $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+ button_on();
 });
 
 $('#date3').click(function(){
  $('#date').val($('#date3b').val());
+ button_on();
+ $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+ button_on();
 });

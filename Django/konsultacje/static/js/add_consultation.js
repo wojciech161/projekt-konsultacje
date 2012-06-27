@@ -84,16 +84,6 @@ if($('#date3').val()=='\n') $('#date3').hide();
     else $('#students_limit_massage_status').html('<img src="/static/images/change.png"/>');
  }
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
 $('#day').change(function(){
     if($('#day').val()!=0){
     $('#day_check_yes').html('<img src="/static/images/change.png"/>');
@@ -310,14 +300,23 @@ $('#date').focusin(function(){
 
 $('#date1').click(function(){
  $('#date').val($('#date1b').val());
+ button_on();
+ $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+ button_on();
 });
 
 $('#date2').click(function(){
  $('#date').val($('#date2b').val());
+ button_on();
+ $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+ button_on();
 });
 
 $('#date3').click(function(){
  $('#date').val($('#date3b').val());
+ button_on();
+ $('#expiry_massage_status').html('<img src="/static/images/change.png"/>');
+ button_on();
 });
 
 
