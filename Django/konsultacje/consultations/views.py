@@ -2974,7 +2974,7 @@ def get_table(request):
 		
 		consultations_data.append(consult)
 		consult = None
-	consultations_data = sorted (consultations_data,  key=attrgetter('surname'))
+	consultations_data = sort_tutors (consultations_data)
 	for cons in consultations_data:
 		cons.color_number = colour
 		if colour:
