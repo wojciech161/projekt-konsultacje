@@ -210,6 +210,9 @@ def consultation_index(request):
 		today = date.today()
 		consult.consultations = []
 		raw_consultations = []
+		
+		today = date.today();
+		
 		for con in tutor_consultations:
 			try:
 				con_localization = Localization.objects.get(id = con.localization_ID_id)
@@ -232,6 +235,8 @@ def consultation_index(request):
 		
 		for con in raw_consultations:
 			strcon = "".join("%s %s %s:%s-%s:%s %s %s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
+			if (today > con.expiry_date):
+				strcon = ""
 			if (strcon ==""):
 				strcon = " "
 			consult.consultations.append(strcon)
@@ -677,7 +682,7 @@ def tutor_export_html(request, tutor_id):
 						else:
 							strcon = "".join("%s %s %s.%s-%s.%s [%s %s] ;")%(con.day, con.week_type, con.start_hour, con.start_minutes, con.end_hour, con.end_minutes, con_localization.room, con_localization.building)
 						if (strcon ==""):
-							strcon = ""
+							strcon = " "
 						consult.consultations.append(strcon)
 					
 					consult.info = tutor_info.message
@@ -2962,6 +2967,8 @@ def get_table(request):
 		
 		for con in raw_consultations:
 			strcon = "".join("%s %s %s:%s-%s:%s [%s %s]")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
+			if (today>con.expiry_date):
+				strcon = ""
 			if (strcon ==""):
 				strcon = " "
 			consult.consultations.append(strcon)
