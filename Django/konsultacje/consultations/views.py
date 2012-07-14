@@ -1524,7 +1524,7 @@ def assistant_consultation_list(request, user_id, tutor_id):
 				consult.expiry = "expiry"
 			else:
 				consult.expiry = "not_expiry"
-				consult.expiry_date = consultation.expiry_date
+			consult.expiry_date = consultation.expiry_date
 			consultations_data.append(consult)
 		consultations_data = sorted (consultations_data,  cmp=time_cmp)	
 		assistant = Assistant.objects.get(assistant_ID = user_id)

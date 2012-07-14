@@ -65,10 +65,15 @@
 				<td class="line_table_2" align="center">
 					<table border="0" cellspacing="2" cellpadding="12">
 						<tr>
-							<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/edit/{{ konsultation.id }}" >Zmien </a></div></td>
+							<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/edit/{{ konsultation.id }}" >Zmień </a></div></td>
 							<td> <div id="buttons_hr"><a href="/assistant/{{ user_id }}/consultation/{{ tutor_id }}/delete/confirm/{{ konsultation.id }}" >Usuń </a></div> </td>
 						</tr>
 					</table>
+					<table align="center"> 
+						<tr style="height: 5px;">
+							<td><div style="font-size: 12px; {% if konsultation.expiry == 'expiry' %}color: red;{% endif %}" >ważne do: {{ konsultation.expiry_date }}</div></td>                               
+						</tr>
+					</table> 
 				</td>
 			</tr>
 		{% endfor %}
