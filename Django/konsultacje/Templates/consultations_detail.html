@@ -82,7 +82,10 @@
                             </table> 
                             <table align="center"> 
                                 <tr style="height: 5px;">
-                                    <td><div style="font-size: 12px; {% if konsultation.expiry == 'expiry' %}color: red;{% endif %}" >ważne do: {{ konsultation.expiry_date }}</div></td>                               
+                                    <td><div style="font-size: 12px; {% if konsultation.expiry == 'expiry' %}color: red;{% endif %}" >ważne do: {{ konsultation.expiry_date }}</div></td>
+                                    {% if konsultation.expiry == 'expiry' %}
+                                    <td><div style="font-size: 12px;color: red;" >NIEAKTUALNE</div></td> 
+                                    {% endif %}                               
                                 </tr>
                             </table> 
                         </td></tr>

@@ -236,7 +236,7 @@ def consultation_index(request):
 		for con in raw_consultations:
 			strcon = "".join("%s %s %s:%s-%s:%s %s %s")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
 			if (today > con.expiry_date):
-				strcon = "".join("%s %s %s:%s-%s:%s %s %s (P)")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
+				strcon = "".join("%s %s %s:%s-%s:%s %s %s (Nieaktualne)")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
 			if (strcon ==""):
 				strcon = " "
 			consult.consultations.append(strcon)
@@ -2968,7 +2968,7 @@ def get_table(request):
 		for con in raw_consultations:
 			strcon = "".join("%s %s %s:%s-%s:%s [%s %s]")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
 			if (today>con.expiry_date):
-				strcon = "".join("%s %s %s:%s-%s:%s [%s %s] (Nieaktualna)")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
+				strcon = "".join("%s %s %s:%s-%s:%s [%s %s] (Nieaktualne)")%(con.day, con.week_type, con.start_hour,con.start_minutes, con.end_hour,con.end_minutes, con_localization.room, con_localization.building )
 			if (strcon ==""):
 				strcon = " "
 			consult.consultations.append(strcon)
