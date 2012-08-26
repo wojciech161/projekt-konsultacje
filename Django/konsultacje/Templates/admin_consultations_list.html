@@ -79,6 +79,11 @@
                                     <td><div style="font-size: 12px;color: red;" >NIEAKTUALNE</div></td> 
                                     {% endif %}                              
                                 </tr>
+                                <tr style="height:5px;">
+                                	{% if konsultation.expiry == 'expiry' %}
+                                    		<td><div style="font-size: 12px;color: red;" >NIEAKTUALNE</div></td> 
+                                    	{% endif %}  
+                                </tr>
 					</table> 
 				</td>
 			</tr>
