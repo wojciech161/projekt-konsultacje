@@ -61,7 +61,7 @@
 			<td class="line_table_1">
 			{% if con.consultations %}
 			{% for consult in con.consultations %}
-			 {{ consult }} <br>
+			 {{ consult|safe }} <br>
 			 {% endfor %}
 			 {% else %}
 				&nbsp;
