@@ -570,7 +570,6 @@ def add_consultation(request, tutor_id):
 			new_expiry_splitted = new_expiry.split('/')
 			if (len(new_expiry_splitted) != 3):
 				new_expiry = date_used[1]
-				print date_used[1]
 				new_expiry_splitted = new_expiry.split('/')
 			new_expiry_date = date(	int(new_expiry_splitted[2]), int(new_expiry_splitted[1]), int(new_expiry_splitted[0]))
 			
