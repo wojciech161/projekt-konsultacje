@@ -1,4 +1,4 @@
-﻿1 insert <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -67,8 +67,8 @@
             </td>
             <td><span id="day_check_yes"></span></td>
         </tr>
-        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
-        <tr>
+        <tr style="height:13px;"><td colspan=3><hr style="height: 0px; border-top-color: #FFFF99;"/></td></tr>
+		<tr>
             <td>Tydzień:</td>
             <td>
                 <select id="week" class="selectt" name="week_type" id="week">
@@ -78,9 +78,8 @@
         		</select>
             </td>
         <td><span id="week_check_yes"></span></td>
-		</tr>
-        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
-        <tr>
+		<tr style="height:13px;"><td colspan=3><hr style="height: 0px; border-top-color: #FFFF99;"/></td></tr>
+		<tr>
             <td>Godzina rozpoczęcia:</td>
             <td> 
         		<select id="start_hour" class="selectt" name="start_hour">
@@ -112,8 +111,7 @@
         		</select>
             </td>
             <td><span id="start_hour_check_yes"></span></td>
-        </tr>
-        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr style="height:13px;"><td colspan=3><hr style="height: 0px; border-top-color: #FFFF99;"/></td></tr>
 		<tr>
             <td>Godzina zakończenia:</td>
             <td><span id="end_hour_span">
@@ -129,25 +127,25 @@
             <td><span id="end_hour_check_yes"></span></td>
             </td>
         </tr>
-        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr style="height:13px;"><td colspan=3><hr style="height: 0px; border-top-color: #FFFF99;"/></td></tr>
         <tr>
             <td>Budynek:</td>
             <td><input id="building" name="building" type="text" class="okienko" value="{{ building }}" /></td>
             <td><span id="building_massage_status"></span><span id="building_massage_example"></span></td>
         </tr>
-        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+       <tr style="height:13px;"><td colspan=3><hr style="height: 0px; border-top-color: #FFFF99;"/></td></tr>
         <tr>
             <td>Pokój:</td>
             <td><input id="room" name="room" type="text" class="okienko" value="{{ room }}" /></td>
             <td><span id="room_massage_status"></span><span id="room_massage_example"></span></td>
         </tr>
-        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr style="height:13px;"><td colspan=3><hr style="height: 0px; border-top-color: #FFFF99;"/></td></tr>
 		<tr>
             <td>Limit studentów:</td>
             <td><input id="students_limit" name="students_limit" type="text" class="okienko" value="{{ students_limit }}" /></td>
             <td><span id="students_limit_massage_status"></span><span id="students_limit_massage_example"></span></td>
         </tr>
-        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+       <tr style="height:13px;"><td colspan=3><hr style="height: 0px; border-top-color: #FFFF99;"/></td></tr>
         <tr>
             <td>Data Wygaśnięcia:</td>
             <td><input style="border: solid 1px; border-bottom-color: #993300;" name="expiry_date" id="date" size="8" type="text" value="{{ expiry_date }}" /></td>
@@ -157,16 +155,16 @@
             <td><input id="date3" style="width: auto;" class="button" type="button" value="{{ date_name3 }}" /><input id="date3b" type="hidden" value="{{ date_value3 }}" /></td>
             
         </tr>
-        <tr style="height:13px;"><td><div style="background-color:#000; height:1px;">&nbsp;</div></td><td><div style="background-color:#630; height:1px;">&nbsp;</div></td></tr>
+        <tr style="height:13px;"><td colspan=3><hr style="height: 0px; border-top-color: #FFFF99;"/></td></tr>
         <tr>
-            <td><input id="button" disabled="disabled" style="color:#777777;" class="button_disabled" type="submit" name="zmien" value="Dodaj" /></td>
+            <td><input id="but" class="button3" type="submit" name="zmien" value="Dodaj" /></td>
             <td></td>
             <td></td>
         </tr>
         
        </table>	
 	</form>
-	{% if week_type != '' and day != '' and start_hour != '' and end_hour != '' and students_limit != '' %}
+	{% if week_type != '' %}
 	Konsultacje zostały dodane
 	{% endif %}
 

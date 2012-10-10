@@ -504,6 +504,19 @@ def delete_consultation(request, tutor_id, consultation_id):
 		return HttpResponse ("Blad")
 	
 def add_consultation(request, tutor_id):
+	
+	date_used = []
+	empty_date = ""
+	date_dir = "/home/kons/data"
+	date_filename = "date.txt"
+	filepath = os.path.join(date_dir, date_filename)
+	dates_read = open(filepath, "rb")
+	for lines in dates_read:
+		date_used.append(lines)
+	dates_read.close()
+	while (len(date_used)<6):
+		date_used.append(empty_date)
+	
 	if request.user.is_authenticated():
 		
 		tutor = Tutor.objects.get(tutor_ID = tutor_id)
@@ -555,7 +568,10 @@ def add_consultation(request, tutor_id):
 			
 			new_expiry = request.POST.get('expiry_date')
 			new_expiry_splitted = new_expiry.split('/')
-			
+			if (len(new_expiry_splitted) != 3):
+				new_expiry = date_used[1]
+				print date_used[1]
+				new_expiry_splitted = new_expiry.split('/')
 			new_expiry_date = date(	int(new_expiry_splitted[2]), int(new_expiry_splitted[1]), int(new_expiry_splitted[0]))
 			
 			if (new_start_hour != "" and new_start_minutes != "" and new_end_hour != "" and new_end_minutes != "" and new_day != "" and new_week_type != "" and new_localization != ""):
