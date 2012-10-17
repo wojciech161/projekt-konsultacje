@@ -118,18 +118,18 @@ $('#name').focusin(function(){
 $('#surname').keyup(function(){
     var surname=$('#surname').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,50})$/;
+    var reg = /^([-A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z-]{2,50})$/;
     if(reg.test(surname) == false) {
-    $('#surname_massage_status').text('Nazwisko jest niepoprawne'); 
+    $('#surname_massage_status').text('Nazwisko jest niepoprawneAA'); 
     button_off();}
     else {$('#surname_massage_status').text(''); button_on();}
 });
 
 $('#surname').focusin(function(){
-   $('#surname_massage_example').text(' wzór: Abacki');
+   $('#surname_massage_example').text(' wzór: Kowalski');
    var surname=$('#surname').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,50})$/;
+    var reg = /^([-A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z-]{2,50})$/;
     if(reg.test(surname) == false) {
     $('#surname_massage_status').text('Nazwisko jest niepoprawne'); 
     button_off();}
@@ -138,7 +138,7 @@ $('#surname').focusin(function(){
     $('#surname_massage_example').text('');
     var surname=$('#surname').val();
     button_on();
-    var reg = /^([A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z]{2,50})$/;
+    var reg = /^([-A-ZąĄĆćĘęŚśŻżŃńÓóŹźŁła-z-]{2,50})$/;
     if(reg.test(surname) == false) {
     $('#surname_massage_status').text('Nazwisko jest niepoprawne'); 
     button_off();}
